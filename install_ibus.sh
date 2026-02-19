@@ -7,17 +7,29 @@ echo "AdorLipi IBus Installer"
 echo "-----------------------------------"
 
 # Check for root
-if [ "$EUID" -ne 0 ]
-  then echo "Please run as root (sudo ./install_ibus.sh)"
+if [ "$EUID" -ne 0 ]; then
+  echo "Please run as root (sudo ./install_ibus.sh)"
   exit 1
+fi
+
+# Check for Python 3 and install if missing
+if ! command -v python3 &> /dev/null; then
+    echo "Python 3 not found. Installing..."
+    if [ -f /etc/debian_version ]; then
+        apt update && apt install -y python3
+    elif [ -f /etc/redhat-release ]; then
+        dnf install -y python3
+    else
+        echo "Error: Please install Python 3 manually."
+        exit 1
+    fi
 fi
 
 DEST_DIR="/usr/share/adorlipi"
 IBUS_COMPONENT_DIR="/usr/share/ibus/component"
 
-echo "1. Installing Python dependencies..."
-# Assumes pip3 is installed (handled by main install.sh)
-pip3 install .
+# echo "1. Installing Python dependencies..."
+# pip3 install . (Skipped for lightweight install)
 
 echo "2. Installing System Dependencies..."
 if [ -f /etc/debian_version ]; then

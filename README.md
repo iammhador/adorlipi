@@ -24,10 +24,10 @@ We support **all major Linux distributions** including Fedora, Ubuntu, Debian, a
    cd AdorLipi
    ```
 
-2. **Run the installer:**
-   ```bash
-   sudo ./install_ibus.sh
-   ```
+    2. **Run the installer:**
+       ```bash
+       sudo bash install_ibus.sh
+       ```
 
    *This script will automatically detect your distribution (Fedora/Ubuntu), install necessary dependencies, and set up the AdorLipi keyboard for you.*
 
@@ -127,7 +127,7 @@ We follow standard open-source practices.
 ### Setup for Development
 1.  **Clone & Install in Editable Mode**:
     ```bash
-    git clone https://github.com/yourusername/AdorLipi.git
+    git clone https://github.com/iammhador/adorlipi
     cd AdorLipi
     pip3 install -e .
     ```
