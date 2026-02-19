@@ -100,10 +100,23 @@ AdorLipi uses intuitive phonetic mapping. Here is the quick reference:
 | **oi** | ঐ | **rrh** | ঢ় | **ss** | ষ |
 | **o** | ও | **y** | য় | **s** | স |
 | **ou** | ঔ | **tt** | ট | **h** | হ |
-| **k** | ক | **dd** | ড | **z** | জ |
-| **kh** | খ | **c** / **ch** | চ | **ng** | ং |
-| **g** | গ | **chh** | ছ | **:** | ঃ |
-| **gh** | ঘ | **j** | জ | **^** | ঁ |
+| **k** | ক | **tth** | ঠ | **z** / **J** | য |
+| **kh** | খ | **dd** | ড | **j** | জ |
+| **g** | গ | **ddh** | ঢ | **v** | ভ |
+| **gh** | ঘ | **N** | ণ | **q** | ৎ |
+| **ri** | ঋ / ৃ | **nng** / **NG** | ঙ | **NGV** | ঞ |
+| **ng** | ং | **:** | ঃ | **^** | ঁ |
+| **c** / **ch** | চ | **chh** | ছ | **w** | ব / ◌্ব |
+
+### Smart Phonetic Rules
+AdorLipi isn't just a simple character mapper. It has intelligent rules to make typing Bengali feel natural:
+
+- **Double Consonant Rule**: Typing the same consonant twice (e.g., `kk`, `ll`, `rr`) automatically forms the juktakkharr (e.g., `ক্ক`, `ল্ল`, `র্র`).
+- **Ref (◌র্) Support**: If `r` is followed by a consonant (e.g., `rk`, `rm`), it automatically becomes a Ref (e.g., `র্ক`, `র্ম`).
+- **Fola Support**:
+    - **Ya-fola**: `y` or `z` after a consonant (e.g., `ky` -> `ক্য`, `sz` -> `স্য`).
+    - **Ra-fola**: `r` after a consonant (e.g., `pr` -> `প্র`).
+    - **Ba-fola**: `w` after a consonant (e.g., `sw` -> `স্ব`).
 
 ### Special Features
 - **Dual Suggestion**: 
