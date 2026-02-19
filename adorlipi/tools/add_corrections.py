@@ -14,7 +14,12 @@ CORRECTIONS = {
     "chill": "চিল",
     "osthir": "অস্থির",
     "aam": "আম",
-    "aapni": "আপনি"
+    "aapni": "আপনি",
+    "abba": "আব্বা",
+    "ammu": "আম্মু",
+    "kormo": "কর্ম",
+    "hotat": "হঠাৎ",
+    "hoqaq": "হঠাৎ"
 }
 
 DICT_PATH = "../data/dictionary.json"

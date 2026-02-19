@@ -74,9 +74,45 @@ class PhoneticParser:
                 if last_was_consonant and lower_chunk in self.folas:
                     output.append(self.folas[lower_chunk])
                     i += length
-                    last_was_consonant = True # Cluster continues
+                    last_was_consonant = True 
                     match_found = True
                     break
+
+                # Robustness: Double Consonant Rule (e.g., kk -> ক্ক, mm -> ম্ম)
+                if last_was_consonant and lower_chunk in self.consonants:
+                    # Check if previous was same character sequence
+                    # This requires knowing what the LAST input character was.
+                    # Instead of complex history, we can peek ahead or check if this match IS a consonant.
+                    # If i > 0 and word[i-1] == word[i] and word[i] is a single char consonant:
+                    if i > 0 and word[i-1] == lower_chunk and len(lower_chunk) == 1:
+                        # Insert Virama before this consonant
+                        output.append("\u09cd")
+                        # val = self.consonants[lower_chunk] # will be matched in next block
+                        # output.append(val)
+                        # Actually if we append virama here, we still need to append the consonant.
+                        # Let's just append Virama + value and advance.
+                        val = self.consonants[lower_chunk]
+                        output.append(val)
+                        i += length
+                        last_was_consonant = True
+                        match_found = True
+                        break
+                
+                # Robustness: Ref (◌র্) Rule
+                # If 'r' followed by a consonant (and not a vowel/kar)
+                if lower_chunk == 'r' and i + 1 < n:
+                    next_char = word[i+1] # simplified one-char lookahead
+                    # If next is a consonant in our mapping
+                    if next_char in self.consonants:
+                        # Format as C + Virama + C? No, Ref is Reph + C.
+                        # In Bengali, Ref is র + ্ + C. 
+                        # This parser usually appends. If we match 'r' here, and it's a Ref:
+                        # we append 'র' + '\u09cd' and then the next consonant will follow.
+                        output.append("\u09b0\u09cd")
+                        i += length
+                        last_was_consonant = True # Ref is part of cluster
+                        match_found = True
+                        break
 
                 # Check Consonants
                 if lower_chunk in self.consonants:

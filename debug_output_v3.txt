@@ -1,0 +1,70 @@
+FFFF.F
+======================================================================
+FAIL: test_double_consonant (__main__.TestRobustnessV3.test_double_consonant)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/onism/LOG FILE/__ ADOR __/adorlipi/tests/test_robustness_v3.py", line 33, in test_double_consonant
+    self.assertEqual(res, "আব্বা")
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^
+AssertionError: 'অব্বা' != 'আব্বা'
+- অব্বা
+? ^
++ আব্বা
+? ^
+
+
+======================================================================
+FAIL: test_khanda_ta (__main__.TestRobustnessV3.test_khanda_ta)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/onism/LOG FILE/__ ADOR __/adorlipi/tests/test_robustness_v3.py", line 53, in test_khanda_ta
+    self.assertEqual(self.trans.transliterate("hoqaq"), "হঠাৎ")
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 'হোৎাৎ' != 'হঠাৎ'
+- হোৎাৎ
++ হঠাৎ
+
+
+======================================================================
+FAIL: test_nasals (__main__.TestRobustnessV3.test_nasals)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/onism/LOG FILE/__ ADOR __/adorlipi/tests/test_robustness_v3.py", line 17, in test_nasals
+    self.assertEqual(self.trans.transliterate("NG"), "ঙ")
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 'ং' != 'ঙ'
+- ং
++ ঙ
+
+
+======================================================================
+FAIL: test_ref (__main__.TestRobustnessV3.test_ref)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/onism/LOG FILE/__ ADOR __/adorlipi/tests/test_robustness_v3.py", line 48, in test_ref
+    self.assertEqual(res, "কর্ম")
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+AssertionError: 'কোর্মো' != 'কর্ম'
+- কোর্মো
+?  -   -
++ কর্ম
+
+
+======================================================================
+FAIL: test_ri (__main__.TestRobustnessV3.test_ri)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/onism/LOG FILE/__ ADOR __/adorlipi/tests/test_robustness_v3.py", line 27, in test_ri
+    self.assertEqual(self.trans.transliterate("kri"), "কৃ")
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 'কঋ' != 'কৃ'
+- কঋ
++ কৃ
+
+
+----------------------------------------------------------------------
+Ran 6 tests in 0.023s
+
+FAILED (failures=5)
+DEBUG: abba -> অব্বা
+DEBUG: kormo -> কোর্মো
