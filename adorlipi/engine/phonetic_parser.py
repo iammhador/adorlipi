@@ -7,6 +7,7 @@ class PhoneticParser:
         self.vowels = {}
         self.consonants = {}
         self.kars = {}
+        self.folas = {}
         self.max_key_len = 0
         self._load_mapping()
 
@@ -17,9 +18,10 @@ class PhoneticParser:
                 self.vowels = data.get("vowels", {})
                 self.consonants = data.get("consonants", {})
                 self.kars = data.get("kars", {})
+                self.folas = data.get("folas", {})
                 
                 # Pre-calculate max key length for greedy matching
-                all_keys = list(self.vowels.keys()) + list(self.consonants.keys()) + list(self.kars.keys())
+                all_keys = list(self.vowels.keys()) + list(self.consonants.keys()) + list(self.kars.keys()) + list(self.folas.keys())
                 if all_keys:
                     self.max_key_len = max(len(k) for k in all_keys)
                 else:
@@ -66,36 +68,18 @@ class PhoneticParser:
                 
                 # Priority: Consonants > Vowels/Kars (usually disjoint sets, but good to order)
                 
+                # Priority: Fola (if following consonant) > Consonants > Vowels/Kars
+                
+                # Check Fola Triggers
+                if last_was_consonant and lower_chunk in self.folas:
+                    output.append(self.folas[lower_chunk])
+                    i += length
+                    last_was_consonant = True # Cluster continues
+                    match_found = True
+                    break
+
                 # Check Consonants
                 if lower_chunk in self.consonants:
-                    # Robustness: Fola Handling (Ra-fola, Ya-fola)
-                    # If this consonant follows another consonant (no vowel in between), check for special cluster rules.
-                    
-                    # Ra-fola (Consonant + r -> C + ◌্র)
-                    if last_was_consonant and lower_chunk == 'r':
-                        # Append Virama + Ra (\u09cd + \u09b0) to form ◌্র
-                        # But wait, we want to modify the output, not just append.
-                        # Output already has the previous consonant.
-                        # So we append the fola.
-                        fola = "\u09cd\u09b0"
-                        output.append(fola)
-                        i += length
-                        last_was_consonant = True # Cluster continues
-                        match_found = True
-                        break
-
-                    # Ya-fola (Consonant + y/z -> C + ◌্য)
-                    # User requested 'zfola' -> likely means 'z' triggers ya-fola after consonant
-                    elif last_was_consonant and (lower_chunk == 'y' or lower_chunk == 'z'):
-                        # Append Virama + Ya (\u09cd + \u09af) to form ◌্য
-                        fola = "\u09cd\u09af"
-                        output.append(fola)
-                        i += length
-                        last_was_consonant = True # Cluster continues
-                        match_found = True
-                        break
-                    
-                    # Normal Consonant Mapping
                     val = self.consonants[lower_chunk]
                     
                     # If last was consonant, usually imply implicit 'o' or virama?
