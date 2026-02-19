@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="512px" height="512px" viewBox="0 0 512 512" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <defs>
+        <!-- Background Gradient: Deep Teal to Midnight -->
+        <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" style="stop-color:#20B2AA;stop-opacity:1" />
+            <stop offset="100%" style="stop-color:#004d4d;stop-opacity:1" />
+        </linearGradient>
+
+        <!-- Accent Gradient: Gold -->
+        <linearGradient id="goldGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" style="stop-color:#FFD700;stop-opacity:1" />
+            <stop offset="100%" style="stop-color:#DAA520;stop-opacity:1" />
+        </linearGradient>
+
+        <!-- Deep Shadow -->
+        <filter id="shadow" x="-50%" y="-50%" width="200%" height="200%">
+            <feGaussianBlur in="SourceAlpha" stdDeviation="15" result="blur"/>
+            <feOffset dx="5" dy="15" in="blur" result="offsetBlur"/>
+            <feMerge> 
+                <feMergeNode in="offsetBlur"/>
+                <feMergeNode in="SourceGraphic"/> 
+            </feMerge>
+        </filter>
+    </defs>
+
+    <!-- App Icon Shape -->
+    <rect x="32" y="32" width="448" height="448" rx="100" ry="100" fill="url(#bgGrad)" stroke="#333333" stroke-width="2" />
+
+    <!-- Pen Nib Graphic (Stylized) -->
+    <path d="M 330 330 L 420 420 L 390 440 L 300 350 Z" fill="url(#goldGrad)" />
+    <circle cx="420" cy="420" r="5" fill="#333333" />
+
+    <!-- The Character 'অ' (Aw) -->
+    <!-- Using Text Element to guarantee perfect shape from fonts -->
+    <text x="50%" y="65%" 
+          text-anchor="middle" 
+          font-family="'Noto Sans Bengali', 'Kalpurush', 'SolaimanLipi', 'Vrinda', 'Arial Unicode MS', sans-serif" 
+          font-weight="bold" 
+          font-size="360" 
+          fill="#FFFFFF" 
+          stroke="#000000" 
+          stroke-width="2"
+          filter="url(#shadow)">
+       অ
+    </text>
+
+    <!-- Glossy Shine Overlay -->
+    <path d="M 32 32 Q 256 100 480 32 L 480 200 Q 256 300 32 200 Z" fill="#FFFFFF" fill-opacity="0.1" />
+</svg>
