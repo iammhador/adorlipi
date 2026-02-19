@@ -12,8 +12,7 @@ class Tokenizer:
         """
         Splits text into a list of tokens (words, punctuation, whitespace).
         """
-        # filter(None, ...) removes empty strings resulting from split
-        return [token for token in self.pattern.split(text) if token]
+        return re.findall(r'\w+|[^\w\s]+|\s+', text)
 
     def is_word(self, token):
         """
