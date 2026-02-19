@@ -19,7 +19,40 @@ CORRECTIONS = {
     "ammu": "আম্মু",
     "kormo": "কর্ম",
     "hotat": "হঠাৎ",
-    "hoqaq": "হঠাৎ"
+    "hoqaq": "হঠাৎ",
+    # Ya-fola
+    "kyash": "ক্যাশ",
+    "pyaket": "প্যাকেট",
+    "byakkha": "ব্যাখ্যা",
+    "obhyas": "অভ্যাস",
+    "konnya": "কন্যা",
+    "bonno": "বন্য",
+    "shosso": "শস্য",
+    "sojjo": "সহ্য",
+    "drishsho": "দৃশ্য",
+    "babsha": "ব্যবসা",
+    # Ra-fola
+    "gram": "গ্রাম",
+    "pran": "প্রাণ",
+    "tran": "ত্রাণ",
+    "broto": "ব্রত",
+    "bhramyoman": "ভ্রাম্যমাণ",
+    "priti": "প্রীতি",
+    "prochar": "প্রচার",
+    "chatro": "ছাত্র",
+    "matro": "মাত্র",
+    "patro": "পাত্র",
+    # Ba-fola
+    "swagotom": "স্বাগতম",
+    "dhongso": "ধ্বংস",
+    "bishsho": "বিশ্ব",
+    "swor": "স্বর",
+    "swami": "স্বামী",
+    "swocchondo": "স্বচ্ছন্দ",
+    "jwor": "জ্বর",
+    "dwip": "দ্বীপ",
+    "dwitiyo": "দ্বিতীয়",
+    "twok": "ত্বক"
 }
 
 DICT_PATH = "../data/dictionary.json"
