@@ -20,6 +20,17 @@ CORRECTIONS = {
     "kormo": "কর্ম",
     "hotat": "হঠাৎ",
     "hoqaq": "হঠাৎ",
+    # Final 5600+ Push
+    "onubad": "অনুবাদ",
+    "probondho": "প্রবন্ধ",
+    "onucched": "অনুচ্ছেদ",
+    "bakkyo": "বাক্য",
+    "shobdo": "শব্দ",
+    "itopurbe": "ইতিপূর্বে",
+    "itodhimadhye": "ইতিমধ্যে",
+    "jothestho": "যথেষ্ট",
+    "oshomapt": "অসমাপ্ত",
+    "shomadhan": "সমাধান",
     # Ya-fola
     "kyash": "ক্যাশ",
     "pyaket": "প্যাকেট",
