@@ -11,15 +11,13 @@ logging.basicConfig(filename='/tmp/adorlipi_debug.log', level=logging.DEBUG,
 gi.require_version('IBus', '1.0')
 from gi.repository import IBus, GLib
 
-# Ensure adorlipi is importable
-try:
-    from adorlipi.engine.transliterator import Transliterator
-    logging.info("Successfully imported Transliterator")
-except ImportError:
-    # Try adding parent dir
-    sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-    from adorlipi.engine.transliterator import Transliterator
-    logging.info("Imported Transliterator after path adjustment")
+# Prioritize local path to avoid conflicts with pip-installed versions
+local_path = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+if local_path not in sys.path:
+    sys.path.insert(0, local_path)
+
+from adorlipi.engine.transliterator import Transliterator
+logging.info(f"Successfully imported Transliterator from {os.path.abspath(Transliterator.__file__ if hasattr(Transliterator, '__file__') else 'unknown')}")
 
 class AdorLipiEngine(IBus.Engine):
     def __init__(self):

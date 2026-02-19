@@ -3,13 +3,13 @@ import re
 class Normalizer:
     def __init__(self):
         self.replacements = [
-            (r'^v', 'bh'),  # Start v -> bh (rules based)
+            # (r'^v', 'bh'),  # Removed: we now support 'v' mapping directly
             (r'ph', 'f'),
-            (r'sh', 'sh'), # explicit keep
-            (r'ss', 'sh'),
-            (r'aa', 'a'),  # collapse aa -> a
+            # (r'sh', 'sh'), # explicit keep
+            # (r'ss', 'sh'), # Removed: 'ss' might mean 'ষ' or emphasis 'স'
+            # (r'aa', 'a'),  # Removed: 'aa' maps to 'আ'
             (r'tmi', 'tumi'),
-            (r'r', 'r'),
+            # (r'r', 'r'),
         ]
         
     def normalize(self, word):
@@ -28,11 +28,9 @@ class Normalizer:
         
         # Handle 'v' at start -> 'bh' often helpful for phonetic mapping
         # specific check if 'v' is acceptable as 'b' or 'bh'
-        if word.startswith('v'):
-             # Simplistic rule: replace leading v with bh for better mapping if pure phonetic
-             # But 'vai' -> 'bhai' dict lookup handles common ones.
-             # This is for unknown words provided we wanted 'v' -> 'bh'
-             word = 'bh' + word[1:]
+        
+        # 2. General common mappings/corrections
+        # 'v' check removed as we now support 'v' directly in mapping.json
 
         
         # 3. Apply specific replacements

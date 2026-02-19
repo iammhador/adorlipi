@@ -38,7 +38,6 @@ class PhoneticParser:
         
         while i < n:
             match_found = False
-            
             # Try matching patterns from longest to shortest
             for length in range(self.max_key_len, 0, -1):
                 if i + length > n:
@@ -69,7 +68,44 @@ class PhoneticParser:
                 
                 # Check Consonants
                 if lower_chunk in self.consonants:
-                    output.append(self.consonants[lower_chunk])
+                    # Robustness: Fola Handling (Ra-fola, Ya-fola)
+                    # If this consonant follows another consonant (no vowel in between), check for special cluster rules.
+                    
+                    # Ra-fola (Consonant + r -> C + ◌্র)
+                    if last_was_consonant and lower_chunk == 'r':
+                        # Append Virama + Ra (\u09cd + \u09b0) to form ◌্র
+                        # But wait, we want to modify the output, not just append.
+                        # Output already has the previous consonant.
+                        # So we append the fola.
+                        fola = "\u09cd\u09b0"
+                        output.append(fola)
+                        i += length
+                        last_was_consonant = True # Cluster continues
+                        match_found = True
+                        break
+
+                    # Ya-fola (Consonant + y/z -> C + ◌্য)
+                    # User requested 'zfola' -> likely means 'z' triggers ya-fola after consonant
+                    elif last_was_consonant and (lower_chunk == 'y' or lower_chunk == 'z'):
+                        # Append Virama + Ya (\u09cd + \u09af) to form ◌্য
+                        fola = "\u09cd\u09af"
+                        output.append(fola)
+                        i += length
+                        last_was_consonant = True # Cluster continues
+                        match_found = True
+                        break
+                    
+                    # Normal Consonant Mapping
+                    val = self.consonants[lower_chunk]
+                    
+                    # If last was consonant, usually imply implicit 'o' or virama?
+                    # But in this parser, we just append consonants side-by-side. 
+                    # Default rendering handles them as separate letters.
+                    # 'k' + 'k' -> 'কক'. 
+                    # If we want conjunctions (juktakkharr), that's complex logic (requires dictionary of valid conjuncts).
+                    # For now, sticking to Fola support as requested.
+                    
+                    output.append(val)
                     i += length
                     last_was_consonant = True
                     match_found = True
