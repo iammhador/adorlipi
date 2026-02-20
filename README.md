@@ -13,7 +13,8 @@ Unlike traditional rigid mappers, AdorLipi features a **context-aware dictionary
 ## ✨ Features
 
 - **🚀 6,000+ Word Smart Dictionary**: Handles complex spellings (`pahar` -> `পাহাড়`, `corner` -> `কর্নার`) instantly.
-- **📱 Social Media Ready**: Knows internet slang (`lol` -> `লোল`, `bro` -> `ব্রো`, `chill` -> `চিল`).
+- **� Data-Driven Accuracy**: We continuously analyze text from **Social Media** to predict the most natural suggestions and understand how people *actually* type today.
+- **�📱 Social Media Ready**: Knows internet slang (`lol` -> `লোল`, `bro` -> `ব্রো`, `chill` -> `চিল`).
 - **🧠 Phonetic Intelligence**:
   - **Smart 'O' Handling**: Distinguishes when 'o' means 'অ' (*gorom* -> *গরম*) vs 'ও' (*pokka* -> *পোক্কা*).
   - **Automatic Conjuncts**: `kk` -> `ক্ক`, `tr` -> `ত্র`, `ng` -> `ং`.
