@@ -1,168 +1,103 @@
 # AdorLipi (আদরলিপি) 🇧🇩
 
-> **The Simple, Open Source Banglish-to-Bangla Transliteration Engine for Linux.**
+> **The Smartest Banglish-to-Bangla Transliteration Engine for Linux.**
 
-![License](https://img.shields.io/badge/license-MIT-green) ![Platform](https://img.shields.io/badge/platform-Linux-blue) ![Language](https://img.shields.io/badge/language-Bangla-red)
+![Version](https://img.shields.io/badge/version-1.0.0-blue) ![Dictionary](https://img.shields.io/badge/dictionary-6000%2B%20words-green) ![Platform](https://img.shields.io/badge/platform-Linux-orange) ![License](https://img.shields.io/badge/license-MIT-lightgrey)
 
-AdorLipi is a lightweight tool that lets you type in phonetic English ("Banglish") and get proper Bangla output. It works everywhere on your Linux system—browser, terminal, chats, and editors—integrating natively with your keyboard.
+**AdorLipi** is a next-generation phonetic typing tool designed for the modern Bengali user. It allows you to type natural "Banglish" (e.g., *ami tomay bhalobashi*) and instantly converts it to accurate Bangla text (*আমি তোমায় ভালোবাসি*).
 
-**Example:**
-- Type: `Ami tomay bhalobashi`
-- Get: `আমি তোমায় ভালোবাসি`
+Unlike traditional rigid mappers, AdorLipi features a **context-aware dictionary** of over **6,000 words**, covering everything from literary terms to the latest **Gen-Z social media slang** (*chill, para, cringe, lol*).
 
 ---
 
-## 🚀 Installation
+## ✨ Features
 
-We support **all major Linux distributions** including Fedora, Ubuntu, Debian, and Arch.
-
-### One-Step Installer (Recommended)
-
-1. **Clone the repository:**
-   ```bash
-   git clone https://github.com/yourusername/AdorLipi.git
-   cd AdorLipi
-   ```
-
-    2. **Run the installer:**
-       ```bash
-       sudo bash install_ibus.sh
-       ```
-
-   *This script will automatically detect your distribution (Fedora/Ubuntu), install necessary dependencies, and set up the AdorLipi keyboard for you.*
-
-3. **Restart & Enable:**
-   - **Log out and log back in** (or restart your computer) to refresh the keyboard system.
-   - Go to **Settings** > **Keyboard** > **Input Sources** (or **Region & Language**).
-   - Click `+`.
-   - Search for **Bangla** or **Other**.
-   - Select **AdorLipi**.
-   - Click **Add**.
+- **🚀 6,000+ Word Smart Dictionary**: Handles complex spellings (`pahar` -> `পাহাড়`, `corner` -> `কর্নার`) instantly.
+- **📱 Social Media Ready**: Knows internet slang (`lol` -> `লোল`, `bro` -> `ব্রো`, `chill` -> `চিল`).
+- **🧠 Phonetic Intelligence**:
+  - **Smart 'O' Handling**: Distinguishes when 'o' means 'অ' (*gorom* -> *গরম*) vs 'ও' (*pokka* -> *পোক্কা*).
+  - **Automatic Conjuncts**: `kk` -> `ক্ক`, `tr` -> `ত্র`, `ng` -> `ং`.
+- **⚡ Zero Latency**: Written in high-performance Python, works instantly on any hardware.
+- **🌍 Universal Input**: Works in **any app** (VS Code, Browser, Telegram, Discord, Terminal).
 
 ---
 
-## ⌨️ Usage
+## 🛠️ Installation
 
-### System-Wide Keyboard
-Once enabled, simply press `Super + Space` (Windows Key + Space) to switch your keyboard layout to **AdorLipi**.
+AdorLipi supports **all major Linux distributions** (Ubuntu, Fedora, Debian, Arch, Manjaro, Kali).
 
-- Type naturally in key-mapped phonetic styles (e.g., `k` -> `ক`, `kh` -> `খ`).
-- Works in **Firefox, Chrome, LibreOffice, Gedit, Discord, VS Code**, and more.
+### Quick Install (Recommended)
 
-### Command Line Tool
-You can also use AdorLipi correctly from your terminal!
+1.  **Clone the repository:**
+    ```bash
+    git clone https://github.com/iammhador/adorlipi.git
+    cd adorlipi
+    ```
 
-```bash
-$ adorlipi
+2.  **Run the installer:**
+    ```bash
+    sudo bash install_ibus.sh
+    ```
+    *This script automatically installs IBus and necessary Python dependencies for your specific distro.*
 
-initializing AdorLipi...
-> valo aso?
-ভালো আছো?
-```
-
----
-
-## 🔧 Supported Platforms
-
-AdorLipi is built to be universal. We officially verify:
-- **Fedora Workstation** (38+)
-- **Ubuntu** (22.04 LTS+)
-- **Debian** (12+)
-- **Arch Linux** (via manual install)
-- **Linux Mint, Pop!_OS, Manjaro**
+3.  **Activate:**
+    - **Restart IBus**:
+      ```bash
+      ibus restart
+      ```
+    - Go to **Settings** > **Keyboard** > **Add Input Source** (+).
+    - Select **Bangla** (or Other) -> **AdorLipi**.
 
 ---
 
-## 🤝 Contributing
+## 🎮 Usage Guide
 
-We love open source! AdorLipi is community-driven.
+Once enabled, switch to AdorLipi (usually `Super + Space`) and start typing!
 
-### How to help:
-1.  **Add Words**: Found a word that doesn't convert right? Open `adorlipi/data/dictionary.json` and add it!
-2.  **Fix Logic**: Improve the phonetic engine in `adorlipi/engine/`.
-3.  **Report Bugs**: Open an issue on GitHub.
+### Basic Typing
+| Type | Output |
+| :--- | :--- |
+| `ami` | আমি |
+| `kemon` | কেমন |
+| `achen` | আছেন |
+| `dhonnobad` | ধন্যবাদ |
 
-**Pull Requests are welcome!**
+### Smart Phrasings
+| Type | Output | Context |
+| :--- | :--- | :--- |
+| `gorom` | গরম | *Not গোরোম* |
+| `pagol` | পাগল | *Not পাগোল* |
+| `assignment` | অ্যাসাইনমেন্ট | *English mix* |
+| `chill` | চিল | *Slang* |
 
-## 📚 Phonetic Mapping (Key Layout)
-
-AdorLipi uses intuitive phonetic mapping. Here is the quick reference:
-
+### Key Mapping Reference
 | Key | Bangla | Key | Bangla | Key | Bangla |
 | :--- | :--- | :--- | :--- | :--- | :--- |
-| **a** | অ | **t** | ত | **p** | প |
-| **aa** | আ | **th** | থ | **f** / **ph** | ফ |
-| **i** | ই | **d** | দ | **b** | ব |
-| **ii** | ঈ | **dh** | ধ | **bh** | ভ |
-| **u** | উ | **n** | ন | **m** | ম |
-| **uu** | ঊ | **r** | র | **l** | ল |
-| **e** | এ | **rr** | ড় | **sh** | শ |
-| **oi** | ঐ | **rrh** | ঢ় | **ss** | ষ |
-| **o** | ও | **y** | য় | **s** | স |
-| **ou** | ঔ | **tt** | ট | **h** | হ |
-| **k** | ক | **tth** | ঠ | **z** / **J** | য |
-| **kh** | খ | **dd** | ড | **j** | জ |
-| **g** | গ | **ddh** | ঢ | **v** | ভ |
-| **gh** | ঘ | **N** | ণ | **q** | ৎ |
-| **ri** | ঋ / ৃ | **nng** / **NG** | ঙ | **NGV** | ঞ |
-| **ng** | ং | **:** | ঃ | **^** | ঁ |
-| **c** / **ch** | চ | **chh** | ছ | **w** | ব / ◌্ব |
-
-### Smart Phonetic Rules
-AdorLipi isn't just a simple character mapper. It has intelligent rules to make typing Bengali feel natural:
-
-- **Double Consonant Rule**: Typing the same consonant twice (e.g., `kk`, `ll`, `rr`) automatically forms the juktakkharr (e.g., `ক্ক`, `ল্ল`, `র্র`).
-- **Ref (◌র্) Support**: If `r` is followed by a consonant (e.g., `rk`, `rm`), it automatically becomes a Ref (e.g., `র্ক`, `র্ম`).
-- **Fola Support**:
-    - **Ya-fola**: `y` or `z` after a consonant (e.g., `ky` -> `ক্য`, `sz` -> `স্য`).
-    - **Ra-fola**: `r` after a consonant (e.g., `pr` -> `প্র`).
-    - **Ba-fola**: `w` after a consonant (e.g., `sw` -> `স্ব`).
-
-### Special Features
-- **Dual Suggestion**: 
-    - As you type, AdorLipi suggests both the **Bangla** word and the original **English** text.
-    - Press `Space` or `Enter` to select the Default (Bangla).
-    - Press `2` to select the English word.
-    - Use `Up` / `Down` arrows to navigate.
+| `k` | ক | `kh` | খ | `g` | গ |
+| `t` | ত/ট | `th` | থ/ঠ | `d` | দ/ড |
+| `n` | ন | `p` | প | `f` | ফ |
+| `b` | ব | `m` | ম | `r` | র |
+| `l` | ল | `s` | স | `sh` | শ/ষ |
+| `h` | হ | `z`/`j` | জ/য | `y` | য় |
 
 ---
 
-## 👨‍💻 For Developers & Contributors
+## ❓ FAQ
 
-We follow standard open-source practices.
+**Q: Does it work on Windows or Mac?**
+> The core engine is written in pure Python and is cross-platform. However, the current "driver" is built for **Linux (IBus)**. Windows/Mac ports are possible but not currently included.
 
-### Project Structure
-- `adorlipi/`
-    - `engine/`: Core phonetic logic (`transliterator.py`).
-    - `data/`: JSON dictionaries and mapping rules.
-    - `tools/`: Maintenance scripts (bulk import, generators).
+**Q: I found a wrong word! How to fix?**
+> AdorLipi is open source! You can edit `adorlipi/data/dictionary.json` and add your word, then run the installer again. Or submit a Pull Request!
 
-### Setup for Development
-1.  **Clone & Install in Editable Mode**:
-    ```bash
-    git clone https://github.com/iammhador/adorlipi
-    cd AdorLipi
-    pip3 install -e .
-    ```
+---
 
-2.  **Run Development Mode**:
-    ```bash
-    ./dev.sh
-    ```
-    *This runs the CLI version for quick testing.*
+## 👨‍💻 Contributing
 
-3.  **Test System Integration**:
-    ```bash
-    sudo ./install_ibus_dev.sh
-    ibus restart
-    ```
-    *Links your local code to IBus. Any change you make is live after a restart.*
+We welcome contributions!
+- **Code**: `adorlipi/engine/` contains the logic.
+- **Data**: `adorlipi/data/` contains the dictionary.
+- **Tools**: `adorlipi/tools/` has scripts for bulk dictionary management.
 
-4.  **Run Tests**:
-    ```bash
-    python3 -m unittest discover tests
-    ```
-
-### License
-AdorLipi is open-sourced software licensed under the **MIT License**.
-Made with ❤️ for the Bangla Open Source Community.
+**License**: MIT  
+*Made with ❤️ for the Bangla Open Source Community.*
