@@ -92,16 +92,61 @@ Once enabled, switch to AdorLipi (usually `Super + Space`) and start typing!
 | `assignment` | অ্যাসাইনমেন্ট | *English mix* |
 | `chill` | চিল | *Slang* |
 
-### Key Mapping Reference
+### Complete Key Mapping Reference
+
+#### Vowels (স্বরবর্ণ)
+| Key | Bangla | Key | Bangla | Key | Bangla |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| `a` / `aa` | আ | `i` | ই | `ii` | ঈ |
+| `u` | উ | `uu` | ঊ | `e` | এ |
+| `o` | ও | `oi` | ঐ | `ou` | ঔ |
+| `rri` | ঋ | | | | |
+
+#### Consonants (ব্যঞ্জনবর্ণ)
 | Key | Bangla | Key | Bangla | Key | Bangla |
 | :--- | :--- | :--- | :--- | :--- | :--- |
 | `k` | ক | `kh` | খ | `g` | গ |
-| `t` | ত/ট | `th` | থ/ঠ | `d` | দ/ড |
-| `n` | ন | `p` | প | `f` | ফ |
-| `b` | ব | `m` | ম | `r` | র |
-| `l` | ল | `s` | স | `sh` | শ/ষ |
-| `h` | হ | `z`/`j` | জ/য | `y` | য় |
-| `rri` | ঋ | `kk` | ক্ক | `ng` | ং |
+| `gh` | ঘ | `ng` | ং | `nng` / `NG` | ঙ |
+| `c` / `ch` | চ | `chh` | ছ | `j` | জ |
+| `jh` | ঝ | `t` | ত | `tt` | ট |
+| `th` | থ | `tth` | ঠ | `d` | দ |
+| `dd` | ড | `dh` | ধ | `ddh` | ঢ |
+| `n` | ন | `N` | ণ | `p` | প |
+| `f` / `ph` | ফ | `b` | ব | `bh` / `v` | ভ |
+| `m` | ম | `z` / `J` | য | `r` | র |
+| `rr` | ড় | `rrh` | ঢ় | `l` | ল |
+| `sh` | শ | `ss` | ষ | `s` | স |
+| `h` | হ | `y` | য় | `w` | ব |
+| `q` | ৎ | `kkh` | ক্ষ | `NGV` | ঞ |
+| `:` | ঃ | `^` | ঁ | | |
+
+#### Vowel Signs / Kars (কার)
+> Used automatically after a consonant.
+
+| Key | Kar | Key | Kar | Key | Kar |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| `a` | া | `i` | ি | `ii` | ী |
+| `u` | ু | `uu` | ূ | `e` | ে |
+| `o` | ো | `oi` | ৈ | `ou` | ৌ |
+| `rri` | ৃ | | | | |
+
+#### Folas / Conjuncts (যুক্তবর্ণ)
+> Used automatically after a consonant (e.g., `pr` → প্র).
+
+| Key | Fola | Example | Result |
+| :--- | :--- | :--- | :--- |
+| `r` (after consonant) | ্র (Ra-fola) | `pr` | প্র |
+| `y` / `z` (after consonant) | ্য (Ya-fola) | `ky` | ক্য |
+| `w` (after consonant) | ্ব (Ba-fola) | `sw` | স্ব |
+| Double consonant | ্ (Hasanta) | `kk` | ক্ক |
+
+#### Numbers
+| Key | Bangla | Key | Bangla | Key | Bangla |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| `0` | ০ | `1` | ১ | `2` | ২ |
+| `3` | ৩ | `4` | ৪ | `5` | ৫ |
+| `6` | ৬ | `7` | ৭ | `8` | ৮ |
+| `9` | ৯ | `.` | । | | |
 
 ---
 
