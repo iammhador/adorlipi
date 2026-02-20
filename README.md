@@ -29,15 +29,12 @@ Unlike traditional rigid mappers, AdorLipi features a **context-aware dictionary
 adorlipi/
 ├── core/                # Shared transliteration engine
 │   └── engine/          # Transliterator, parser, tokenizer, normalizer
-├── data/                # Dictionary (6000+ words) & phonetic mappings
+├── data/                # Dictionary (6400+ words) & phonetic mappings
 ├── platforms/
 │   └── linux/           # IBus integration (install.sh, ibus_engine.py)
 ├── cli/                 # Command-line tool for testing
-├── corpus/              # Social media training data
-├── tools/               # Dictionary maintenance scripts
 ├── tests/               # All test suites
-├── assets/              # Logo & icons
-└── docs/                # Documentation
+└── assets/              # Logo & icons
 ```
 
 > This monorepo architecture allows sharing the `core/` engine across **all future platforms** (Windows, macOS, Android, iOS).
@@ -167,9 +164,8 @@ Once enabled, switch to AdorLipi (usually `Super + Space`) and start typing!
 
 We welcome contributions!
 - **Core Engine**: `core/engine/` — transliteration logic.
-- **Dictionary**: `data/dictionary.json` — 6000+ word mappings.
+- **Dictionary**: `data/dictionary.json` — 6400+ word mappings.
 - **Platform Drivers**: `platforms/` — OS-specific integration code.
-- **Corpus**: `corpus/` — social media data for analysis.
 
 ### Run Tests
 ```bash
