@@ -1,6 +1,7 @@
 #!/bin/bash
 
-# AdorLipi IBus Installer
+# AdorLipi IBus Installer (Monorepo)
+# Run from project root: sudo bash platforms/linux/install.sh
 
 echo "-----------------------------------"
 echo "AdorLipi IBus Installer"
@@ -8,9 +9,15 @@ echo "-----------------------------------"
 
 # Check for root
 if [ "$EUID" -ne 0 ]; then
-  echo "Please run as root (sudo ./install_ibus.sh)"
+  echo "Please run as root (sudo bash platforms/linux/install.sh)"
   exit 1
 fi
+
+# Detect project root (two levels up from this script)
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+PROJECT_ROOT="$(cd "$SCRIPT_DIR/../.." && pwd)"
+
+echo "Project root: $PROJECT_ROOT"
 
 # Check for Python 3 and install if missing
 if ! command -v python3 &> /dev/null; then
@@ -28,9 +35,6 @@ fi
 DEST_DIR="/usr/share/adorlipi"
 IBUS_COMPONENT_DIR="/usr/share/ibus/component"
 
-# echo "1. Installing Python dependencies..."
-# pip3 install . (Skipped for lightweight install)
-
 echo "2. Installing System Dependencies..."
 if [ -f /etc/debian_version ]; then
     apt update && apt install -y python3-gi gir1.2-ibus-1.0
@@ -42,18 +46,26 @@ fi
 
 echo "3. Copying files..."
 mkdir -p $DEST_DIR
-cp -r adorlipi $DEST_DIR/
-cp setup.py $DEST_DIR/
-# Copy icon if we had one, creating a dummy one or skipping for now.
-cp adorlipi/assets/logo.svg $DEST_DIR/
 
-cp adorlipi-ibus.xml $IBUS_COMPONENT_DIR/
+# Copy core engine
+cp -r "$PROJECT_ROOT/core" "$DEST_DIR/"
+
+# Copy shared data
+cp -r "$PROJECT_ROOT/data" "$DEST_DIR/"
+
+# Copy platform-specific files
+cp "$SCRIPT_DIR/ibus_engine.py" "$DEST_DIR/"
+
+# Copy assets
+cp -r "$PROJECT_ROOT/assets" "$DEST_DIR/"
+
+# Copy IBus component XML
+cp "$SCRIPT_DIR/adorlipi-ibus.xml" "$IBUS_COMPONENT_DIR/"
 
 echo "4. Setting permissions..."
-chmod +x $DEST_DIR/adorlipi/ibus_engine.py
+chmod +x "$DEST_DIR/ibus_engine.py"
 
 echo "5. Refreshing IBus..."
-# Restart ibus-daemon or just exit, user usually needs to logout/login or restart ibus
 ibus restart || echo "Could not restart IBus automatically. Please restart it manually."
 
 echo "-----------------------------------"

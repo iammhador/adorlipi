@@ -1,10 +1,11 @@
 import sys
 import os
 
-# Ensure the package is in python path
-sys.path.append(os.path.dirname(os.path.abspath(__file__)))
+# Add project root to path (cli/ -> root)
+project_root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+sys.path.insert(0, project_root)
 
-from engine.transliterator import Transliterator
+from core.engine.transliterator import Transliterator
 
 def main():
     print("Initializing AdorLipi Engine...")

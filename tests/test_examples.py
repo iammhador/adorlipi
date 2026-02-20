@@ -2,10 +2,10 @@ import sys
 import os
 import unittest
 
-# Add parent dir to path
-sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+# Add project root to path
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
-from engine.transliterator import Transliterator
+from core.engine.transliterator import Transliterator
 
 class TestBanglishMVP(unittest.TestCase):
     def setUp(self):
@@ -17,7 +17,7 @@ class TestBanglishMVP(unittest.TestCase):
             "Tumi": "তুমি",
             "Bhai": "ভাই",
             "Vai": "ভাই",
-            "Bhaiya": "ভাইয়া"
+            "Bhaiya": "ভাইয়া"
         }
         for inp, expected in cases.items():
             with self.subTest(input=inp):
@@ -25,9 +25,9 @@ class TestBanglishMVP(unittest.TestCase):
 
     def test_sentences(self):
         cases = {
-            "Ami tomay bhalobashi": "আমি তোমায় ভালোবাসি",
+            "Ami tomay bhalobashi": "আমি তোমায় ভালোবাসি",
             "Khub valo": "খুব ভালো", 
-            "Tmi kothay": "তুমি কোথায়"
+            "Tmi kothay": "তুমি কোথায়"
         }
         for inp, expected in cases.items():
             with self.subTest(input=inp):

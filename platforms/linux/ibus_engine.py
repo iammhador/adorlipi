@@ -11,13 +11,26 @@ logging.basicConfig(filename='/tmp/adorlipi_debug.log', level=logging.DEBUG,
 gi.require_version('IBus', '1.0')
 from gi.repository import IBus, GLib
 
-# Prioritize local path to avoid conflicts with pip-installed versions
-local_path = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-if local_path not in sys.path:
-    sys.path.insert(0, local_path)
+# Add project root to path
+# In dev mode: platforms/linux/ -> root (2 levels up)
+# In installed mode: /usr/share/adorlipi/ -> same dir (core/ is a sibling)
+script_dir = os.path.dirname(os.path.abspath(__file__))
+dev_root = os.path.dirname(os.path.dirname(script_dir))  # platforms/linux -> root
+installed_root = script_dir  # /usr/share/adorlipi/
 
-from adorlipi.engine.transliterator import Transliterator
-logging.info(f"Successfully imported Transliterator from {os.path.abspath(Transliterator.__file__ if hasattr(Transliterator, '__file__') else 'unknown')}")
+# Check which root has core/
+if os.path.isdir(os.path.join(dev_root, 'core')):
+    project_root = dev_root
+elif os.path.isdir(os.path.join(installed_root, 'core')):
+    project_root = installed_root
+else:
+    project_root = dev_root  # fallback
+
+if project_root not in sys.path:
+    sys.path.insert(0, project_root)
+
+from core.engine.transliterator import Transliterator
+logging.info(f"Successfully imported Transliterator from {project_root}")
 
 class AdorLipiEngine(IBus.Engine):
     def __init__(self):
@@ -76,12 +89,8 @@ class AdorLipiEngine(IBus.Engine):
             return False
             
         # Handle Space -> Commit buffer (Default Bangla) + space
-        # Note: User wants space to take Bangla default.
         if keyval == IBus.space:
             if self.buffer:
-                # Check cursor? Usually space confirms selection if navigation happened
-                # But requested behavior: "By default space will take bangla one"
-                # So we commit Bangla + space
                 bangla = self.transliterator.transliterate(self.buffer)
                 self._commit(bangla + " ")
                 return True
@@ -149,7 +158,6 @@ class AdorLipiEngine(IBus.Engine):
 class AdorLipiService(IBus.Service):
     def __init__(self, connection):
         try:
-            # GObject init takes no positional args usually in python overrides unless specified
             super().__init__() 
             self.factory = IBus.Factory.new(connection.get_connection())
             self.factory.add_engine("adorlipi", AdorLipiEngine)
