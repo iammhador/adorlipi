@@ -2,17 +2,17 @@
 
 > **The Smartest Banglish-to-Bangla Transliteration Engine for Linux.**
 
-![Version](https://img.shields.io/badge/version-1.0.0-blue) ![Dictionary](https://img.shields.io/badge/dictionary-6000%2B%20words-green) ![Platform](https://img.shields.io/badge/platform-Linux-orange) ![License](https://img.shields.io/badge/license-MIT-lightgrey)
+![Version](https://img.shields.io/badge/version-1.0.0-blue) ![Dictionary](https://img.shields.io/badge/dictionary-6400%2B%20words-green) ![Platform](https://img.shields.io/badge/platform-Linux-orange) ![License](https://img.shields.io/badge/license-MIT-lightgrey)
 
 **AdorLipi** is a next-generation phonetic typing tool designed for the modern Bengali user. It allows you to type natural "Banglish" (e.g., *ami tomay bhalobashi*) and instantly converts it to accurate Bangla text (*আমি তোমায় ভালোবাসি*).
 
-Unlike traditional rigid mappers, AdorLipi features a **context-aware dictionary** of over **6,000 words**, covering everything from literary terms to the latest **Gen-Z social media slang** (*chill, para, cringe, lol*).
+Unlike traditional rigid mappers, AdorLipi features a **context-aware dictionary** of over **6,400 words**, covering everything from literary terms to the latest **Gen-Z social media slang** (*chill, para, cringe, lol*).
 
 ---
 
 ## ✨ Features
 
-- **🚀 6,000+ Word Smart Dictionary**: Handles complex spellings (`pahar` -> `পাহাড়`, `corner` -> `কর্নার`) instantly.
+- **🚀 6,400+ Word Smart Dictionary**: Handles complex spellings (`pahar` -> `পাহাড়`, `corner` -> `কর্নার`) instantly.
 - **📊 Data-Driven Accuracy**: We continuously analyze text from **Social Media** to predict the most natural suggestions and understand how people *actually* type today.
 - **📱 Social Media Ready**: Knows internet slang (`lol` -> `লোল`, `bro` -> `ব্রো`, `chill` -> `চিল`).
 - **🧠 Phonetic Intelligence**:
@@ -101,6 +101,7 @@ Once enabled, switch to AdorLipi (usually `Super + Space`) and start typing!
 | `b` | ব | `m` | ম | `r` | র |
 | `l` | ল | `s` | স | `sh` | শ/ষ |
 | `h` | হ | `z`/`j` | জ/য | `y` | য় |
+| `rri` | ঋ | `kk` | ক্ক | `ng` | ং |
 
 ---
 
@@ -111,6 +112,9 @@ Once enabled, switch to AdorLipi (usually `Super + Space`) and start typing!
 
 **Q: I found a wrong word! How to fix?**
 > AdorLipi is open source! You can edit `data/dictionary.json` and add your word, then run the installer again. Or submit a Pull Request!
+
+**Q: How do I type ঋ (Ri)?**
+> Type `rri` (double r). Plain `ri` produces র+ি. Example: `rri` → ঋ, `krrishno` → কৃষ্ণ.
 
 ---
 
