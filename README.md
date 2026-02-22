@@ -1,3 +1,7 @@
+<p align="center">
+  <img src="assets/cover.svg" alt="AdorLipi Banner" width="100%">
+</p>
+
 # AdorLipi (আদরলিপি) 🇧🇩
 
 > **The Smartest Banglish-to-Bangla Transliteration Engine for Linux.**
