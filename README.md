@@ -45,7 +45,30 @@ adorlipi/
 
 AdorLipi supports **all major Linux distributions** (Ubuntu, Fedora, Debian, Arch, Manjaro, Kali).
 
-### Quick Install (Recommended)
+### Method 1: App Store Style Install (Ubuntu/Debian/Fedora)
+We provide simple packages for an easy "double-click" App Store-like installation on Ubuntu, Linux Mint, PopOS, Debian, and Fedora.
+
+1. Go to the [Releases](https://github.com/iammhador/adorlipi/releases) page.
+2. Download the appropriate file:
+   - For Ubuntu/Mint/Debian: `adorlipi_x.x.x_all.deb`
+   - For Fedora/RHEL: `adorlipi-x.x.x-1.noarch.rpm`
+3. Double click to install it via your Software Center, or open a terminal and run:
+   ```bash
+   # Ubuntu/Debian:
+   sudo apt install ./adorlipi_1.0.0_all.deb
+   
+   # Fedora:
+   sudo dnf install ./adorlipi-1.0.0-1.noarch.rpm
+   ```
+
+### Method 2: Arch Linux (AUR)
+If you are on Arch, Manjaro, or EndeavourOS, you can install AdorLipi effortlessly via your preferred AUR helper:
+```bash
+yay -S adorlipi-git
+```
+
+### Method 3: Quick Install Script (Universal)
+If you prefer to build from source or use another distribution:
 
 1.  **Clone the repository:**
     ```bash
@@ -59,13 +82,15 @@ AdorLipi supports **all major Linux distributions** (Ubuntu, Fedora, Debian, Arc
     ```
     *This script automatically installs IBus and necessary Python dependencies for your specific distro.*
 
-3.  **Activate:**
-    - **Restart IBus**:
-      ```bash
-      ibus restart
-      ```
-    - Go to **Settings** > **Keyboard** > **Add Input Source** (+).
-    - Select **Bangla** (or Other) -> **AdorLipi**.
+### Activate the Keyboard
+Once installed using *any* of the methods above:
+1. **Restart IBus**:
+   ```bash
+   ibus restart
+   ```
+2. Go to **Settings** > **Keyboard** > **Add Input Source** (+).
+3. Search for **Bangla** (or Other) -> Select **AdorLipi**.
+4. You can now use `Super + Space` to switch to AdorLipi in any application!
 
 ---
 
