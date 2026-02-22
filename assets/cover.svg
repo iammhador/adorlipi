@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="1280px" height="640px" viewBox="0 0 1280 640" version="1.1" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+        <!-- Very Clean, Elegant Dark Background (GitHub Dark Mode style) -->
+        <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#0d1117" />
+            <stop offset="100%" stop-color="#161b22" />
+        </linearGradient>
+
+        <!-- Fresh Accent for Text/Highlight -->
+        <linearGradient id="accent" x1="0%" y1="0%" x2="100%" y2="0%">
+            <stop offset="0%" stop-color="#58a6ff" />
+            <stop offset="100%" stop-color="#2ea043" />
+        </linearGradient>
+
+        <filter id="glow" x="-20%" y="-20%" width="140%" height="140%">
+            <feGaussianBlur stdDeviation="15" result="blur" />
+            <feComposite in="SourceGraphic" in2="blur" operator="over" />
+        </filter>
+    </defs>
+
+    <!-- Base Canvas -->
+    <rect width="1280" height="640" fill="url(#bg)" />
+
+    <!-- Subtle Grid Background for that "Developer Tool" feel -->
+    <g stroke="#ffffff" stroke-opacity="0.03" stroke-width="1">
+        <!-- Horizontal Lines -->
+        <path d="M 0 80 L 1280 80 M 0 160 L 1280 160 M 0 240 L 1280 240 M 0 320 L 1280 320 M 0 400 L 1280 400 M 0 480 L 1280 480 M 0 560 L 1280 560" />
+        <!-- Vertical Lines -->
+        <path d="M 160 0 L 160 640 M 320 0 L 320 640 M 480 0 L 480 640 M 640 0 L 640 640 M 800 0 L 800 640 M 960 0 L 960 640 M 1120 0 L 1120 640" />
+    </g>
+
+    <g transform="translate(640, 260)">
+        
+        <!-- The Central Element: Crisp, Clean "a -> অ" Concept -->
+        <g transform="translate(-160, -90)">
+            <text x="0" y="0" font-family="'Inter', 'Helvetica Neue', sans-serif" font-weight="400" font-size="120" fill="#8b949e" text-anchor="middle">
+                a
+            </text>
+            <path d="M 60 -40 L 110 -40 L 110 -30 L 130 -45 L 110 -60 L 110 -50 L 60 -50 Z" fill="url(#accent)" />
+            <text x="180" y="0" font-family="'Noto Sans Bengali', 'SolaimanLipi', sans-serif" font-weight="700" font-size="120" fill="#c9d1d9" text-anchor="middle">
+                অ
+            </text>
+        </g>
+
+        <!-- Brand Name -->
+        <text x="0" y="90" font-family="'Inter', 'Helvetica Neue', sans-serif" font-weight="800" font-size="90" fill="#ffffff" text-anchor="middle" letter-spacing="-2">
+            AdorLipi <tspan font-family="'Noto Sans Bengali', 'SolaimanLipi'" font-weight="bold" fill="url(#accent)">(আদরলিপি)</tspan>
+        </text>
+
+        <!-- Clean, literal subtitle -->
+        <text x="0" y="160" font-family="'Inter', 'Helvetica Neue', sans-serif" font-weight="400" font-size="32" fill="#8b949e" text-anchor="middle" letter-spacing="1">
+            The Smartest Banglish Keyboard Engine for Linux.
+        </text>
+
+        <!-- Minimalist terminal prompt element -->
+        <text x="0" y="240" font-family="monospace" font-weight="500" font-size="24" fill="#58a6ff" text-anchor="middle" opacity="0.8">
+            sudo apt install adorlipi_1.0.0_all.deb
+        </text>
+
+    </g>
+</svg>
