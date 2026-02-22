@@ -10,7 +10,7 @@
 
 <p align="center">
   <a href="https://github.com/iammhador/adorlipi/releases"><img src="https://img.shields.io/github/v/release/iammhador/adorlipi?style=flat-square&color=5E35B1&label=Release" alt="Release"></a>
-  <img src="https://img.shields.io/badge/Dictionary-9500%2B%20words-00B4DB?style=flat-square" alt="Dictionary">
+  <img src="https://img.shields.io/badge/Dictionary-10%2C000%2B%20words-00B4DB?style=flat-square" alt="Dictionary">
   <img src="https://img.shields.io/badge/Platform-Linux-FF512F?style=flat-square" alt="Platform">
   <a href="LICENSE"><img src="https://img.shields.io/badge/License-MIT-lightgrey?style=flat-square" alt="License"></a>
   <a href="CONTRIBUTING.md"><img src="https://img.shields.io/badge/PRs-Welcome-brightgreen?style=flat-square" alt="PRs Welcome"></a>
@@ -39,26 +39,22 @@ dhonnobad              →   ধন্যবাদ
 kemon achen?           →   কেমন আছেন?
 ```
 
+**Install from source (works on any Linux distro):**
 ```bash
-# Ubuntu/Debian — one command install
-sudo apt install ./adorlipi_1.0.0_all.deb
-
-# Arch Linux (AUR)
-yay -S adorlipi-git
-
-# Or build from source
-git clone https://github.com/iammhador/adorlipi.git && cd adorlipi
+git clone https://github.com/iammhador/adorlipi.git
+cd adorlipi
 sudo bash platforms/linux/install.sh
+ibus restart
 ```
 
-Then: `ibus restart` → **Settings** > **Keyboard** > **Add Input Source** > Search **AdorLipi** → `Super + Space` to toggle.
+Then: **Settings** > **Keyboard** > **Add Input Source** > Search **AdorLipi** → `Super + Space` to toggle.
 
 ---
 
 ## ✨ Features
 
-### 🧠 Context-Aware Dictionary (9,500+ words)
-Not a simple key mapper — AdorLipi uses a curated dictionary of **9,500+ words** to resolve ambiguous Banglish spellings that no phonetic rule can handle:
+### 🧠 Context-Aware Dictionary (10,000+ words)
+Not a simple key mapper — AdorLipi uses a curated dictionary of **10,000+ words** to resolve ambiguous Banglish spellings that no phonetic rule can handle:
 
 | Problem | Without Dictionary | AdorLipi |
 |:--------|:------------------|:---------|
@@ -93,46 +89,11 @@ Pure Python, no network calls, no heavy dependencies. Instant response on any ha
 
 ## 📦 Installation
 
-AdorLipi supports **all major Linux distributions**.
+AdorLipi runs on **any Linux distro** that supports IBus.
 
-### Method 1: Package Install (Recommended)
+### ✅ Method 1: Build from Source (Works Right Now)
 
-Download from the [**Releases**](https://github.com/iammhador/adorlipi/releases) page:
-
-<table>
-<tr>
-<td><strong>Ubuntu / Debian / Mint / Pop!_OS</strong></td>
-<td>
-
-```bash
-sudo apt install ./adorlipi_1.0.0_all.deb
-```
-
-</td>
-</tr>
-<tr>
-<td><strong>Fedora / RHEL / CentOS</strong></td>
-<td>
-
-```bash
-sudo dnf install ./adorlipi-1.0.0-1.noarch.rpm
-```
-
-</td>
-</tr>
-<tr>
-<td><strong>Arch / Manjaro / EndeavourOS</strong></td>
-<td>
-
-```bash
-yay -S adorlipi-git
-```
-
-</td>
-</tr>
-</table>
-
-### Method 2: Build from Source
+> **This is the recommended method.** The installer auto-detects your distro and handles everything.
 
 ```bash
 git clone https://github.com/iammhador/adorlipi.git
@@ -140,9 +101,40 @@ cd adorlipi
 sudo bash platforms/linux/install.sh
 ```
 
-> The install script auto-detects your distro and installs IBus + Python dependencies.
+What the script does:
+- Detects **Debian/Ubuntu** → installs `python3-gi gir1.2-ibus-1.0` via `apt`
+- Detects **Fedora/RHEL** → installs `python3-gobject ibus-devel` via `dnf`
+- Copies engine, data, and IBus XML to `/usr/share/adorlipi/`
+- Registers the IBus component and restarts IBus
 
-### Post-Install Setup
+### 🔧 Method 2: Build Your Own .deb / .rpm Package
+
+If you want to distribute or install as a system package, you can build one yourself:
+
+```bash
+cd platforms/linux
+
+# Ubuntu/Debian → build a .deb
+bash build_deb.sh
+sudo apt install ./adorlipi_1.0.0_all.deb
+
+# Fedora/RHEL → build an .rpm
+bash build_rpm.sh
+sudo dnf install ./adorlipi-1.0.0-1.noarch.rpm
+```
+
+### 🔜 Coming Soon
+
+| Method | Status |
+|:-------|:-------|
+| Pre-built `.deb` on Releases page | 🔜 Planned |
+| Pre-built `.rpm` on Releases page | 🔜 Planned |
+| `yay -S adorlipi-git` (AUR) | 🔜 Planned |
+
+> [!NOTE]
+> Want to help publish these? See [CONTRIBUTING.md](CONTRIBUTING.md).
+
+### Activate After Install
 
 ```bash
 ibus restart
@@ -154,7 +146,58 @@ ibus restart
 4. Use `Super + Space` to switch between English and AdorLipi
 
 > [!TIP]
-> On some distros, you may need to log out and log back in for IBus changes to take effect.
+> On some distros, log out and back in after install for IBus to detect the new engine.
+
+---
+
+## 🧪 Testing
+
+### Test Without IBus (Fastest)
+
+You can verify AdorLipi works correctly without configuring IBus at all:
+
+```bash
+# Interactive CLI — type Banglish, see Bangla output live
+python3 cli/main.py
+```
+
+### Test a Specific Word
+
+```bash
+python3 -c "
+from core.engine.transliterator import Transliterator
+t = Transliterator()
+
+# Test individual words
+print(t.transliterate('ami tomay bhalobashi'))   # আমি তোমায় ভালোবাসি
+print(t.transliterate('poriksha'))               # পরীক্ষা
+print(t.transliterate('udbhash'))                # উদ্ভাস
+print(t.transliterate('unmesh'))                 # উন্মেষ
+"
+```
+
+### Run the Test Suite
+
+```bash
+# Run all tests
+python3 -m unittest discover tests/ -v
+
+# Run a specific test file
+python3 -m unittest tests/test_basic_words.py -v
+```
+
+### Test with IBus (After Install)
+
+After running `install.sh` and restarting IBus:
+1. Open any text field (browser URL bar, Gedit, VS Code)
+2. Press `Super + Space` to switch to AdorLipi
+3. Type `ami` — you should see আমি
+
+If AdorLipi doesn't appear in input sources, run:
+```bash
+ibus restart
+ibus list-engine | grep adorlipi   # Should show: adorlipi
+```
 
 ---
 

@@ -5,7 +5,12 @@ VERSION="1.0.0"
 PKG_NAME="adorlipi"
 BUILD_DIR="${PKG_NAME}-${VERSION}-rpm"
 
+# Resolve project root (two levels up: platforms/linux/ -> root)
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+PROJECT_ROOT="$(cd "$SCRIPT_DIR/../.." && pwd)"
+
 echo "Building RPM package for AdorLipi v$VERSION (Fedora/RHEL)..."
+echo "Project root: $PROJECT_ROOT"
 
 # Ensure rpm-build is installed
 if ! command -v rpmbuild &> /dev/null; then
@@ -19,7 +24,7 @@ mkdir -p "$BUILD_DIR/RPMS" "$BUILD_DIR/SOURCES" "$BUILD_DIR/SPECS" "$BUILD_DIR/B
 # Create the tarball of the current source for rpmbuild
 SOURCE_TAR="${PKG_NAME}-${VERSION}.tar.gz"
 echo "Creating source tarball..."
-tar --exclude="$BUILD_DIR" --exclude=".git" -czf "$BUILD_DIR/SOURCES/$SOURCE_TAR" -C ../../ .
+tar --exclude="$BUILD_DIR" --exclude=".git" -czf "$BUILD_DIR/SOURCES/$SOURCE_TAR" -C "$PROJECT_ROOT" .
 
 # Write the SPEC file
 cat <<EOT > "$BUILD_DIR/SPECS/adorlipi.spec"
@@ -37,7 +42,7 @@ Requires:       ibus, python3, python3-gobject
 
 %description
 A smart phonetic keyboard for typing Bengali via IBus.
-Features a large 6,400+ word dictionary with slang support.
+Features a 10,000+ word dictionary with slang support.
 
 %prep
 %setup -q -c
@@ -48,14 +53,15 @@ mkdir -p \$RPM_BUILD_ROOT/usr/share/adorlipi
 mkdir -p \$RPM_BUILD_ROOT/usr/share/ibus/component
 mkdir -p \$RPM_BUILD_ROOT/usr/libexec
 
-# Copy files
 cp -r core \$RPM_BUILD_ROOT/usr/share/adorlipi/
 cp -r data \$RPM_BUILD_ROOT/usr/share/adorlipi/
+cp -r assets \$RPM_BUILD_ROOT/usr/share/adorlipi/
 cp platforms/linux/ibus_engine.py \$RPM_BUILD_ROOT/usr/libexec/ibus-engine-adorlipi
 chmod +x \$RPM_BUILD_ROOT/usr/libexec/ibus-engine-adorlipi
+cp platforms/linux/adorlipi-ibus.xml \$RPM_BUILD_ROOT/usr/share/ibus/component/adorlipi.xml
 
-# Handle IBus XML
-cat platforms/linux/adorlipi.xml | sed 's|/usr/libexec/ibus-engine-adorlipi|/usr/libexec/ibus-engine-adorlipi|g' > \$RPM_BUILD_ROOT/usr/share/ibus/component/adorlipi.xml
+%post
+ibus restart 2>/dev/null || true
 
 %clean
 rm -rf \$RPM_BUILD_ROOT
@@ -66,16 +72,14 @@ rm -rf \$RPM_BUILD_ROOT
 %attr(755, root, root) /usr/libexec/ibus-engine-adorlipi
 
 %changelog
-* Sun Feb 22 2026 Your Name <your.email@example.com> - 1.0.0-1
-- Initial RPM package
+* Sat Feb 22 2026 AdorLipi Team <adorlipi@example.com> - 1.0.0-1
+- Initial release with 10,000+ word dictionary
 EOT
 
-# Build it
 echo "Running rpmbuild..."
 rpmbuild --define "_topdir $(pwd)/$BUILD_DIR" -bb "$BUILD_DIR/SPECS/adorlipi.spec"
 
-# Move the generated RPM to the root and clean up
 find "$BUILD_DIR/RPMS" -name "*.rpm" -exec cp {} . \;
 rm -rf "$BUILD_DIR"
 
-echo "RPM Package successfully built! You can install it via: sudo dnf install ./adorlipi-$VERSION-1.*.rpm"
+echo "RPM built! Install via: sudo dnf install ./adorlipi-$VERSION-1.*.rpm"
