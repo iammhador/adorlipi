@@ -2,135 +2,213 @@
   <img src="assets/cover.svg" alt="AdorLipi Banner" width="100%">
 </p>
 
-# AdorLipi (আদরলিপি) 🇧🇩
+<h1 align="center">AdorLipi (আদরলিপি)</h1>
 
-> **The Smartest Banglish-to-Bangla Transliteration Engine for Linux.**
+<p align="center">
+  <strong>The Smartest Banglish-to-Bangla Transliteration Engine for Linux</strong>
+</p>
 
-![Version](https://img.shields.io/badge/version-1.0.0-blue) ![Dictionary](https://img.shields.io/badge/dictionary-6400%2B%20words-green) ![Platform](https://img.shields.io/badge/platform-Linux-orange) ![License](https://img.shields.io/badge/license-MIT-lightgrey)
+<p align="center">
+  <a href="https://github.com/iammhador/adorlipi/releases"><img src="https://img.shields.io/github/v/release/iammhador/adorlipi?style=flat-square&color=5E35B1&label=Release" alt="Release"></a>
+  <img src="https://img.shields.io/badge/Dictionary-9500%2B%20words-00B4DB?style=flat-square" alt="Dictionary">
+  <img src="https://img.shields.io/badge/Platform-Linux-FF512F?style=flat-square" alt="Platform">
+  <a href="LICENSE"><img src="https://img.shields.io/badge/License-MIT-lightgrey?style=flat-square" alt="License"></a>
+  <a href="CONTRIBUTING.md"><img src="https://img.shields.io/badge/PRs-Welcome-brightgreen?style=flat-square" alt="PRs Welcome"></a>
+</p>
 
-**AdorLipi** is a next-generation phonetic typing tool designed for the modern Bengali user. It allows you to type natural "Banglish" (e.g., *ami tomay bhalobashi*) and instantly converts it to accurate Bangla text (*আমি তোমায় ভালোবাসি*).
+<p align="center">
+  <a href="#-quick-start">Quick Start</a> •
+  <a href="#-features">Features</a> •
+  <a href="#-installation">Installation</a> •
+  <a href="#-usage-guide">Usage</a> •
+  <a href="#-key-mapping-reference">Key Map</a> •
+  <a href="#-architecture">Architecture</a> •
+  <a href="#-contributing">Contributing</a> •
+  <a href="#-faq">FAQ</a>
+</p>
 
-Unlike traditional rigid mappers, AdorLipi features a **context-aware dictionary** of over **6,400 words**, covering everything from literary terms to the latest **Gen-Z social media slang** (*chill, para, cringe, lol*).
+---
+
+## 🚀 Quick Start
+
+Type natural Banglish → get accurate Bangla. Instantly. In any app.
+
+```
+ami tomay bhalobashi   →   আমি তোমায় ভালোবাসি
+dhonnobad              →   ধন্যবাদ
+kemon achen?           →   কেমন আছেন?
+```
+
+```bash
+# Ubuntu/Debian — one command install
+sudo apt install ./adorlipi_1.0.0_all.deb
+
+# Arch Linux (AUR)
+yay -S adorlipi-git
+
+# Or build from source
+git clone https://github.com/iammhador/adorlipi.git && cd adorlipi
+sudo bash platforms/linux/install.sh
+```
+
+Then: `ibus restart` → **Settings** > **Keyboard** > **Add Input Source** > Search **AdorLipi** → `Super + Space` to toggle.
 
 ---
 
 ## ✨ Features
 
-- **🚀 6,400+ Word Smart Dictionary**: Handles complex spellings (`pahar` -> `পাহাড়`, `corner` -> `কর্নার`) instantly.
-- **📊 Data-Driven Accuracy**: We continuously analyze text from **Social Media** to predict the most natural suggestions and understand how people *actually* type today.
-- **📱 Social Media Ready**: Knows internet slang (`lol` -> `লোল`, `bro` -> `ব্রো`, `chill` -> `চিল`).
-- **🧠 Phonetic Intelligence**:
-  - **Smart 'O' Handling**: Distinguishes when 'o' means 'অ' (*gorom* -> *গরম*) vs 'ও' (*pokka* -> *পোক্কা*).
-  - **Automatic Conjuncts**: `kk` -> `ক্ক`, `tr` -> `ত্র`, `ng` -> `ং`.
-- **⚡ Zero Latency**: Written in high-performance Python, works instantly on any hardware.
-- **🌍 Universal Input**: Works in **any app** (VS Code, Browser, Telegram, Discord, Terminal).
+### 🧠 Context-Aware Dictionary (9,500+ words)
+Not a simple key mapper — AdorLipi uses a curated dictionary of **9,500+ words** to resolve ambiguous Banglish spellings that no phonetic rule can handle:
+
+| Problem | Without Dictionary | AdorLipi |
+|:--------|:------------------|:---------|
+| `dak` — দ vs ড ambiguity | দাক ❌ | ডাক ✅ |
+| `poriksha` — conjunct ক্ষ | পোরিক্শা ❌ | পরীক্ষা ✅ |
+| `giyechi` — ছ vs চ context | গিয়েচি ❌ | গিয়েছি ✅ |
+
+### 📊 Data-Driven Accuracy
+We continuously analyze **real Banglish typing patterns** from social media, messaging, and forums to understand how people *actually* type — not how textbooks say they should.
+
+### 📱 Modern Vocabulary
+Full support for internet slang, Gen-Z terms, and English loanwords commonly mixed into Bangla:
+
+```
+chill → চিল    vibe → ভাইব    toxic → টক্সিক    bro → ব্রো
+assignment → অ্যাসাইনমেন্ট    management → ম্যানেজমেন্ট
+```
+
+### ⚡ Phonetic Intelligence
+- **Smart 'O' Handling** — `gorom` → গরম (not গোরোম), `pokka` → পোক্কা
+- **Automatic Conjuncts** — `kk` → ক্ক, `tr` → ত্র, `ndr` → ন্দ্র
+- **Smart Suffix Decomposition** — strips `er/e/te/ke/r/der` suffixes, looks up the root, and reattaches the Bangla suffix
+- **Case-Sensitive Special Chars** — `N` → ণ, `NG` → ঙ, `J` → য (preserved through normalization)
+
+### 🌍 Universal Input
+Works in **every application** — VS Code, Browser, Telegram, Discord, LibreOffice, Terminal — anywhere IBus is supported.
+
+### ⚡ Zero Latency
+Pure Python, no network calls, no heavy dependencies. Instant response on any hardware.
 
 ---
 
-## 📁 Project Structure (Monorepo)
+## 📦 Installation
 
+AdorLipi supports **all major Linux distributions**.
+
+### Method 1: Package Install (Recommended)
+
+Download from the [**Releases**](https://github.com/iammhador/adorlipi/releases) page:
+
+<table>
+<tr>
+<td><strong>Ubuntu / Debian / Mint / Pop!_OS</strong></td>
+<td>
+
+```bash
+sudo apt install ./adorlipi_1.0.0_all.deb
 ```
-adorlipi/
-├── core/                # Shared transliteration engine
-│   └── engine/          # Transliterator, parser, tokenizer, normalizer
-├── data/                # Dictionary (6400+ words) & phonetic mappings
-├── platforms/
-│   └── linux/           # IBus integration (install.sh, ibus_engine.py)
-├── cli/                 # Command-line tool for testing
-├── tests/               # All test suites
-└── assets/              # Logo & icons
+
+</td>
+</tr>
+<tr>
+<td><strong>Fedora / RHEL / CentOS</strong></td>
+<td>
+
+```bash
+sudo dnf install ./adorlipi-1.0.0-1.noarch.rpm
 ```
 
-> This monorepo architecture allows sharing the `core/` engine across **all future platforms** (Windows, macOS, Android, iOS).
+</td>
+</tr>
+<tr>
+<td><strong>Arch / Manjaro / EndeavourOS</strong></td>
+<td>
 
----
-
-## 🛠️ Installation
-
-AdorLipi supports **all major Linux distributions** (Ubuntu, Fedora, Debian, Arch, Manjaro, Kali).
-
-### Method 1: App Store Style Install (Ubuntu/Debian/Fedora)
-We provide simple packages for an easy "double-click" App Store-like installation on Ubuntu, Linux Mint, PopOS, Debian, and Fedora.
-
-1. Go to the [Releases](https://github.com/iammhador/adorlipi/releases) page.
-2. Download the appropriate file:
-   - For Ubuntu/Mint/Debian: `adorlipi_x.x.x_all.deb`
-   - For Fedora/RHEL: `adorlipi-x.x.x-1.noarch.rpm`
-3. Double click to install it via your Software Center, or open a terminal and run:
-   ```bash
-   # Ubuntu/Debian:
-   sudo apt install ./adorlipi_1.0.0_all.deb
-   
-   # Fedora:
-   sudo dnf install ./adorlipi-1.0.0-1.noarch.rpm
-   ```
-
-### Method 2: Arch Linux (AUR)
-If you are on Arch, Manjaro, or EndeavourOS, you can install AdorLipi effortlessly via your preferred AUR helper:
 ```bash
 yay -S adorlipi-git
 ```
 
-### Method 3: Quick Install Script (Universal)
-If you prefer to build from source or use another distribution:
+</td>
+</tr>
+</table>
 
-1.  **Clone the repository:**
-    ```bash
-    git clone https://github.com/iammhador/adorlipi.git
-    cd adorlipi
-    ```
+### Method 2: Build from Source
 
-2.  **Run the installer:**
-    ```bash
-    sudo bash platforms/linux/install.sh
-    ```
-    *This script automatically installs IBus and necessary Python dependencies for your specific distro.*
+```bash
+git clone https://github.com/iammhador/adorlipi.git
+cd adorlipi
+sudo bash platforms/linux/install.sh
+```
 
-### Activate the Keyboard
-Once installed using *any* of the methods above:
-1. **Restart IBus**:
-   ```bash
-   ibus restart
-   ```
-2. Go to **Settings** > **Keyboard** > **Add Input Source** (+).
-3. Search for **Bangla** (or Other) -> Select **AdorLipi**.
-4. You can now use `Super + Space` to switch to AdorLipi in any application!
+> The install script auto-detects your distro and installs IBus + Python dependencies.
+
+### Post-Install Setup
+
+```bash
+ibus restart
+```
+
+1. Open **Settings** → **Keyboard** → **Input Sources**
+2. Click **+** → Search for **Bangla** (or **Other**)
+3. Select **AdorLipi (আদরলিপি)**
+4. Use `Super + Space` to switch between English and AdorLipi
+
+> [!TIP]
+> On some distros, you may need to log out and log back in for IBus changes to take effect.
 
 ---
 
 ## 🎮 Usage Guide
 
-Once enabled, switch to AdorLipi (usually `Super + Space`) and start typing!
+Switch to AdorLipi (`Super + Space`) and start typing naturally:
 
-### Basic Typing
-| Type | Output |
-| :--- | :--- |
-| `ami` | আমি |
-| `kemon` | কেমন |
-| `achen` | আছেন |
-| `dhonnobad` | ধন্যবাদ |
+### Everyday Typing
 
-### Smart Phrasings
-| Type | Output | Context |
-| :--- | :--- | :--- |
-| `gorom` | গরম | *Not গোরোম* |
-| `pagol` | পাগল | *Not পাগোল* |
-| `assignment` | অ্যাসাইনমেন্ট | *English mix* |
-| `chill` | চিল | *Slang* |
+| Banglish | Output | Category |
+|:---------|:-------|:---------|
+| `ami` | আমি | Pronoun |
+| `kemon achen` | কেমন আছেন | Greeting |
+| `dhonnobad` | ধন্যবাদ | Common |
+| `bhalobashi` | ভালোবাসি | Emotion |
+| `poriksha` | পরীক্ষা | Academic |
+| `assignment` | অ্যাসাইনমেন্ট | English loan |
+| `inshaallah` | ইনশাআল্লাহ | Islamic |
 
-### Complete Key Mapping Reference
+### How It Works
 
-#### Vowels (স্বরবর্ণ)
+AdorLipi processes each word through a **5-stage pipeline**:
+
+```
+Input → Tokenize → Normalize → Dictionary Lookup → Suffix Decomposition → Phonetic Parse → Output
+          ↓           ↓              ↓                    ↓                      ↓
+       Split by    Preserve      Exact match?        Strip suffix,           Map each
+       spaces &    case-sens.    Return it!          lookup root,            character
+       punctuation chars (N,J)                       reattach বাংলা suffix   phonetically
+```
+
+**Example**: `bondhura` (friends)
+1. **Dictionary** — no exact match for `bondhura`
+2. **Suffix** — strips `ra` (রা), root = `bondhu`
+3. **Dictionary** — `bondhu` → বন্ধু ✅
+4. **Result** — বন্ধু + রা = **বন্ধুরা** ✅
+
+---
+
+## ⌨️ Key Mapping Reference
+
+### Vowels (স্বরবর্ণ)
+
 | Key | Bangla | Key | Bangla | Key | Bangla |
-| :--- | :--- | :--- | :--- | :--- | :--- |
+|:----|:-------|:----|:-------|:----|:-------|
 | `a` / `aa` | আ | `i` | ই | `ii` | ঈ |
 | `u` | উ | `uu` | ঊ | `e` | এ |
 | `o` | ও | `oi` | ঐ | `ou` | ঔ |
 | `rri` | ঋ | | | | |
 
-#### Consonants (ব্যঞ্জনবর্ণ)
+### Consonants (ব্যঞ্জনবর্ণ)
+
 | Key | Bangla | Key | Bangla | Key | Bangla |
-| :--- | :--- | :--- | :--- | :--- | :--- |
+|:----|:-------|:----|:-------|:----|:-------|
 | `k` | ক | `kh` | খ | `g` | গ |
 | `gh` | ঘ | `ng` | ং | `nng` / `NG` | ঙ |
 | `c` / `ch` | চ | `chh` | ছ | `j` | জ |
@@ -146,29 +224,28 @@ Once enabled, switch to AdorLipi (usually `Super + Space`) and start typing!
 | `q` | ৎ | `kkh` | ক্ষ | `NGV` | ঞ |
 | `:` | ঃ | `^` | ঁ | | |
 
-#### Vowel Signs / Kars (কার)
-> Used automatically after a consonant.
+### Vowel Signs (কার) — Applied automatically after consonants
 
 | Key | Kar | Key | Kar | Key | Kar |
-| :--- | :--- | :--- | :--- | :--- | :--- |
+|:----|:----|:----|:----|:----|:----|
 | `a` | া | `i` | ি | `ii` | ী |
 | `u` | ু | `uu` | ূ | `e` | ে |
 | `o` | ো | `oi` | ৈ | `ou` | ৌ |
 | `rri` | ৃ | | | | |
 
-#### Folas / Conjuncts (যুক্তবর্ণ)
-> Used automatically after a consonant (e.g., `pr` → প্র).
+### Conjuncts (যুক্তবর্ণ) — Formed automatically
 
 | Key | Fola | Example | Result |
-| :--- | :--- | :--- | :--- |
-| `r` (after consonant) | ্র (Ra-fola) | `pr` | প্র |
-| `y` / `z` (after consonant) | ্য (Ya-fola) | `ky` | ক্য |
-| `w` (after consonant) | ্ব (Ba-fola) | `sw` | স্ব |
-| Double consonant | ্ (Hasanta) | `kk` | ক্ক |
+|:----|:-----|:--------|:-------|
+| `r` after consonant | ্র (র-ফলা) | `pr` | প্র |
+| `y` / `z` after consonant | ্য (য-ফলা) | `ky` | ক্য |
+| `w` after consonant | ্ব (ব-ফলা) | `sw` | স্ব |
+| Double consonant | ্ (হসন্ত) | `kk` | ক্ক |
 
-#### Numbers
+### Numbers (সংখ্যা)
+
 | Key | Bangla | Key | Bangla | Key | Bangla |
-| :--- | :--- | :--- | :--- | :--- | :--- |
+|:----|:-------|:----|:-------|:----|:-------|
 | `0` | ০ | `1` | ১ | `2` | ২ |
 | `3` | ৩ | `4` | ৪ | `5` | ৫ |
 | `6` | ৬ | `7` | ৭ | `8` | ৮ |
@@ -176,35 +253,157 @@ Once enabled, switch to AdorLipi (usually `Super + Space`) and start typing!
 
 ---
 
-## ❓ FAQ
+## 🏗️ Architecture
 
-**Q: Does it work on Windows or Mac?**
-> The core engine is written in pure Python and is cross-platform. However, the current "driver" is built for **Linux (IBus)**. Windows/Mac ports are planned using the monorepo's `platforms/` structure.
+AdorLipi follows a **monorepo architecture** designed for cross-platform expansion:
 
-**Q: I found a wrong word! How to fix?**
-> AdorLipi is open source! You can edit `data/dictionary.json` and add your word, then run the installer again. Or submit a Pull Request!
+```
+adorlipi/
+├── core/                        # Platform-independent transliteration engine
+│   └── engine/
+│       ├── transliterator.py    # Main orchestrator (5-stage pipeline)
+│       ├── tokenizer.py         # Splits input into word/punctuation tokens
+│       ├── normalizer.py        # Normalizes input, preserves case-sensitive chars
+│       ├── dictionary.py        # JSON dictionary lookup (9,500+ entries)
+│       ├── phonetic_parser.py   # Character-by-character Bangla mapping
+│       └── suffix_handler.py    # Strips/reattaches Bangla suffixes (ের, তে, কে…)
+│
+├── data/
+│   ├── dictionary.json          # 9,500+ Banglish → Bangla word mappings
+│   └── mapping.json             # Phonetic character map (a→আ, k→ক, kh→খ…)
+│
+├── platforms/
+│   └── linux/
+│       ├── ibus_engine.py       # IBus input method integration
+│       ├── install.sh           # Universal Linux installer (apt/dnf/pacman)
+│       ├── adorlipi-ibus.xml    # IBus component descriptor
+│       ├── PKGBUILD             # Arch Linux AUR package
+│       ├── build_deb.sh         # Debian/Ubuntu .deb builder
+│       └── build_rpm.sh         # Fedora/RHEL .rpm builder
+│
+├── cli/
+│   └── main.py                  # Interactive CLI for testing & debugging
+│
+├── tests/
+│   ├── test_basic_words.py      # Core transliteration tests
+│   ├── test_examples.py         # Real-world sentence tests
+│   ├── test_refinements.py      # Edge case & regression tests
+│   └── test_robustness.py       # Stress tests & error handling
+│
+└── assets/                      # Logo, cover image, icons
+```
 
-**Q: How do I type ঋ (Ri)?**
-> Type `rri` (double r). Plain `ri` produces র+ি. Example: `rri` → ঋ, `krrishno` → কৃষ্ণ.
+### Pipeline Flow
+
+```
+┌──────────┐    ┌────────────┐    ┌────────────┐    ┌───────────────┐    ┌────────────────┐
+│ Tokenizer│───▶│ Normalizer │───▶│ Dictionary │───▶│ Suffix Handler│───▶│ Phonetic Parser│
+│          │    │            │    │   Lookup   │    │  (if no match)│    │ (last resort)  │
+└──────────┘    └────────────┘    └────────────┘    └───────────────┘    └────────────────┘
+ Split text      Lowercase         9,500+ word       Strip -er/-e/-te     Map each char
+ into tokens     (preserve N,J)    exact match        lookup root          a→আ, k→ক
+```
+
+> [!NOTE]
+> The `core/` engine is **pure Python with zero dependencies** — making it trivially portable to Windows, macOS, Android, and iOS in future releases.
 
 ---
 
-## 👨‍💻 Contributing
+## 🤝 Contributing
 
-We welcome contributions!
-- **Core Engine**: `core/engine/` — transliteration logic.
-- **Dictionary**: `data/dictionary.json` — 6400+ word mappings.
-- **Platform Drivers**: `platforms/` — OS-specific integration code.
+We welcome contributions of all kinds! Whether you want to fix a typo in the dictionary, add a new platform driver, or improve the transliteration engine — every contribution matters.
 
-### Run Tests
+**👉 See [CONTRIBUTING.md](CONTRIBUTING.md) for the full guide.**
+
+### Quick Contribution Paths
+
+| What | Where | Difficulty |
+|:-----|:------|:-----------|
+| Fix a wrong word | `data/dictionary.json` | 🟢 Easy |
+| Add missing words | `data/dictionary.json` | 🟢 Easy |
+| Fix phonetic mapping | `data/mapping.json` | 🟡 Medium |
+| Improve engine logic | `core/engine/` | 🔴 Advanced |
+| Add platform support | `platforms/` | 🔴 Advanced |
+| Write tests | `tests/` | 🟡 Medium |
+
+### Development Setup
+
 ```bash
-python3 -m unittest discover tests/ -v
-```
+# Clone and enter
+git clone https://github.com/iammhador/adorlipi.git
+cd adorlipi
 
-### Run CLI (Debug Mode)
-```bash
+# Test the engine interactively
 python3 cli/main.py
+
+# Run all tests
+python3 -m unittest discover tests/ -v
+
+# Test a specific word
+python3 -c "
+from core.engine.transliterator import Transliterator
+t = Transliterator()
+print(t.transliterate('ami tomay bhalobashi'))
+"
 ```
 
-**License**: MIT  
-*Made with ❤️ for the Bangla Open Source Community.*
+---
+
+## ❓ FAQ
+
+<details>
+<summary><strong>Does it work on Windows or Mac?</strong></summary>
+
+The core engine is **pure Python** and fully cross-platform. The current driver is built for **Linux (IBus)**. Windows and macOS ports are planned using the monorepo's `platforms/` structure. Contributions welcome!
+</details>
+
+<details>
+<summary><strong>I found a wrong word! How do I fix it?</strong></summary>
+
+Edit `data/dictionary.json` — it's a simple JSON `{ "banglish": "বাংলা" }` format. Add or fix the word, test it with `python3 cli/main.py`, and submit a Pull Request. See [CONTRIBUTING.md](CONTRIBUTING.md) for details.
+</details>
+
+<details>
+<summary><strong>How do I type ঋ (Ri)?</strong></summary>
+
+Type `rri` (double r + i). Plain `ri` produces র + ি.
+- `rri` → ঋ
+- `krrishno` → কৃষ্ণ
+</details>
+
+<details>
+<summary><strong>Why does AdorLipi need a dictionary? Can't phonetics handle everything?</strong></summary>
+
+Banglish is inherently ambiguous. The same Roman letter often maps to multiple Bangla characters:
+- `d` → দ or ড (`desh` = দেশ, `dak` = ডাক)
+- `t` → ত or ট (`tumi` = তুমি, `taka` = টাকা)
+- `ch` → চ or ছ (`cha` = চা, `chele` = ছেলে)
+
+No phonetic rule can resolve this — only a dictionary can.
+</details>
+
+<details>
+<summary><strong>How does suffix handling work?</strong></summary>
+
+AdorLipi strips common Bangla suffixes (`er` → ের, `te` → তে, `ke` → কে, `r` → র, etc.), looks up the root word in the dictionary, and reattaches the Bangla suffix. This means `manusher` → মানুষের even though `manusher` isn't in the dictionary — because `manush` → মানুষ is.
+</details>
+
+<details>
+<summary><strong>Can I use AdorLipi in VS Code / Terminal / Discord?</strong></summary>
+
+Yes! AdorLipi works through IBus, which is a system-level input method. It works in **every application** that accepts text input.
+</details>
+
+---
+
+## 📄 License
+
+This project is licensed under the [MIT License](LICENSE).
+
+---
+
+<p align="center">
+  <strong>Made with ❤️ for the Bangla Open Source Community</strong>
+  <br>
+  <sub>🇧🇩 বাংলা ওপেন সোর্স কমিউনিটির জন্য ভালোবাসায় তৈরি</sub>
+</p>
