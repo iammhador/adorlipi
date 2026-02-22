@@ -6,7 +6,12 @@ ARCH="all"
 PKG_NAME="adorlipi"
 DEB_DIR="${PKG_NAME}_${VERSION}_${ARCH}"
 
+# Resolve project root (two levels up from this script: platforms/linux/ -> root)
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+PROJECT_ROOT="$(cd "$SCRIPT_DIR/../.." && pwd)"
+
 echo "Building Debian package for AdorLipi v$VERSION..."
+echo "Project root: $PROJECT_ROOT"
 
 # Create directory structure
 mkdir -p "$DEB_DIR/DEBIAN"
@@ -19,7 +24,7 @@ cat <<EOT > "$DEB_DIR/DEBIAN/control"
 Package: adorlipi
 Version: $VERSION
 Architecture: $ARCH
-Maintainer: Your Name <your.email@example.com>
+Maintainer: AdorLipi Team <adorlipi@example.com>
 Depends: ibus, gir1.2-ibus-1.0, python3, python3-gi
 Description: AdorLipi Phonetic Banglish Keyboard
  A smart phonetic keyboard for typing Bengali via IBus.
@@ -27,14 +32,21 @@ Description: AdorLipi Phonetic Banglish Keyboard
 EOT
 
 # Copy files
-cp -r ../../core "$DEB_DIR/usr/share/adorlipi/"
-cp -r ../../data "$DEB_DIR/usr/share/adorlipi/"
-cp ibus_engine.py "$DEB_DIR/usr/libexec/ibus-engine-adorlipi"
+cp -r "$PROJECT_ROOT/core" "$DEB_DIR/usr/share/adorlipi/"
+cp -r "$PROJECT_ROOT/data" "$DEB_DIR/usr/share/adorlipi/"
+cp -r "$PROJECT_ROOT/assets" "$DEB_DIR/usr/share/adorlipi/"
+cp "$SCRIPT_DIR/ibus_engine.py" "$DEB_DIR/usr/libexec/ibus-engine-adorlipi"
 chmod +x "$DEB_DIR/usr/libexec/ibus-engine-adorlipi"
+cp "$SCRIPT_DIR/adorlipi-ibus.xml" "$DEB_DIR/usr/share/ibus/component/adorlipi.xml"
 
-# Adapt adorlipi.xml paths for the package
-cat adorlipi.xml | sed 's|/usr/libexec/ibus-engine-adorlipi|/usr/libexec/ibus-engine-adorlipi|g' > "$DEB_DIR/usr/share/ibus/component/adorlipi.xml"
-
+# Add a post-install script to restart IBus
+mkdir -p "$DEB_DIR/DEBIAN"
+cat <<'POSTINST' > "$DEB_DIR/DEBIAN/postinst"
+#!/bin/bash
+ibus restart 2>/dev/null || true
+echo "AdorLipi installed! Restart IBus and add AdorLipi in Settings -> Keyboard."
+POSTINST
+chmod +x "$DEB_DIR/DEBIAN/postinst"
 
 # Build the package
 dpkg-deb --build "$DEB_DIR"
@@ -42,3 +54,4 @@ dpkg-deb --build "$DEB_DIR"
 echo "Package built: ${DEB_DIR}.deb"
 # Cleanup
 rm -r "$DEB_DIR"
+

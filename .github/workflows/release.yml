@@ -1,0 +1,129 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - 'v*'   # Triggers on: git tag v1.0.0 && git push --tags
+
+permissions:
+  contents: write   # Required to create GitHub Releases
+
+jobs:
+  # ─────────────────────────────────────────
+  # Job 1: Build .deb on Ubuntu
+  # ─────────────────────────────────────────
+  build-deb:
+    name: Build .deb (Ubuntu/Debian)
+    runs-on: ubuntu-latest
+    outputs:
+      deb_file: ${{ steps.build.outputs.deb_file }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install build dependency
+        run: sudo apt-get install -y dpkg-dev
+
+      - name: Build .deb
+        id: build
+        working-directory: platforms/linux
+        run: |
+          bash build_deb.sh
+          DEB=$(ls *.deb)
+          echo "deb_file=$DEB" >> $GITHUB_OUTPUT
+          echo "Built: $DEB"
+
+      - name: Upload .deb artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: deb-package
+          path: platforms/linux/*.deb
+
+  # ─────────────────────────────────────────
+  # Job 2: Build .rpm on Fedora (via container)
+  # ─────────────────────────────────────────
+  build-rpm:
+    name: Build .rpm (Fedora/RHEL)
+    runs-on: ubuntu-latest
+    container:
+      image: fedora:latest
+    steps:
+      - name: Install dependencies
+        run: dnf install -y rpm-build git
+
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Build .rpm
+        working-directory: platforms/linux
+        run: |
+          bash build_rpm.sh
+          ls *.rpm
+
+      - name: Upload .rpm artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: rpm-package
+          path: platforms/linux/*.rpm
+
+  # ─────────────────────────────────────────
+  # Job 3: Create GitHub Release with both packages
+  # ─────────────────────────────────────────
+  release:
+    name: Publish GitHub Release
+    needs: [build-deb, build-rpm]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Download .deb
+        uses: actions/download-artifact@v4
+        with:
+          name: deb-package
+          path: dist/
+
+      - name: Download .rpm
+        uses: actions/download-artifact@v4
+        with:
+          name: rpm-package
+          path: dist/
+
+      - name: Get version from tag
+        id: version
+        run: echo "version=${GITHUB_REF#refs/tags/v}" >> $GITHUB_OUTPUT
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ github.ref_name }}
+          name: AdorLipi v${{ steps.version.outputs.version }}
+          body: |
+            ## AdorLipi v${{ steps.version.outputs.version }}
+
+            ### Install
+
+            **Ubuntu / Debian / Mint:**
+            ```bash
+            sudo apt install ./adorlipi_${{ steps.version.outputs.version }}_all.deb
+            ```
+
+            **Fedora / RHEL:**
+            ```bash
+            sudo dnf install ./adorlipi-${{ steps.version.outputs.version }}-1.noarch.rpm
+            ```
+
+            **Any Linux (build from source):**
+            ```bash
+            git clone https://github.com/iammhador/adorlipi.git
+            cd adorlipi
+            sudo bash platforms/linux/install.sh
+            ```
+
+            After installing: `ibus restart` → Settings → Keyboard → Add Input Source → **AdorLipi**
+
+            ### After Install
+            Use `Super + Space` to switch to AdorLipi in any app.
+          files: dist/*
+          draft: false
+          prerelease: false
