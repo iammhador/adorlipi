@@ -2,41 +2,50 @@ import re
 
 class Normalizer:
     def __init__(self):
+        # Characters that have case-sensitive mappings in mapping.json
+        # N=ণ, NG=ঙ, NGV=ঞ, J=য — must be preserved
+        self.case_sensitive_chars = {'N', 'J'}
+        self.case_sensitive_combos = {'NG', 'NGV'}
+        
         self.replacements = [
-            # (r'^v', 'bh'),  # Removed: we now support 'v' mapping directly
             (r'ph', 'f'),
-            # (r'sh', 'sh'), # explicit keep
-            # (r'ss', 'sh'), # Removed: 'ss' might mean 'ষ' or emphasis 'স'
-            # (r'aa', 'a'),  # Removed: 'aa' maps to 'আ'
             (r'tmi', 'tumi'),
-            # (r'r', 'r'),
         ]
         
     def normalize(self, word):
         """
-        Normalizes a word by lowercasing, removing repeats, and applying substitutions.
+        Normalizes a word: smart lowercasing (preserving N/J/NG), 
+        removing excessive repeats, and applying substitutions.
         """
-        word = word.lower()
+        # 1. Smart lowercase: preserve N, J, NG, NGV
+        # Replace case-sensitive combos with placeholders first
+        preserved = word
+        preserved = preserved.replace('NGV', '\x01NGV\x01')
+        preserved = preserved.replace('NG', '\x01NG\x01')
         
-        # 1. Remove repeated characters (more than 2) -> reduce to 1
-        # e.g., 'bhaaaai' -> 'bhai', 'khuuuub' -> 'khub'
-        # Exception: 'ee' and 'oo' might be meaningful, but for MVP standardizing to single chars usually helps mapping
-        # Let's use a regex to collapse 3+ same chars to 1
+        # Now process character by character
+        result = []
+        i = 0
+        while i < len(preserved):
+            if preserved[i] == '\x01':
+                # Extract preserved combo
+                end = preserved.index('\x01', i + 1)
+                result.append(preserved[i+1:end])
+                i = end + 1
+            elif preserved[i] in self.case_sensitive_chars:
+                result.append(preserved[i])
+                i += 1
+            else:
+                result.append(preserved[i].lower())
+                i += 1
+        
+        word = ''.join(result)
+        
+        # 2. Remove repeated characters (more than 2) -> reduce to 1
         word = re.sub(r'(.)\1{2,}', r'\1', word)
-        
-        # 2. General common mappings/corrections
-        
-        # Handle 'v' at start -> 'bh' often helpful for phonetic mapping
-        # specific check if 'v' is acceptable as 'b' or 'bh'
-        
-        # 2. General common mappings/corrections
-        # 'v' check removed as we now support 'v' directly in mapping.json
-
         
         # 3. Apply specific replacements
         for pattern, replacement in self.replacements:
-             # Use regex sub for all to support boundaries if needed, or simple string replace if no regex chars
-             # For MVP, assuming patterns are regex-safe or simple strings
-             word = re.sub(pattern, replacement, word)
+            word = re.sub(pattern, replacement, word)
 
         return word
