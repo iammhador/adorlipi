@@ -8,8 +8,8 @@ import os
 class Transliterator:
     def __init__(self, data_dir=None):
         if data_dir is None:
-            # Default to ../data relative to this file
-            base_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+            # Default to ../../data relative to this file (core/engine/ -> root/data/)
+            base_dir = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
             data_dir = os.path.join(base_dir, 'data')
             
         self.tokenizer = Tokenizer()

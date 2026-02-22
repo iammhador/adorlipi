@@ -1,5 +1,0 @@
-include adorlipi/data/*.json
-include adorlipi/assets/*.svg
-include adorlipi/assets/*.png
-include README.md
-include LICENSE

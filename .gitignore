@@ -1,8 +1,12 @@
-# Python
+# Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
 *$py.class
+
+# C extensions
 *.so
+
+# Distribution / packaging
 .Python
 build/
 develop-eggs/
@@ -17,7 +21,6 @@ sdist/
 var/
 wheels/
 *.egg-info/
-.installed.cfg
 *.egg
 
 # Installer logs
@@ -27,7 +30,6 @@ pip-delete-this-directory.txt
 # Unit test / coverage reports
 htmlcov/
 .tox/
-.nox/
 .coverage
 .coverage.*
 .cache
@@ -35,17 +37,20 @@ nosetests.xml
 coverage.xml
 *.cover
 .hypothesis/
-.pytest_cache/
 
-# Editor / IDE
-.vscode/
-.idea/
-*.swp
-*.swo
-*~
-
-# AdorLipi specific
+# Environments
+.env
+*.env
 /venv
 /env
-/AdorLipi.egg-info
+
+# Build artifacts
+*.egg-info/
+
+# Data sources (private)
 online_souce.txt
+corpus/*.txt
+
+# OS
+.DS_Store
+Thumbs.db
