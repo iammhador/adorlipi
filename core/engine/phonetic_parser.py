@@ -32,117 +32,172 @@ class PhoneticParser:
 
     def parse(self, word):
         """
-        Transliterates a single word using greedy left-to-right parsing.
+        Transliterates a single word using greedy left-to-right parsing with contextual heuristics.
         """
         i = 0
         n = len(word)
         output = []
         last_was_consonant = False
+        implicit_vowel_dropped = False
+        last_parsed_chunk = None
         
         while i < n:
             match_found = False
-            # Try matching patterns from longest to shortest
             for length in range(self.max_key_len, 0, -1):
                 if i + length > n:
                     continue
                 
                 chunk = word[i:i+length]
-                # Try exact match first (case sensitive logic if needed, but dict is mostly lowercase)
-                # Our mapping is mostly lowercase, but has some caps (T, D). 
-                # Word coming in might be normalized or not. 
-                # Normalizer lowercases everything? 
-                # Wait, normalizer.py lowercases everything. 'word = word.lower()'.
-                # So if mapping depends on 'T' vs 't', normalizer destroys that info?
-                # The normalizer task said: "Lowercase everything".
-                # But mapping needs T vs t distinctions for Twb vs Tob? 
-                # Usually in Banglish, `t` implies `ত`. `T` is rare or used for `ট`. 
-                # If input is already lowercased, we can't distinguish.
-                # However, the user requirement for normalizer said: "Lowercase everything".
-                # So we must assume case insensitivity.
-                # If so, 't' and 'T' are the same.
-                # I will stick to 't' -> 'ত' per user requirement.
-                # And 'd' -> 'দ'.
-                # If user types 'T', normalizer makes it 't', maps to 'ত'.
-                # That's acceptable for MVP of "casual social media Banglish".
-                
                 lower_chunk = chunk
                 
-                # Priority: Consonants > Vowels/Kars (usually disjoint sets, but good to order)
-                
-                # Priority: Fola (if following consonant) > Consonants > Vowels/Kars
-                
-                # Check Fola Triggers
+                # Check Fola Triggers FIRST
                 if last_was_consonant and lower_chunk in self.folas:
-                    output.append(self.folas[lower_chunk])
+                    fola_val = self.folas[lower_chunk]
+                    # Avoid double hasant if the last output already ends with one (e.g., from a Ref)
+                    if output and output[-1].endswith("\u09cd") and fola_val.startswith("\u09cd"):
+                        output.append(fola_val[1:])
+                    else:
+                        output.append(fola_val)
                     i += length
                     last_was_consonant = True 
+                    implicit_vowel_dropped = False
+                    last_parsed_chunk = lower_chunk
                     match_found = True
                     break
 
-                # Robustness: Double Consonant Rule (e.g., kk -> ক্ক, mm -> ম্ম)
+                # Double Consonant Rule
                 if last_was_consonant and lower_chunk in self.consonants:
-                    # Check if previous was same character sequence
-                    # This requires knowing what the LAST input character was.
-                    # Instead of complex history, we can peek ahead or check if this match IS a consonant.
-                    # If i > 0 and word[i-1] == word[i] and word[i] is a single char consonant:
-                    if i > 0 and word[i-1] == lower_chunk and len(lower_chunk) == 1:
-                        # Insert Virama before this consonant
-                        output.append("\u09cd")
-                        # val = self.consonants[lower_chunk] # will be matched in next block
-                        # output.append(val)
-                        # Actually if we append virama here, we still need to append the consonant.
-                        # Let's just append Virama + value and advance.
-                        val = self.consonants[lower_chunk]
-                        output.append(val)
+                    # Only trigger if the previously parsed explicit consonant chunk EXACTLY matches this one
+                    if last_parsed_chunk == lower_chunk and len(lower_chunk) == 1:
+                        output.append("\u09cd") # Virama
+                        output.append(self.consonants[lower_chunk])
                         i += length
                         last_was_consonant = True
+                        implicit_vowel_dropped = False
+                        last_parsed_chunk = lower_chunk
                         match_found = True
                         break
                 
-                # Robustness: Ref (◌র্) Rule
-                # If 'r' followed by a consonant (and not a vowel/kar)
-                if lower_chunk == 'r' and i + 1 < n:
-                    next_char = word[i+1] # simplified one-char lookahead
-                    # If next is a consonant in our mapping
+                # Contextual Ref (◌র্) Rule
+                # We only want this to apply if 'r' is NOT acting as a Fola (which means we should only apply it if NOT last_was_consonant)
+                # Wait, 'khorgos'. kh + o(drop) -> last_was_consonant=False. Then 'r'. last_was_consonant=False -> NOT Fola.
+                # So if 'r' is preceded by a consonant (last_was_consonant=True), it is a Ra-Fola (প্র).
+                # Contextual Ref ONLY applies when last_was_consonant = False!
+                if not last_was_consonant and lower_chunk == 'r' and i + 1 < n:
+                    next_char = word[i+1]
                     if next_char in self.consonants:
-                        # Format as C + Virama + C? No, Ref is Reph + C.
-                        # In Bengali, Ref is র + ্ + C. 
-                        # This parser usually appends. If we match 'r' here, and it's a Ref:
-                        # we append 'র' + '\u09cd' and then the next consonant will follow.
-                        output.append("\u09b0\u09cd")
-                        i += length
-                        last_was_consonant = True # Ref is part of cluster
-                        match_found = True
-                        break
+                        # Avro-style logic: if preceded by an implicit vowel (like 'kho' in 'khorgos'), 
+                        # 'r' does NOT form a Ref. It just becomes 'র'.
+                        # We track `implicit_vowel_dropped`. If true, we just map 'r' normally.
+                        if not implicit_vowel_dropped:
+                            # Forming a Ref
+                            output.append("\u09b0\u09cd")
+                            i += length
+                            last_was_consonant = True 
+                            implicit_vowel_dropped = False
+                            last_parsed_chunk = lower_chunk
+                            match_found = True
+                            break
 
                 # Check Consonants
                 if lower_chunk in self.consonants:
                     val = self.consonants[lower_chunk]
-                    logging.debug(f"Match: {lower_chunk} -> Consonant {val}")
                     output.append(val)
                     i += length
                     last_was_consonant = True
+                    implicit_vowel_dropped = False
+                    last_parsed_chunk = lower_chunk
                     match_found = True
                     break
                 
                 # Check Vowels
                 if lower_chunk in self.vowels:
-                    # If after consonant -> use Kar
+                    is_o = (lower_chunk == 'o' or lower_chunk == 'O')
+                    
                     if last_was_consonant:
-                        kar = self.kars.get(lower_chunk)
-                        if kar is not None:
-                            logging.debug(f"Match: {lower_chunk} -> Kar {kar}")
-                            output.append(kar)
+                        if is_o:
+                            drop_o = False
+                            # Evaluate if 'o' should be dropped (treated as intrinsic invisible 'অ')
+                            if i + length == n:
+                                drop_o = False # Always keep trailing 'o' (bhalo)
+                                # UNLESS preceded by a conjunct (len > 1 in Bengali)
+                                if last_parsed_chunk and last_parsed_chunk in self.consonants:
+                                    bn_char = self.consonants[last_parsed_chunk]
+                                    # len(bn_char) > 1 catches 'ন্ত', 'ন্দ', 'ক্ষ' etc.
+                                    if len(bn_char) > 1:
+                                        drop_o = True
+                            else:
+                                next_chunk = word[i+length:]
+                                temp_i = 0
+                                cons_count = 0
+                                while temp_i < len(next_chunk):
+                                    matched = False
+                                    for c_len in range(self.max_key_len, 0, -1):
+                                        if temp_i + c_len <= len(next_chunk):
+                                            chunk_key = next_chunk[temp_i:temp_i+c_len]
+                                            if chunk_key in self.consonants:
+                                                bn_val = self.consonants[chunk_key]
+                                                if len(bn_val) > 1:
+                                                    cons_count += 2
+                                                else:
+                                                    cons_count += 1
+                                                temp_i += c_len
+                                                matched = True
+                                                break
+                                    if not matched:
+                                        break
+                                
+                                # If followed by vowel
+                                if cons_count == 0:
+                                    drop_o = False
+                                # If followed by a consonant cluster (e.g., khorgos -> rg) -> drop the first 'o'
+                                elif cons_count >= 2:
+                                    drop_o = True
+                                # If followed by 1 consonant and end of word (e.g., pagol) 
+                                elif cons_count == 1 and temp_i == len(next_chunk):
+                                    # Heuristic for Banglish verb suffixes ending in -nor or -lor 
+                                    # (e.g., ghuchan-o-r -> ঘুছানোর, shamlan-o-r -> শামলানোর)
+                                    if last_parsed_chunk in ['n', 'l'] and next_chunk == 'r':
+                                        drop_o = False
+                                    else:
+                                        drop_o = True
+                                else:
+                                    drop_o = False
+                                    
+                            if drop_o:
+                                implicit_vowel_dropped = True
+                                last_was_consonant = False 
+                                last_parsed_chunk = None
+                            else:
+                                kar = self.kars.get(lower_chunk)
+                                if kar is not None:
+                                    output.append(kar)
+                                else:
+                                    output.append(self.vowels[lower_chunk])
+                                last_was_consonant = False 
+                                implicit_vowel_dropped = False
+                                last_parsed_chunk = None
+                                
+                        else: # Not 'o'
+                            kar = self.kars.get(lower_chunk)
+                            if kar is not None:
+                                output.append(kar)
+                            else:
+                                output.append(self.vowels[lower_chunk])
                             last_was_consonant = False 
-                        else:
-                             logging.debug(f"Match: {lower_chunk} -> Vowel (Fallback) {self.vowels[lower_chunk]}")
-                             output.append(self.vowels[lower_chunk])
-                             last_was_consonant = False
+                            implicit_vowel_dropped = False
+                            last_parsed_chunk = None
+                            
                     else:
-                        # Start of word or after another vowel -> Independent Vowel
-                        logging.debug(f"Match: {lower_chunk} -> Vowel {self.vowels[lower_chunk]}")
-                        output.append(self.vowels[lower_chunk])
+                        # Independent Vowel
+                        # Smart rule for 'o' at start: it should be 'অ', not 'ও' (onek -> অনেক, ojogor -> অজগর)
+                        if i == 0 and lower_chunk == 'o':
+                            output.append("অ")
+                        else:
+                            output.append(self.vowels[lower_chunk])
                         last_was_consonant = False
+                        implicit_vowel_dropped = False
+                        last_parsed_chunk = None
                         
                     i += length
                     match_found = True
@@ -151,13 +206,10 @@ class PhoneticParser:
             if match_found:
                 continue
             
-            # No match handling
-            # If no match, just append the character as is? 
-            # Or skip? User said "Preserve punctuation" but that's handled by tokenizer.
-            # This is inside a word.
-            # E.g. "x" not in mapping.
             output.append(word[i])
             i += 1
-            last_was_consonant = False  # Reset on unknown
+            last_was_consonant = False  
+            implicit_vowel_dropped = False
+            last_parsed_chunk = None
             
         return "".join(output)
