@@ -72,7 +72,7 @@ Not a simple key mapper — AdorLipi uses a curated dictionary of **10,000+ word
 | Problem | Without Dictionary | AdorLipi |
 |:--------|:------------------|:---------|
 | `dak` — দ vs ড ambiguity | দাক ❌ | ডাক ✅ |
-| `poriksha` — conjunct ক্ষ | পোরিক্শা ❌ | পরীক্ষা ✅ |
+| `porikkha` — conjunct ক্ষ | পোরিক্শা ❌ | পরীক্ষা ✅ |
 | `giyechi` — ছ vs চ context | গিয়েচি ❌ | গিয়েছি ✅ |
 
 ### 📊 Data-Driven Accuracy
@@ -104,9 +104,34 @@ Pure Python, no network calls, no heavy dependencies. Instant response on any ha
 
 AdorLipi runs on **any Linux distro** that supports IBus.
 
-### ✅ Method 1: Build from Source (Works Right Now)
+### ✅ Method 1: App Store Style Install (Ubuntu/Debian/Fedora)
 
-> **This is the recommended method.** The installer auto-detects your distro and handles everything.
+We provide simple packages for an easy "double-click" App Store-like installation on Ubuntu, Linux Mint, PopOS, Debian, and Fedora.
+
+1. Go to the [Releases](https://github.com/iammhador/adorlipi/releases) page.
+2. Download the appropriate file:
+   - For Ubuntu/Mint/Debian: `adorlipi_x.x.x_all.deb`
+   - For Fedora/RHEL: `adorlipi-x.x.x-1.noarch.rpm`
+3. Double click to install it via your Software Center, or open a terminal and run:
+   ```bash
+   # Ubuntu/Debian:
+   sudo apt install ./adorlipi_1.0.0_all.deb
+   
+   # Fedora:
+   sudo dnf install ./adorlipi-1.0.0-1.noarch.rpm
+   ```
+
+### 🏹 Method 2: Arch Linux (AUR)
+
+AdorLipi is fully available on the Arch User Repository (AUR). You can install it using any AUR helper like `yay` or `paru`:
+
+```bash
+yay -S adorlipi-git
+```
+
+### 💻 Method 3: Universal Installer (All Linux Distros)
+
+If you are on a different distribution (or prefer building from source), you can install using our automated script:
 
 ```bash
 git clone https://github.com/iammhador/adorlipi.git
@@ -115,37 +140,9 @@ sudo bash platforms/linux/install.sh
 ```
 
 What the script does:
-- Detects **Debian/Ubuntu** → installs `python3-gi gir1.2-ibus-1.0` via `apt`
-- Detects **Fedora/RHEL** → installs `python3-gobject ibus-devel` via `dnf`
+- Detects **Debian/Ubuntu/Fedora/RHEL** and installs required dependencies (`python3-gi`, `ibus` etc.)
 - Copies engine, data, and IBus XML to `/usr/share/adorlipi/`
 - Registers the IBus component and restarts IBus
-
-### 🔧 Method 2: Build Your Own .deb / .rpm Package
-
-If you want to distribute or install as a system package, you can build one yourself:
-
-```bash
-cd platforms/linux
-
-# Ubuntu/Debian → build a .deb
-bash build_deb.sh
-sudo apt install ./adorlipi_1.0.0_all.deb
-
-# Fedora/RHEL → build an .rpm
-bash build_rpm.sh
-sudo dnf install ./adorlipi-1.0.0-1.noarch.rpm
-```
-
-### 🔜 Coming Soon
-
-| Method | Status |
-|:-------|:-------|
-| Pre-built `.deb` on Releases page | 🔜 Planned |
-| Pre-built `.rpm` on Releases page | 🔜 Planned |
-| `yay -S adorlipi-git` (AUR) | 🔜 Planned |
-
-> [!NOTE]
-> Want to help publish these? See [CONTRIBUTING.md](CONTRIBUTING.md).
 
 ### Activate After Install
 
@@ -183,7 +180,7 @@ t = Transliterator()
 
 # Test individual words
 print(t.transliterate('ami tomay bhalobashi'))   # আমি তোমায় ভালোবাসি
-print(t.transliterate('poriksha'))               # পরীক্ষা
+print(t.transliterate('porikkha'))               # পরীক্ষা
 print(t.transliterate('udbhash'))                # উদ্ভাস
 print(t.transliterate('unmesh'))                 # উন্মেষ
 "
