@@ -1,12 +1,25 @@
 <p align="center">
-  <img src="assets/cover.svg" alt="AdorLipi Banner" width="100%">
+  <img src="assets/logo.svg" alt="AdorLipi Logo" width="200">
 </p>
 
 <h1 align="center">AdorLipi (আদরলিপি)</h1>
 
 <p align="center">
-  <strong>The Smartest Banglish-to-Bangla Transliteration Engine for Linux</strong>
+  <strong>"অদরলিপি - ভাবনা থেকে বাংলা"</strong>
 </p>
+<p align="center">
+  <em>The first modern and easy-to-use Banglish keyboard for Linux users.</em>
+</p>
+
+There is a long-standing challenge in the open-source community: while great phonetic keyboards like Avro and OpenBangla exist for Linux, they often struggle to perfectly convert modern conversational "Banglish" (e.g., *advance*, *perfect*) into accurate Bengali. AdorLipi was built to solve exactly this issue.
+
+People type the same Bengali words using countless spelling variations across social media. AdorLipi’s engine has been trained on real-world social media spelling patterns, adding thousands of these unique conversational variations into our smart dictionary. 
+
+It solves a massive problem for the community: **Type exactly how you speak on social media, follow normal English spelling rules, and get perfectly accurate Bengali instantly.**
+
+Currently available and highly optimized for Linux, with cross-platform support planned for the future.
+
+---
 
 <p align="center">
   <a href="https://github.com/iammhador/adorlipi/releases"><img src="https://img.shields.io/github/v/release/iammhador/adorlipi?style=flat-square&color=5E35B1&label=Release" alt="Release"></a>
@@ -59,17 +72,17 @@ Not a simple key mapper — AdorLipi uses a curated dictionary of **10,000+ word
 | Problem | Without Dictionary | AdorLipi |
 |:--------|:------------------|:---------|
 | `dak` — দ vs ড ambiguity | দাক ❌ | ডাক ✅ |
-| `poriksha` — conjunct ক্ষ | পোরিক্শা ❌ | পরীক্ষা ✅ |
+| `porikkha` — conjunct ক্ষ | পোরিক্শা ❌ | পরীক্ষা ✅ |
 | `giyechi` — ছ vs চ context | গিয়েচি ❌ | গিয়েছি ✅ |
 
 ### 📊 Data-Driven Accuracy
 We continuously analyze **real Banglish typing patterns** from social media, messaging, and forums to understand how people *actually* type — not how textbooks say they should.
 
 ### 📱 Modern Vocabulary
-Full support for internet slang, Gen-Z terms, and English loanwords commonly mixed into Bangla:
+Full support for conversational Banglish, everyday expressions, and English loanwords commonly mixed into spoken Bangla:
 
 ```
-chill → চিল    vibe → ভাইব    toxic → টক্সিক    bro → ব্রো
+advance → এডভান্স    perfect → পারফেক্ট    vibes → ভাইবস
 assignment → অ্যাসাইনমেন্ট    management → ম্যানেজমেন্ট
 ```
 
@@ -91,9 +104,34 @@ Pure Python, no network calls, no heavy dependencies. Instant response on any ha
 
 AdorLipi runs on **any Linux distro** that supports IBus.
 
-### ✅ Method 1: Build from Source (Works Right Now)
+### ✅ Method 1: App Store Style Install (Ubuntu/Debian/Fedora)
 
-> **This is the recommended method.** The installer auto-detects your distro and handles everything.
+We provide simple packages for an easy "double-click" App Store-like installation on Ubuntu, Linux Mint, PopOS, Debian, and Fedora.
+
+1. Go to the [Releases](https://github.com/iammhador/adorlipi/releases) page.
+2. Download the appropriate file:
+   - For Ubuntu/Mint/Debian: `adorlipi_x.x.x_all.deb`
+   - For Fedora/RHEL: `adorlipi-x.x.x-1.noarch.rpm`
+3. Double click to install it via your Software Center, or open a terminal and run:
+   ```bash
+   # Ubuntu/Debian:
+   sudo apt install ./adorlipi_1.0.0_all.deb
+   
+   # Fedora:
+   sudo dnf install ./adorlipi-1.0.0-1.noarch.rpm
+   ```
+
+### 🏹 Method 2: Arch Linux (AUR)
+
+AdorLipi is fully available on the Arch User Repository (AUR). You can install it using any AUR helper like `yay` or `paru`:
+
+```bash
+yay -S adorlipi-git
+```
+
+### 💻 Method 3: Universal Installer (All Linux Distros)
+
+If you are on a different distribution (or prefer building from source), you can install using our automated script:
 
 ```bash
 git clone https://github.com/iammhador/adorlipi.git
@@ -102,37 +140,9 @@ sudo bash platforms/linux/install.sh
 ```
 
 What the script does:
-- Detects **Debian/Ubuntu** → installs `python3-gi gir1.2-ibus-1.0` via `apt`
-- Detects **Fedora/RHEL** → installs `python3-gobject ibus-devel` via `dnf`
+- Detects **Debian/Ubuntu/Fedora/RHEL** and installs required dependencies (`python3-gi`, `ibus` etc.)
 - Copies engine, data, and IBus XML to `/usr/share/adorlipi/`
 - Registers the IBus component and restarts IBus
-
-### 🔧 Method 2: Build Your Own .deb / .rpm Package
-
-If you want to distribute or install as a system package, you can build one yourself:
-
-```bash
-cd platforms/linux
-
-# Ubuntu/Debian → build a .deb
-bash build_deb.sh
-sudo apt install ./adorlipi_1.0.0_all.deb
-
-# Fedora/RHEL → build an .rpm
-bash build_rpm.sh
-sudo dnf install ./adorlipi-1.0.0-1.noarch.rpm
-```
-
-### 🔜 Coming Soon
-
-| Method | Status |
-|:-------|:-------|
-| Pre-built `.deb` on Releases page | 🔜 Planned |
-| Pre-built `.rpm` on Releases page | 🔜 Planned |
-| `yay -S adorlipi-git` (AUR) | 🔜 Planned |
-
-> [!NOTE]
-> Want to help publish these? See [CONTRIBUTING.md](CONTRIBUTING.md).
 
 ### Activate After Install
 
@@ -170,7 +180,7 @@ t = Transliterator()
 
 # Test individual words
 print(t.transliterate('ami tomay bhalobashi'))   # আমি তোমায় ভালোবাসি
-print(t.transliterate('poriksha'))               # পরীক্ষা
+print(t.transliterate('porikkha'))               # পরীক্ষা
 print(t.transliterate('udbhash'))                # উদ্ভাস
 print(t.transliterate('unmesh'))                 # উন্মেষ
 "
@@ -203,23 +213,22 @@ ibus list-engine | grep adorlipi   # Should show: adorlipi
 
 ## 🎮 Usage Guide
 
-Switch to AdorLipi (`Super + Space`) and start typing naturally:
+Switch to AdorLipi (`Super + Space`) and start typing naturally. AdorLipi recognizes how people actually type on social media:
 
-### Everyday Typing
+### Conversational Typing
 
 | Banglish | Output | Category |
 |:---------|:-------|:---------|
-| `ami` | আমি | Pronoun |
+| `ami apnake` | আমি আপনাকে | Pronoun / Respectful |
 | `kemon achen` | কেমন আছেন | Greeting |
-| `dhonnobad` | ধন্যবাদ | Common |
-| `bhalobashi` | ভালোবাসি | Emotion |
-| `poriksha` | পরীক্ষা | Academic |
-| `assignment` | অ্যাসাইনমেন্ট | English loan |
-| `inshaallah` | ইনশাআল্লাহ | Islamic |
+| `osadharon` | অসাধারণ | Compliment |
+| `valobashi` | ভালোবাসি | Emotion |
+| `advance` | এডভান্স | English loan |
+| `inshaallah` | ইনশাআল্লাহ | Cultural |
 
 ### How It Works
 
-AdorLipi processes each word through a **5-stage pipeline**:
+AdorLipi processes each word through a **5-stage pipeline** designed specifically to handle ambiguous social-media spellings:
 
 ```
 Input → Tokenize → Normalize → Dictionary Lookup → Suffix Decomposition → Phonetic Parse → Output
@@ -428,7 +437,7 @@ No phonetic rule can resolve this — only a dictionary can.
 <details>
 <summary><strong>How does suffix handling work?</strong></summary>
 
-AdorLipi strips common Bangla suffixes (`er` → ের, `te` → তে, `ke` → কে, `r` → র, etc.), looks up the root word in the dictionary, and reattaches the Bangla suffix. This means `manusher` → মানুষের even though `manusher` isn't in the dictionary — because `manush` → মানুষ is.
+In Banglish, people often attach suffixes directly to the English word. AdorLipi strips common Bangla suffixes (`er`, `te`, `ke`, `r`, etc.), looks up the root word in its extensive social media dictionary, and reattaches the correct Bangla suffix. This means `manusher` → মানুষের even though `manusher` isn't deeply hardcoded — because `manush` → মানুষ is known.
 </details>
 
 <details>

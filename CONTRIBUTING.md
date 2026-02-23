@@ -1,6 +1,6 @@
-# Contributing to AdorLipi
+# Contributing to AdorLipi (আদরলিপি)
 
-First off, thank you for considering contributing to AdorLipi! 🎉 Every contribution helps make Bangla typing better for millions of users.
+First off, thank you for considering contributing to AdorLipi! 🎉 Every contribution helps build the first modern, easy-to-use Banglish keyboard for Linux users.
 
 This document provides guidelines and instructions for contributing to this project.
 
@@ -46,7 +46,7 @@ Found a word that transliterates incorrectly? Or is the engine crashing?
 
 **Example:**
 ```
-Input:    poriksha
+Input:    porikkha
 Got:      পোরিক্শা
 Expected: পরীক্ষা
 Distro:   Ubuntu 24.04, IBus 1.5.29
@@ -73,9 +73,9 @@ This is the **easiest and most impactful** way to contribute. The dictionary (`d
 
 **What words to add:**
 - ✅ Words that the phonetic engine gets wrong
-- ✅ Common Banglish spellings that people actually use
+- ✅ Common Banglish spellings that people actually type on social media
 - ✅ Regional dialects and variations
-- ✅ Modern slang, tech terms, English loanwords
+- ✅ Conversational Banglish, tech terms, English loanwords
 - ✅ Islamic/religious terms commonly written in Banglish
 - ✅ Proper nouns (places, common names)
 
@@ -246,7 +246,7 @@ adorlipi/
 │   ├── transliterator.py        # Main entry point, orchestrates the pipeline
 │   ├── tokenizer.py             # Splits "ami tomay" → ["ami", " ", "tomay"]
 │   ├── normalizer.py            # "Korbo" → "korbo" (preserves N, J, NG)
-│   ├── dictionary.py            # Looks up "poriksha" → "পরীক্ষা"
+│   ├── dictionary.py            # Looks up "porikkha" → "পরীক্ষা"
 │   ├── phonetic_parser.py       # Maps "k"→"ক", handles vowels/conjuncts
 │   └── suffix_handler.py        # "manusher" → root:"manush" + suffix:"ের"
 │
@@ -267,7 +267,7 @@ Each word goes through these stages **in order**:
 |:------|:----------|:--------|:--------|
 | 1 | **Tokenizer** | Split input into words + punctuation | `"ami. tumi"` → `["ami", ".", " ", "tumi"]` |
 | 2 | **Normalizer** | Lowercase input, preserve `N`/`J`/`NG` | `"Korbo"` → `"korbo"` |
-| 3 | **Dictionary** | Exact match lookup (9,500+ words) | `"poriksha"` → `"পরীক্ষা"` ✅ done |
+| 3 | **Dictionary** | Exact match lookup (9,500+ words) | `"porikkha"` → `"পরীক্ষা"` ✅ done |
 | 4 | **Suffix Handler** | Strip suffix, lookup root, reattach | `"manusher"` → `"manush"` + `"ের"` |
 | 5 | **Phonetic Parser** | Character-by-character mapping | `"bh"` → `"ভ"`, `"a"` → `"া"` |
 
@@ -353,7 +353,7 @@ We follow a simplified [Conventional Commits](https://www.conventionalcommits.or
 4. **Test first** — run `python3 cli/main.py` and type the word. If it already works correctly via phonetic mapping, you don't need to add it
 5. **Suffixed forms** — add both root and common suffixed forms:
    ```json
-   "poriksha": "পরীক্ষা",
+   "porikkha": "পরীক্ষা",
    "porikshar": "পরীক্ষার"
    ```
 

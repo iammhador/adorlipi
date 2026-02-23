@@ -26,9 +26,9 @@ Version: $VERSION
 Architecture: $ARCH
 Maintainer: AdorLipi Team <adorlipi@example.com>
 Depends: ibus, gir1.2-ibus-1.0, python3, python3-gi
-Description: AdorLipi Phonetic Banglish Keyboard
- A smart phonetic keyboard for typing Bengali via IBus.
- Features a 10,000+ word dictionary with slang support.
+Description: AdorLipi (আদরলিপি) - Modern Banglish Keyboard
+ The first modern and easy-to-use Banglish keyboard for Linux users.
+ Type exactly how you speak on social media. Features a 10,000+ word conversational dictionary.
 EOT
 
 # Copy files
