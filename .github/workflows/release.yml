@@ -97,9 +97,11 @@ jobs:
         uses: softprops/action-gh-release@v2
         with:
           tag_name: ${{ github.ref_name }}
-          name: AdorLipi v${{ steps.version.outputs.version }}
+          name: AdorLipi (আদরলিপি) v${{ steps.version.outputs.version }}
           body: |
-            ## AdorLipi v${{ steps.version.outputs.version }}
+            ## AdorLipi (আদরলিপি) v${{ steps.version.outputs.version }}
+            
+            The first modern and easy-to-use Banglish keyboard for Linux users. Type exactly how you speak on social media.
 
             ### Install
 
@@ -108,9 +110,14 @@ jobs:
             sudo apt install ./adorlipi_${{ steps.version.outputs.version }}_all.deb
             ```
 
-            **Fedora / RHEL:**
+            **Fedora / RHEL / CentOS:**
             ```bash
             sudo dnf install ./adorlipi-${{ steps.version.outputs.version }}-1.noarch.rpm
+            ```
+
+            **Arch Linux (AUR):**
+            ```bash
+            yay -S adorlipi-git
             ```
 
             **Any Linux (build from source):**
@@ -120,10 +127,10 @@ jobs:
             sudo bash platforms/linux/install.sh
             ```
 
-            After installing: `ibus restart` → Settings → Keyboard → Add Input Source → **AdorLipi**
+            After installing: run `ibus restart` → Settings → Keyboard → Add Input Source → **Bangla** → **AdorLipi (আদরলিপি)**
 
-            ### After Install
-            Use `Super + Space` to switch to AdorLipi in any app.
+            ### Usage
+            Use `Super + Space` to switch to AdorLipi (আদরলিপি) in any app! 🚀
           files: dist/*
           draft: false
           prerelease: false
