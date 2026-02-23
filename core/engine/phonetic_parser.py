@@ -155,7 +155,12 @@ class PhoneticParser:
                                     drop_o = True
                                 # If followed by 1 consonant and end of word (e.g., pagol) 
                                 elif cons_count == 1 and temp_i == len(next_chunk):
-                                    drop_o = True
+                                    # Heuristic for Banglish verb suffixes ending in -nor or -lor 
+                                    # (e.g., ghuchan-o-r -> ঘুছানোর, shamlan-o-r -> শামলানোর)
+                                    if last_parsed_chunk in ['n', 'l'] and next_chunk == 'r':
+                                        drop_o = False
+                                    else:
+                                        drop_o = True
                                 else:
                                     drop_o = False
                                     
