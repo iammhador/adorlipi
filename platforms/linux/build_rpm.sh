@@ -31,7 +31,7 @@ cat <<EOT > "$BUILD_DIR/SPECS/adorlipi.spec"
 Name:           adorlipi
 Version:        $VERSION
 Release:        1%{?dist}
-Summary:        AdorLipi Phonetic Banglish Keyboard for IBus
+Summary:        AdorLipi (আদরলিপি) - Modern Banglish Keyboard for IBus
 
 License:        MIT
 URL:            https://github.com/iammhador/adorlipi
@@ -41,8 +41,8 @@ BuildArch:      noarch
 Requires:       ibus, python3, python3-gobject
 
 %description
-A smart phonetic keyboard for typing Bengali via IBus.
-Features a 10,000+ word dictionary with slang support.
+The first modern and easy-to-use Banglish keyboard for Linux users.
+Type exactly how you speak on social media. Features a 10,000+ word conversational dictionary.
 
 %prep
 %setup -q -c

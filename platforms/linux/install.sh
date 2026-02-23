@@ -4,7 +4,7 @@
 # Run from project root: sudo bash platforms/linux/install.sh
 
 echo "-----------------------------------"
-echo "AdorLipi IBus Installer"
+echo "AdorLipi (আদরলিপি) IBus Installer"
 echo "-----------------------------------"
 
 # Check for root
@@ -71,5 +71,5 @@ ibus restart || echo "Could not restart IBus automatically. Please restart it ma
 echo "-----------------------------------"
 echo "Installation Complete!"
 echo "Please restart IBus or Log out and Log back in."
-echo "Then go to Settings -> Keyboard -> Input Sources -> Add -> Bangla -> AdorLipi."
+echo "Then go to Settings -> Keyboard -> Input Sources -> Add -> Bangla -> AdorLipi (আদরলিপি)."
 echo "-----------------------------------"

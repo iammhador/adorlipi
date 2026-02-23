@@ -1,6 +1,6 @@
-# Contributing to AdorLipi
+# Contributing to AdorLipi (আদরলিপি)
 
-First off, thank you for considering contributing to AdorLipi! 🎉 Every contribution helps make Bangla typing better for millions of users.
+First off, thank you for considering contributing to AdorLipi! 🎉 Every contribution helps build the first modern, easy-to-use Banglish keyboard for Linux users.
 
 This document provides guidelines and instructions for contributing to this project.
 
@@ -73,9 +73,9 @@ This is the **easiest and most impactful** way to contribute. The dictionary (`d
 
 **What words to add:**
 - ✅ Words that the phonetic engine gets wrong
-- ✅ Common Banglish spellings that people actually use
+- ✅ Common Banglish spellings that people actually type on social media
 - ✅ Regional dialects and variations
-- ✅ Modern slang, tech terms, English loanwords
+- ✅ Conversational Banglish, tech terms, English loanwords
 - ✅ Islamic/religious terms commonly written in Banglish
 - ✅ Proper nouns (places, common names)
 

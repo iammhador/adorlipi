@@ -1,12 +1,25 @@
 <p align="center">
-  <img src="assets/cover.svg" alt="AdorLipi Banner" width="100%">
+  <img src="assets/logo.svg" alt="AdorLipi Logo" width="200">
 </p>
 
 <h1 align="center">AdorLipi (আদরলিপি)</h1>
 
 <p align="center">
-  <strong>The Smartest Banglish-to-Bangla Transliteration Engine for Linux</strong>
+  <strong>"অদরলিপি - ভাবনা থেকে বাংলা"</strong>
 </p>
+<p align="center">
+  <em>The first modern and easy-to-use Banglish keyboard for Linux users.</em>
+</p>
+
+There is a long-standing challenge in the open-source community: while great phonetic keyboards like Avro and OpenBangla exist for Linux, they often struggle to perfectly convert modern conversational "Banglish" (e.g., *advance*, *perfect*) into accurate Bengali. AdorLipi was built to solve exactly this issue.
+
+People type the same Bengali words using countless spelling variations across social media. AdorLipi’s engine has been trained on real-world social media spelling patterns, adding thousands of these unique conversational variations into our smart dictionary. 
+
+It solves a massive problem for the community: **Type exactly how you speak on social media, follow normal English spelling rules, and get perfectly accurate Bengali instantly.**
+
+Currently available and highly optimized for Linux, with cross-platform support planned for the future.
+
+---
 
 <p align="center">
   <a href="https://github.com/iammhador/adorlipi/releases"><img src="https://img.shields.io/github/v/release/iammhador/adorlipi?style=flat-square&color=5E35B1&label=Release" alt="Release"></a>
@@ -66,10 +79,10 @@ Not a simple key mapper — AdorLipi uses a curated dictionary of **10,000+ word
 We continuously analyze **real Banglish typing patterns** from social media, messaging, and forums to understand how people *actually* type — not how textbooks say they should.
 
 ### 📱 Modern Vocabulary
-Full support for internet slang, Gen-Z terms, and English loanwords commonly mixed into Bangla:
+Full support for conversational Banglish, everyday expressions, and English loanwords commonly mixed into spoken Bangla:
 
 ```
-chill → চিল    vibe → ভাইব    toxic → টক্সিক    bro → ব্রো
+advance → এডভান্স    perfect → পারফেক্ট    vibes → ভাইবস
 assignment → অ্যাসাইনমেন্ট    management → ম্যানেজমেন্ট
 ```
 
@@ -203,23 +216,22 @@ ibus list-engine | grep adorlipi   # Should show: adorlipi
 
 ## 🎮 Usage Guide
 
-Switch to AdorLipi (`Super + Space`) and start typing naturally:
+Switch to AdorLipi (`Super + Space`) and start typing naturally. AdorLipi recognizes how people actually type on social media:
 
-### Everyday Typing
+### Conversational Typing
 
 | Banglish | Output | Category |
 |:---------|:-------|:---------|
-| `ami` | আমি | Pronoun |
+| `ami apnake` | আমি আপনাকে | Pronoun / Respectful |
 | `kemon achen` | কেমন আছেন | Greeting |
-| `dhonnobad` | ধন্যবাদ | Common |
-| `bhalobashi` | ভালোবাসি | Emotion |
-| `poriksha` | পরীক্ষা | Academic |
-| `assignment` | অ্যাসাইনমেন্ট | English loan |
-| `inshaallah` | ইনশাআল্লাহ | Islamic |
+| `osadharon` | অসাধারণ | Compliment |
+| `valobashi` | ভালোবাসি | Emotion |
+| `advance` | এডভান্স | English loan |
+| `inshaallah` | ইনশাআল্লাহ | Cultural |
 
 ### How It Works
 
-AdorLipi processes each word through a **5-stage pipeline**:
+AdorLipi processes each word through a **5-stage pipeline** designed specifically to handle ambiguous social-media spellings:
 
 ```
 Input → Tokenize → Normalize → Dictionary Lookup → Suffix Decomposition → Phonetic Parse → Output
@@ -428,7 +440,7 @@ No phonetic rule can resolve this — only a dictionary can.
 <details>
 <summary><strong>How does suffix handling work?</strong></summary>
 
-AdorLipi strips common Bangla suffixes (`er` → ের, `te` → তে, `ke` → কে, `r` → র, etc.), looks up the root word in the dictionary, and reattaches the Bangla suffix. This means `manusher` → মানুষের even though `manusher` isn't in the dictionary — because `manush` → মানুষ is.
+In Banglish, people often attach suffixes directly to the English word. AdorLipi strips common Bangla suffixes (`er`, `te`, `ke`, `r`, etc.), looks up the root word in its extensive social media dictionary, and reattaches the correct Bangla suffix. This means `manusher` → মানুষের even though `manusher` isn't deeply hardcoded — because `manush` → মানুষ is known.
 </details>
 
 <details>
