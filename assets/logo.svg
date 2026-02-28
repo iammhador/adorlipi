@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="512px" height="512px" viewBox="0 0 512 512" version="1.1" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+        <!-- Unique Custom Brand Gradients -->
+        
+        <!-- AdorLipi Purple Gradient for Keyboard Base -->
+        <linearGradient id="baseGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#5E35B1" /> <!-- Deep Purple -->
+            <stop offset="100%" stop-color="#8E24AA" /> <!-- Vibrant Magenta -->
+        </linearGradient>
+
+        <!-- Fresh Mint/Aqua Gradient for the letter/accents -->
+        <linearGradient id="accentGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#00B4DB" /> <!-- Aqua -->
+            <stop offset="100%" stop-color="#0083B0" /> <!-- Deep Sky -->
+        </linearGradient>
+        
+        <linearGradient id="warmGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#FF512F" /> <!-- Sunset Orange -->
+            <stop offset="100%" stop-color="#DD2476" /> <!-- Hot Pink -->
+        </linearGradient>
+
+        <!-- Dynamic Drop Shadow -->
+        <filter id="softShadow" x="-20%" y="-20%" width="140%" height="140%">
+            <feDropShadow dx="0" dy="12" stdDeviation="15" flood-color="#311B92" flood-opacity="0.4" />
+        </filter>
+
+        <!-- Circular Keyboard Clip (Unique Shape instead of standard rectangle) -->
+        <clipPath id="kbClip">
+            <rect x="40" y="160" width="432" height="310" rx="60" ry="60" />
+        </clipPath>
+    </defs>
+
+    <!-- Base Keyboard Body (Unique 'Pill' or Squircle Shape in vivid purple) -->
+    <rect x="40" y="160" width="432" height="310" rx="60" ry="60" fill="url(#baseGrad)" />
+
+    <!-- Keyboard Keys (Floating Glassmorphism style) -->
+    <g fill="#FFFFFF" opacity="0.25" clip-path="url(#kbClip)">
+        <circle cx="96"  cy="224" r="26" />
+        <circle cx="160" cy="224" r="26" />
+        <circle cx="224" cy="224" r="26" />
+        <circle cx="288" cy="224" r="26" />
+        <circle cx="352" cy="224" r="26" />
+        <circle cx="416" cy="224" r="26" />
+        
+        <circle cx="96"  cy="294" r="26" />
+        <circle cx="160" cy="294" r="26" />
+        <circle cx="224" cy="294" r="26" />
+        <circle cx="288" cy="294" r="26" />
+        <circle cx="352" cy="294" r="26" />
+        <circle cx="416" cy="294" r="26" />
+
+        <rect x="70"  y="364" width="68" height="52" rx="26" />
+        <!-- Wide Spacebar styled vividly -->
+        <rect x="156" y="364" width="200" height="52" rx="26" fill="#FFFFFF" opacity="0.6"/>
+        <rect x="374" y="364" width="68" height="52" rx="26" />
+    </g>
+
+    <!-- AdorLipi Specific Feature: The Smart Core (Replacing Gboard's flat pin) -->
+    <!-- This creates a beautiful, hovering organic 'Brain/Speech Bubble' node -->
+    <path d="M 160 36 
+             L 352 36 
+             A 60 60 0 0 1 412 96 
+             L 412 200 
+             C 412 250 352 300 280 340 
+             L 256 360 
+             L 232 340 
+             C 160 300 100 250 100 200 
+             L 100 96 
+             A 60 60 0 0 1 160 36 Z" 
+          fill="#FFFFFF" filter="url(#softShadow)" />
+
+    <!-- Big Central "অ" Graphic mapped with fresh Aqua Gradient -->
+    <text x="256" y="215" 
+          font-family="'Noto Sans Bengali', 'SolaimanLipi', sans-serif" 
+          font-weight="900" 
+          font-size="160" 
+          fill="url(#accentGrad)" 
+          text-anchor="middle">
+        অ
+    </text>
+
+    <!-- Branding Text: "অদরলিপি" -->
+    <text x="256" y="275" 
+          font-family="'Noto Sans Bengali', 'SolaimanLipi', sans-serif" 
+          font-weight="bold" 
+          font-size="44" 
+          fill="url(#warmGrad)" 
+          text-anchor="middle"
+          letter-spacing="0">
+        আদরলিপি
+    </text>
+
+    <!-- Tiny phonetic wave graphic connecting the text, making it highly unique -->
+    <path d="M 220 310 Q 238 290 256 310 T 292 310" 
+          fill="none" stroke="url(#accentGrad)" stroke-width="6" stroke-linecap="round" />
+
+</svg>

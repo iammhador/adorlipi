@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<component>
+    <name>org.freedesktop.IBus.AdorLipi</name>
+    <description>AdorLipi (আদরলিপি) - Modern Banglish Keyboard</description>
+    <exec>/usr/bin/python3 /usr/share/adorlipi/ibus_engine.py --ibus</exec>
+    <version>1.0.0</version>
+    <author>AdorLipi Team</author>
+    <license>MIT</license>
+    <homepage>https://github.com/iammhador/adorlipi</homepage>
+    <textdomain>ibus-adorlipi</textdomain>
+
+    <engines>
+        <engine>
+            <name>adorlipi</name>
+            <longname>AdorLipi (আদরলিপি)</longname>
+            <description>Modern Banglish to Bangla Keyboard</description>
+            <language>bn</language>
+            <license>MIT</license>
+            <author>AdorLipi Team</author>
+            <icon>/usr/share/adorlipi/assets/logo.svg</icon>
+            <layout>us</layout>
+            <layout_variant></layout_variant>
+            <layout_option></layout_option>
+            <rank>99</rank>
+        </engine>
+    </engines>
+</component>

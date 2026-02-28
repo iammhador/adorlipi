@@ -1,0 +1,1 @@
+# AdorLipi Core Engine Package

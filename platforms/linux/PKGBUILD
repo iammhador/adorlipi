@@ -1,0 +1,33 @@
+# Maintainer: Your Name <your.email@example.com>
+pkgname=adorlipi-git
+pkgver=1.0.0
+pkgrel=1
+pkgdesc="AdorLipi (আদরলিপি) - The first modern and easy-to-use Banglish keyboard for Linux"
+arch=('any')
+url="https://github.com/iammhador/adorlipi"
+license=('MIT')
+depends=('ibus' 'python' 'python-gobject')
+makedepends=('git')
+provides=('adorlipi')
+conflicts=('adorlipi')
+source=("git+https://github.com/iammhador/adorlipi.git")
+md5sums=('SKIP')
+
+pkgver() {
+  cd "$srcdir/adorlipi"
+  printf "r%s.%s" "$(git rev-list --count HEAD)" "$(git rev-parse --short HEAD)"
+}
+
+package() {
+  cd "$srcdir/adorlipi"
+
+  # Install core logic and data
+  install -d "$pkgdir/usr/share/adorlipi"
+  cp -r core data "$pkgdir/usr/share/adorlipi/"
+
+  # Install IBus component XML
+  install -Dm644 platforms/linux/adorlipi.xml -t "$pkgdir/usr/share/ibus/component/"
+
+  # Install engine executable
+  install -Dm755 platforms/linux/ibus_engine.py "$pkgdir/usr/libexec/ibus-engine-adorlipi"
+}

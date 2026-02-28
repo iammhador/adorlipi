@@ -1,0 +1,2 @@
+[console_scripts]
+adorlipi = adorlipi.main:main
