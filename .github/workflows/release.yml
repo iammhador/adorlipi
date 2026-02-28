@@ -1,0 +1,66 @@
+name: Build and Release AdorLipi
+
+on:
+  push:
+    tags:
+      - 'v*' # Trigger on version tags, e.g., v1.0.0
+  workflow_dispatch: # Allow manual triggering
+
+jobs:
+  build_deb:
+    name: Build Debian Package
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v3
+
+      - name: Build .deb
+        run: |
+          chmod +x platforms/linux/build_deb.sh
+          ./platforms/linux/build_deb.sh
+
+      - name: Upload .deb Artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: adorlipi-deb
+          path: "*.deb"
+
+  build_rpm:
+    name: Build RPM Package
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v3
+
+      - name: Install rpmbuild
+        run: sudo apt-get update && sudo apt-get install -y rpm
+
+      - name: Build .rpm
+        run: |
+          chmod +x platforms/linux/build_rpm.sh
+          ./platforms/linux/build_rpm.sh
+
+      - name: Upload .rpm Artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: adorlipi-rpm
+          path: "*.rpm"
+
+  release:
+    name: Create GitHub Release
+    needs: [build_deb, build_rpm]
+    runs-on: ubuntu-latest
+    if: startsWith(github.ref, 'refs/tags/v')
+    steps:
+      - name: Download Artifacts
+        uses: actions/download-artifact@v3
+
+      - name: Create Release and Upload Assets
+        uses: softprops/action-gh-release@v1
+        with:
+          files: |
+            adorlipi-deb/*.deb
+            adorlipi-rpm/*.rpm
+          generate_release_notes: true
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
