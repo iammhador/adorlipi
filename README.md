@@ -21,13 +21,15 @@ Currently available and highly optimized for Linux, with cross-platform support 
 
 ---
 
-<p align="center">
-  <a href="https://github.com/iammhador/adorlipi/releases"><img src="https://img.shields.io/github/v/release/iammhador/adorlipi?style=flat-square&color=5E35B1&label=Release" alt="Release"></a>
-  <img src="https://img.shields.io/badge/Dictionary-10%2C000%2B%20words-00B4DB?style=flat-square" alt="Dictionary">
-  <img src="https://img.shields.io/badge/Platform-Linux-FF512F?style=flat-square" alt="Platform">
-  <a href="LICENSE"><img src="https://img.shields.io/badge/License-MIT-lightgrey?style=flat-square" alt="License"></a>
-  <a href="CONTRIBUTING.md"><img src="https://img.shields.io/badge/PRs-Welcome-brightgreen?style=flat-square" alt="PRs Welcome"></a>
-</p>
+<div align="center">
+
+[![Release](https://img.shields.io/badge/Release-v1.0.0-5E35B1?style=flat-square)](https://github.com/iammhador/adorlipi/releases)
+![Dictionary](https://img.shields.io/badge/Dictionary-10%2C000%2B%20words-00B4DB?style=flat-square)
+![Platform](https://img.shields.io/badge/Platform-Linux-FF512F?style=flat-square)
+[![License](https://img.shields.io/badge/License-MIT-lightgrey?style=flat-square)](LICENSE)
+[![PRs Welcome](https://img.shields.io/badge/PRs-Welcome-brightgreen?style=flat-square)](CONTRIBUTING.md)
+
+</div>
 
 <p align="center">
   <a href="#-quick-start">Quick Start</a> •
