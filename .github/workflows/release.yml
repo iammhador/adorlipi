@@ -16,7 +16,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Build .deb
         run: |
@@ -24,7 +24,7 @@ jobs:
           ./platforms/linux/build_deb.sh
 
       - name: Upload .deb Artifact
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: adorlipi-deb
           path: "*.deb"
@@ -34,7 +34,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Install rpmbuild
         run: sudo apt-get update && sudo apt-get install -y rpm
@@ -45,7 +45,7 @@ jobs:
           ./platforms/linux/build_rpm.sh
 
       - name: Upload .rpm Artifact
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: adorlipi-rpm
           path: "*.rpm"
@@ -57,14 +57,16 @@ jobs:
     if: startsWith(github.ref, 'refs/tags/v')
     steps:
       - name: Download Artifacts
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
+        with:
+          path: artifacts
 
       - name: Create Release and Upload Assets
-        uses: softprops/action-gh-release@v1
+        uses: softprops/action-gh-release@v2
         with:
           files: |
-            adorlipi-deb/*.deb
-            adorlipi-rpm/*.rpm
+            artifacts/adorlipi-deb/*.deb
+            artifacts/adorlipi-rpm/*.rpm
           generate_release_notes: true
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
