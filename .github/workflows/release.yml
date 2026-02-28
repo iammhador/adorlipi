@@ -6,6 +6,10 @@ on:
       - 'v*' # Trigger on version tags, e.g., v1.0.0
   workflow_dispatch: # Allow manual triggering
 
+permissions:
+  contents: write # Required to successfully deploy and upload release assets
+
+
 jobs:
   build_deb:
     name: Build Debian Package
