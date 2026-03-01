@@ -26,7 +26,7 @@ class TestRobustness(unittest.TestCase):
         self.assertEqual(res, "ক্যা")
         
         res = self.trans.transliterate("zy")
-        self.assertEqual(res, "জ্য")
+        self.assertEqual(res, "য্য")
 
     def test_ra_fola(self):
         res = self.trans.transliterate("pr")

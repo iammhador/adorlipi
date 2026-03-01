@@ -68,8 +68,8 @@ Then: **Settings** > **Keyboard** > **Add Input Source** > Search **AdorLipi** �
 
 ## ✨ Features
 
-### 🧠 Context-Aware Dictionary (10,000+ words)
-Not a simple key mapper — AdorLipi uses a curated dictionary of **10,000+ words** to resolve ambiguous Banglish spellings that no phonetic rule can handle:
+### 🧠 Context-Aware Dictionary (85,000+ words)
+Not a simple key mapper — AdorLipi uses a curated dictionary of **85,000+ words** to resolve ambiguous Banglish spellings that no phonetic rule can handle:
 
 | Problem | Without Dictionary | AdorLipi |
 |:--------|:------------------|:---------|
