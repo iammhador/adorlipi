@@ -190,11 +190,7 @@ class PhoneticParser:
                             
                     else:
                         # Independent Vowel
-                        # Smart rule for 'o' at start: it should be 'অ', not 'ও' (onek -> অনেক, ojogor -> অজগর)
-                        if i == 0 and lower_chunk == 'o':
-                            output.append("অ")
-                        else:
-                            output.append(self.vowels[lower_chunk])
+                        output.append(self.vowels[lower_chunk])
                         last_was_consonant = False
                         implicit_vowel_dropped = False
                         last_parsed_chunk = None

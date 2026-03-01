@@ -49,7 +49,7 @@ Currently available and highly optimized for Linux, with cross-platform support 
 Type natural Banglish → get accurate Bangla. Instantly. In any app.
 
 ```
-ami tomay bhalobashi   →   আমি তোমায় ভালোবাসি
+onek bhalo             →   অনেক ভালো
 dhonnobad              →   ধন্যবাদ
 kemon achen?           →   কেমন আছেন?
 ```
@@ -232,12 +232,11 @@ Switch to AdorLipi (`Super + Space`) and start typing naturally. AdorLipi recogn
 
 AdorLipi processes each word through a **5-stage pipeline** designed specifically to handle ambiguous social-media spellings:
 
-```
 Input → Tokenize → Normalize → Dictionary Lookup → Suffix Decomposition → Phonetic Parse → Output
           ↓           ↓              ↓                    ↓                      ↓
-       Split by    Preserve      Exact match?        Strip suffix,           Map each
-       spaces &    case-sens.    Return it!          lookup root,            character
-       punctuation chars (N,J)                       reattach বাংলা suffix   phonetically
+       Split by    Lowercase      Exact match?        Strip suffix,           Map each
+       spaces &    (standard)     Return it!          lookup root,            character
+       punctuation                                    reattach বাংলা suffix   phonetically
 ```
 
 **Example**: `bondhura` (friends)
@@ -256,8 +255,8 @@ Input → Tokenize → Normalize → Dictionary Lookup → Suffix Decomposition 
 |:----|:-------|:----|:-------|:----|:-------|
 | `a` / `aa` | আ | `i` | ই | `ii` | ঈ |
 | `u` | উ | `uu` | ঊ | `e` | এ |
-| `o` | ও | `oi` | ঐ | `ou` | ঔ |
-| `rri` | ঋ | | | | |
+| `o` | অ | `oo` | ও | `oi` | ঐ |
+| `ou` | ঔ | `rri` | ঋ | | |
 
 ### Consonants (ব্যঞ্জনবর্ণ)
 
@@ -269,14 +268,14 @@ Input → Tokenize → Normalize → Dictionary Lookup → Suffix Decomposition 
 | `jh` | ঝ | `t` | ত | `tt` | ট |
 | `th` | থ | `tth` | ঠ | `d` | দ |
 | `dd` | ড | `dh` | ধ | `ddh` | ঢ |
-| `n` | ন | `N` | ণ | `p` | প |
+| `n` | ন | `nn` / `N` | ণ | `p` | প |
 | `f` / `ph` | ফ | `b` | ব | `bh` / `v` | ভ |
 | `m` | ম | `z` / `J` | য | `r` | র |
 | `rr` | ড় | `rrh` | ঢ় | `l` | ল |
 | `sh` | শ | `ss` | ষ | `s` | স |
 | `h` | হ | `y` | য় | `w` | ব |
-| `q` | ৎ | `kkh` | ক্ষ | `NGV` | ঞ |
-| `:` | ঃ | `^` | ঁ | | |
+| `q` | ৎ | `x` | ক্স | `kkh` / `ksh` | ক্ষ |
+| `nngv` / `NGV` | ঞ | `:` | ঃ | `^` | ঁ |
 
 ### Vowel Signs (কার) — Applied automatically after consonants
 
@@ -284,7 +283,7 @@ Input → Tokenize → Normalize → Dictionary Lookup → Suffix Decomposition 
 |:----|:----|:----|:----|:----|:----|
 | `a` | া | `i` | ি | `ii` | ী |
 | `u` | ু | `uu` | ূ | `e` | ে |
-| `o` | ো | `oi` | ৈ | `ou` | ৌ |
+| `o` / `oo` | ো | `oi` | ৈ | `ou` | ৌ |
 | `rri` | ৃ | | | | |
 
 ### Conjuncts (যুক্তবর্ণ) — Formed automatically
@@ -355,7 +354,7 @@ adorlipi/
 │          │    │            │    │   Lookup   │    │  (if no match)│    │ (last resort)  │
 └──────────┘    └────────────┘    └────────────┘    └───────────────┘    └────────────────┘
  Split text      Lowercase         9,500+ word       Strip -er/-e/-te     Map each char
- into tokens     (preserve N,J)    exact match        lookup root          a→আ, k→ক
+ into tokens     (standard)        exact match        lookup root          a→আ, k→ক
 ```
 
 > [!NOTE]
