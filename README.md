@@ -141,6 +141,31 @@ cd adorlipi
 sudo bash platforms/linux/install.sh
 ```
 
+---
+
+## 🔄 Updating AdorLipi
+
+When we enrich the dictionary with thousands of new words or release engine improvements, updating is extremely simple!
+
+**If you installed via .deb or .rpm:**
+1. Download the newest version from the [Releases](https://github.com/iammhador/adorlipi/releases) page.
+2. Simply install it exactly the same way you installed the previous one. It will automatically overwrite and update your existing engine!
+
+**If you installed via Arch AUR:**
+Run your AUR helper update command:
+```bash
+yay -Syu adorlipi-git
+```
+
+**If you installed via GitHub Source:**
+1. Open your terminal and go to the folder where you cloned the repository.
+2. Pull the newest dictionary updates and reinstall:
+```bash
+cd adorlipi
+git pull origin main
+sudo bash platforms/linux/install.sh
+```
+
 What the script does:
 - Detects **Debian/Ubuntu/Fedora/RHEL** and installs required dependencies (`python3-gi`, `ibus` etc.)
 - Copies engine, data, and IBus XML to `/usr/share/adorlipi/`
