@@ -29,10 +29,25 @@ class Transliterator:
         except FileNotFoundError:
             pass
 
+    def _pre_process(self, text):
+        """
+        Instantly merge common space-separated suffixes 
+        (e.g., 'mon e' -> 'mone', 'kajta k' -> 'kajtak')
+        before tokenizer splits them.
+        """
+        suffixes = ['e', 'er', 'te', 'k', 'ke', 're', 'der']
+        for suf in suffixes:
+            # Match word chars, followed by space(s), followed by suffix, 
+            # and MUST be followed by space, punctuation or end of string.
+            pattern = r'(?<=[a-zA-Z])\s+(' + re.escape(suf) + r')(?=[\s\.,!\?]|$)'
+            text = re.sub(pattern, r'\1', text)
+        return text
+
     def transliterate(self, text):
         """
-        Full pipeline: Tokenize -> Normalize -> Dict -> Suffix+Dict -> Patterns -> Phonetic -> Join
+        Full pipeline: Pre-Process -> Tokenize -> Normalize -> Dict -> Suffix+Dict -> Patterns -> Phonetic -> Join
         """
+        text = self._pre_process(text)
         tokens = self.tokenizer.tokenize(text)
         result = []
         
