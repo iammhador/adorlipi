@@ -1,0 +1,16 @@
+{
+    "patterns": [
+        {
+            "regex": "khorgos$",
+            "replace": "খরগোস"
+        },
+        {
+            "regex": "^kamon$",
+            "replace": "কমন"
+        },
+        {
+            "regex": "^torko$",
+            "replace": "তর্ক"
+        }
+    ]
+}
