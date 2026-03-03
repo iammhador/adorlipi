@@ -56,39 +56,51 @@ class Transliterator:
                 # 1. Normalize
                 norm_word = self.normalizer.normalize(token)
                 
-                # 2. Dictionary Lookup (Full Word)
-                dict_match = self.dictionary.lookup(norm_word)
+                # 2. Exact Dictionary Lookup (Full Word)
+                dict_match = self.dictionary.exact_lookup(norm_word)
                 if dict_match:
                     result.append(dict_match)
-                else:
-                    # 3. Smart Suffix Handling
-                    root, suffix_bn = self.suffix_handler.strip_suffix(norm_word)
-                    if suffix_bn:
-                        root_match = self.dictionary.lookup(root)
-                        if root_match:
-                            result.append(root_match + suffix_bn)
-                            continue
-                    
-                    # 4. Pattern Matching (Regex Heuristics)
-                    pattern_matched = False
-                    for pat in self.patterns:
-                        if re.search(pat['regex'], norm_word):
-                            # Replace matching section
-                            parsed = re.sub(pat['regex'], pat['replace'], norm_word)
-                            # Transliterate the rest (if any) phonetically
-                            # This is simple for full word matches (^pattern$). 
-                            # If it's partial, we'd need more complex substitution. 
-                            # Given our patterns are strictly ^word$ based for now, direct substitution is fine.
-                            result.append(parsed)
-                            pattern_matched = True
-                            break
-                    
-                    if pattern_matched:
+                    continue
+
+                # 3. Skeleton Match (Full Word)
+                dict_match = self.dictionary.skeleton_lookup(norm_word)
+                if dict_match:
+                    result.append(dict_match)
+                    continue
+
+                # 4. Smart Suffix Handling
+                root, suffix_bn = self.suffix_handler.strip_suffix(norm_word)
+                if suffix_bn:
+                    root_match = self.dictionary.lookup(root)
+                    if root_match:
+                        result.append(root_match + suffix_bn)
                         continue
-                            
-                    # 5. Phonetic Parsing (Fallback)
-                    parsed = self.phonetic_parser.parse(norm_word)
-                    result.append(parsed)
+                        
+                # 5. Fuzzy Match (Typo tolerant full word Fallback)
+                fuzzy_match = self.dictionary.fuzzy_lookup(norm_word)
+                if fuzzy_match:
+                    result.append(fuzzy_match)
+                    continue
+                # 6. Pattern Matching (Regex Heuristics)
+                pattern_matched = False
+                for pat in self.patterns:
+                    if re.search(pat['regex'], norm_word):
+                        # Replace matching section
+                        parsed = re.sub(pat['regex'], pat['replace'], norm_word)
+                        # Transliterate the rest (if any) phonetically
+                        # This is simple for full word matches (^pattern$). 
+                        # If it's partial, we'd need more complex substitution. 
+                        # Given our patterns are strictly ^word$ based for now, direct substitution is fine.
+                        result.append(parsed)
+                        pattern_matched = True
+                        break
+                
+                if pattern_matched:
+                    continue
+                        
+                # 7. Phonetic Parsing (Fallback)
+                parsed = self.phonetic_parser.parse(norm_word)
+                result.append(parsed)
             else:
                 result.append(self.phonetic_parser.parse(token))
                 

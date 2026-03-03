@@ -40,27 +40,32 @@ class Dictionary:
         """Strict dictionary lookup for rigid suffix/prefix processing."""
         return self.dictionary.get(word.lower())
 
-    def lookup(self, word):
-        """
-        Layered dictionary lookup: 1. Exact, 2. Skeleton, 3. Fuzzy
-        """
+    def skeleton_lookup(self, word):
         word = word.lower()
-        
-        # 1. Exact Match
-        if word in self.dictionary:
-            return self.dictionary[word]
-            
-        # 2. Skeleton Match (For abbreviations like 'tmk' -> 'tomake')
         if len(word) >= 3:
             sk = self._to_skeleton(word)
             if sk == word and sk in self.skeleton_index:
                 real_word = self.skeleton_index[sk]
                 return self.dictionary[real_word]
-                
-        # 3. Fuzzy Match (Typo tolerant, 85% similarity threshold)
+        return None
+
+    def fuzzy_lookup(self, word):
+        word = word.lower()
         if len(word) >= 4:
             matches = difflib.get_close_matches(word, self.dictionary.keys(), n=1, cutoff=0.85)
             if matches:
                 return self.dictionary[matches[0]]
-                
         return None
+
+    def lookup(self, word):
+        """
+        Legacy layered dictionary lookup: Exact, Skeleton, Fuzzy
+        """
+        word = word.lower()
+        res = self.exact_lookup(word)
+        if res: return res
+        
+        res = self.skeleton_lookup(word)
+        if res: return res
+        
+        return self.fuzzy_lookup(word)
