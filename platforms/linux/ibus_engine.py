@@ -111,6 +111,40 @@ class AdorLipiEngine(IBus.Engine):
             
         return False
 
+    def do_candidate_clicked(self, index, button, state):
+        logging.debug(f"Candidate Clicked: index={index}, button={button}, state={state}")
+        # Only handle left clicks
+        if button == 1:
+            if index == 0:
+                # Bangla selection
+                bangla = self.transliterator.transliterate(self.buffer)
+                self._commit(bangla)
+                return True
+            elif index == 1:
+                # English selection
+                self._commit(self.buffer)
+                return True
+        return False
+
+    def do_focus_in(self):
+        logging.debug("Engine focused IN")
+        self._update()
+        
+    def do_focus_out(self):
+        logging.debug("Engine focused OUT")
+        # Wipe the volatile buffers so they don't bleed into other keyboards
+        self.buffer = ""
+        self.lookup_table.clear()
+        self.hide_preedit_text()
+        self.hide_lookup_table()
+        
+    def do_disable(self):
+        logging.debug("Engine disabled")
+        self.buffer = ""
+        self.lookup_table.clear()
+        self.hide_preedit_text()
+        self.hide_lookup_table()
+
     def _update_lookup_table(self, candidates):
         self.lookup_table.clear()
         for i, candidate in enumerate(candidates):

@@ -3,20 +3,41 @@ class SuffixHandler:
         # Suffixes sorted by length (longest first) to ensure greedy matching
         # e.g. check 'gulo' before 'o' (if we had 'o')
         self.suffixes = [
+            ("techhilam", "তেছিলাম"),
+            ("techhilen", "তেছিলেন"),
+            ("techhish", "তেছিস"),
+            ("techhen", "তেছেন"),
+            ("chhilen", "ছিলেন"),
+            ("chhilam", "ছিলাম"),
+            ("techhe", "তেছে"),
+            ("chhish", "ছিস"),
+            ("chhen", "ছেন"),
+            ("echhi", "েছি"),
+            ("echho", "েছো"),
+            ("echhe", "েছে"),
+            ("echen", "েছেন"),
             ("gulo", "গুলো"),
             ("gula", "গুলা"),
-            ("gulo", "গুলো"),
+            ("chhilo", "ছিলো"),
+            ("tuku", "টুকু"),
             ("der", "দের"),
+            ("dero", "দেরও"),
+            ("ake", "াকে"),
+            ("tai", "টাই"),
+            ("tei", "তেই"),
+            ("rao", "রাও"),
+            ("lam", "লাম"),
+            ("len", "লেন"),
+            ("tem", "তেম"),
+            ("ten", "তেন"),
             ("ra", "রা"),
             ("ta", "টা"),
             ("ti", "টি"),
             ("te", "তে"),
             ("ke", "কে"),
             ("er", "ের"),
-            # ("r", "র"), # 'r' is too common/ambiguous for simplistic stripping? 
-            # e.g. 'bar' -> 'ba'+'r'? 'katar' -> 'kata'+'r'? 
-            # 'amar' is in dict. 
-            # Let's check 'er' first, usually 'er' is the possessive suffix.
+            ("e", "ে"),
+            ("o", "ও")
         ]
 
     def strip_suffix(self, word):

@@ -26,6 +26,8 @@ if ! command -v python3 &> /dev/null; then
         apt update && apt install -y python3
     elif [ -f /etc/redhat-release ]; then
         dnf install -y python3
+    elif command -v pacman &> /dev/null; then
+        pacman -Sy --noconfirm python
     else
         echo "Error: Please install Python 3 manually."
         exit 1
@@ -40,6 +42,8 @@ if [ -f /etc/debian_version ]; then
     apt update && apt install -y python3-gi gir1.2-ibus-1.0
 elif [ -f /etc/redhat-release ]; then
     dnf install -y python3-gobject ibus-devel
+elif command -v pacman &> /dev/null; then
+    pacman -Sy --noconfirm python-gobject ibus
 else
     echo "Warning: Unknown distro. Please ensure python3-gi / python3-gobject is installed."
 fi
