@@ -123,9 +123,9 @@ We provide simple packages for an easy "double-click" App Store-like installatio
    sudo dnf install ./adorlipi-1.0.0-1.noarch.rpm
    ```
 
-### 🏹 Method 2: Arch Linux (AUR)
+### 🏹 Method 2: Arch Linux & Manjaro (AUR)
 
-AdorLipi is fully available on the Arch User Repository (AUR). You can install it using any AUR helper like `yay` or `paru`:
+AdorLipi is fully available on the Arch User Repository (AUR) and supports Arch-based distros like **Manjaro** and **EndeavourOS**. You can install it using any AUR helper like `yay` or `paru`:
 
 ```bash
 yay -S adorlipi-git
@@ -167,7 +167,7 @@ sudo bash platforms/linux/install.sh
 ```
 
 What the script does:
-- Detects **Debian/Ubuntu/Fedora/RHEL** and installs required dependencies (`python3-gi`, `ibus` etc.)
+- Detects **Debian/Ubuntu/Fedora/RHEL/Arch/Manjaro** and installs required dependencies (`python3-gi`, `ibus`, `python-gobject` etc.) via `apt`, `dnf`, or `pacman`.
 - Copies engine, data, and IBus XML to `/usr/share/adorlipi/`
 - Registers the IBus component and restarts IBus
 
