@@ -1,9 +1,9 @@
 class Tokenizer {
     tokenize(text) {
-        return text.match(/\\w+|[^\\w\\s]+|\\s+/g) || [];
+        return text.match(/\w+|[^\w\s]+|\s+/g) || [];
     }
     is_word(token) {
-        return /^\\w+$/.test(token);
+        return /^\w+$/.test(token);
     }
 }
 
@@ -76,9 +76,92 @@ class SuffixHandler {
 class Dictionary {
     constructor(data) {
         this.dictionary = data || {};
+        this.skeleton_index = {};
+        this._build_skeletons();
     }
-    lookup(word) {
+
+    _to_skeleton(word) {
+        if (!word) return word;
+        let sk = word[0];
+        for (let i = 1; i < word.length; i++) {
+            let c = word[i];
+            if (!['a', 'e', 'i', 'o', 'u', 'O'].includes(c)) {
+                sk += c;
+            }
+        }
+        return sk;
+    }
+
+    _build_skeletons() {
+        for (let key in this.dictionary) {
+            if (key.length <= 3) continue;
+            let sk = this._to_skeleton(key);
+            if (!this.skeleton_index[sk] || key.length < this.skeleton_index[sk].length) {
+                this.skeleton_index[sk] = key;
+            }
+        }
+    }
+
+    // Levenshtein distance for fuzzy matching
+    _levenshtein(a, b) {
+        if (a.length === 0) return b.length;
+        if (b.length === 0) return a.length;
+        let matrix = [];
+        for (let i = 0; i <= b.length; i++) matrix[i] = [i];
+        for (let j = 0; j <= a.length; j++) matrix[0][j] = j;
+        for (let i = 1; i <= b.length; i++) {
+            for (let j = 1; j <= a.length; j++) {
+                if (b.charAt(i - 1) == a.charAt(j - 1)) {
+                    matrix[i][j] = matrix[i - 1][j - 1];
+                } else {
+                    matrix[i][j] = Math.min(
+                        matrix[i - 1][j - 1] + 1,
+                        Math.min(matrix[i][j - 1] + 1, matrix[i - 1][j] + 1)
+                    );
+                }
+            }
+        }
+        return matrix[b.length][a.length];
+    }
+
+    exact_lookup(word) {
         return this.dictionary[word.toLowerCase()] || null;
+    }
+
+    lookup(word) {
+        word = word.toLowerCase();
+
+        // 1. Exact Match
+        if (this.dictionary[word]) return this.dictionary[word];
+
+        // 2. Skeleton Match
+        if (word.length >= 3) {
+            let sk = this._to_skeleton(word);
+            if (sk === word && this.skeleton_index[sk]) {
+                return this.dictionary[this.skeleton_index[sk]];
+            }
+        }
+
+        // 3. Fuzzy Match
+        if (word.length >= 4) {
+            let bestMatch = null;
+            let bestScore = 0;
+            // Scan keys (can be slow for 25k in JS, we optimize by length difference to skip quickly)
+            for (let key in this.dictionary) {
+                if (Math.abs(key.length - word.length) > 2) continue;
+                let dist = this._levenshtein(word, key);
+                let score = 1 - (dist / Math.max(word.length, key.length));
+                if (score > bestScore) {
+                    bestScore = score;
+                    bestMatch = key;
+                }
+            }
+            if (bestScore >= 0.80 && bestMatch) {
+                return this.dictionary[bestMatch];
+            }
+        }
+
+        return null;
     }
 }
 
