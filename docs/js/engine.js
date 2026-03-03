@@ -49,15 +49,41 @@ class Normalizer {
 class SuffixHandler {
     constructor() {
         this.suffixes = [
+            ["techhilam", "তেছিলাম"],
+            ["techhilen", "তেছিলেন"],
+            ["techhish", "তেছিস"],
+            ["techhen", "তেছেন"],
+            ["chhilen", "ছিলেন"],
+            ["chhilam", "ছিলাম"],
+            ["techhe", "তেছে"],
+            ["chhish", "ছিস"],
+            ["chhen", "ছেন"],
+            ["echhi", "েছি"],
+            ["echho", "েছো"],
+            ["echhe", "েছে"],
+            ["echen", "েছেন"],
             ["gulo", "গুলো"],
             ["gula", "গুলা"],
+            ["chhilo", "ছিলো"],
+            ["tuku", "টুকু"],
             ["der", "দের"],
+            ["dero", "দেরও"],
+            ["ake", "াকে"],
+            ["tai", "টাই"],
+            ["tei", "তেই"],
+            ["rao", "রাও"],
+            ["lam", "লাম"],
+            ["len", "লেন"],
+            ["tem", "তেম"],
+            ["ten", "তেন"],
             ["ra", "রা"],
             ["ta", "টা"],
             ["ti", "টি"],
             ["te", "তে"],
             ["ke", "কে"],
-            ["er", "ের"]
+            ["er", "ের"],
+            ["e", "ে"],
+            ["o", "ও"]
         ];
     }
     strip_suffix(word) {
