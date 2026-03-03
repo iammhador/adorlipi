@@ -187,41 +187,7 @@ ibus restart
 
 ---
 
-## 🧪 Testing
 
-### Test Without IBus (Fastest)
-
-You can verify AdorLipi works correctly without configuring IBus at all:
-
-```bash
-# Interactive CLI — type Banglish, see Bangla output live
-python3 cli/main.py
-```
-
-### Test a Specific Word
-
-```bash
-python3 -c "
-from core.engine.transliterator import Transliterator
-t = Transliterator()
-
-# Test individual words
-print(t.transliterate('ami tomay bhalobashi'))   # আমি তোমায় ভালোবাসি
-print(t.transliterate('porikkha'))               # পরীক্ষা
-print(t.transliterate('udbhash'))                # উদ্ভাস
-print(t.transliterate('unmesh'))                 # উন্মেষ
-"
-```
-
-### Run the Test Suite
-
-```bash
-# Run all tests
-python3 -m unittest discover tests/ -v
-
-# Run a specific test file
-python3 -m unittest tests/test_basic_words.py -v
-```
 
 ### Test with IBus (After Install)
 
@@ -362,11 +328,7 @@ adorlipi/
 ├── cli/
 │   └── main.py                  # Interactive CLI for testing & debugging
 │
-├── tests/
-│   ├── test_basic_words.py      # Core transliteration tests
-│   ├── test_examples.py         # Real-world sentence tests
-│   ├── test_refinements.py      # Edge case & regression tests
-│   └── test_robustness.py       # Stress tests & error handling
+
 │
 └── assets/                      # Logo, cover image, icons
 ```
@@ -402,7 +364,7 @@ We welcome contributions of all kinds! Whether you want to fix a typo in the dic
 | Fix phonetic mapping | `data/mapping.json` | 🟡 Medium |
 | Improve engine logic | `core/engine/` | 🔴 Advanced |
 | Add platform support | `platforms/` | 🔴 Advanced |
-| Write tests | `tests/` | 🟡 Medium |
+
 
 ### Development Setup
 
@@ -438,7 +400,7 @@ The core engine is **pure Python** and fully cross-platform. The current driver 
 <details>
 <summary><strong>I found a wrong word! How do I fix it?</strong></summary>
 
-Edit `data/dictionary.json` — it's a simple JSON `{ "banglish": "বাংলা" }` format. Add or fix the word, test it with `python3 cli/main.py`, and submit a Pull Request. See [CONTRIBUTING.md](CONTRIBUTING.md) for details.
+Edit `data/dictionary.json` — it's a simple JSON `{ "banglish": "বাংলা" }` format. Add or fix the word and submit a Pull Request. See [CONTRIBUTING.md](CONTRIBUTING.md) for details.
 </details>
 
 <details>
