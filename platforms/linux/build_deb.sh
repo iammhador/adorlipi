@@ -1,7 +1,7 @@
 #!/bin/bash
 set -e
 
-VERSION="1.0.1"
+VERSION="1.0.2"
 ARCH="all"
 PKG_NAME="adorlipi"
 DEB_DIR="${PKG_NAME}_${VERSION}_${ARCH}"

@@ -3,7 +3,7 @@
     <name>org.freedesktop.IBus.AdorLipi</name>
     <description>AdorLipi (আদরলিপি) - Modern Banglish Keyboard</description>
     <exec>/usr/bin/python3 /usr/share/adorlipi/ibus_engine.py --ibus</exec>
-    <version>1.0.1</version>
+    <version>1.0.2</version>
     <author>AdorLipi Team</author>
     <license>MIT</license>
     <homepage>https://github.com/iammhador/adorlipi</homepage>
