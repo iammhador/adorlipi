@@ -5,6 +5,7 @@ from .phonetic_parser import PhoneticParser
 from .suffix_handler import SuffixHandler
 from .suggester import Suggester
 from .user_dictionary import UserDictionary
+from .context_engine import ContextEngine
 import os
 import json
 import re
@@ -23,6 +24,10 @@ class Transliterator:
         self.suffix_handler = SuffixHandler()
         self.suggester = Suggester(os.path.join(data_dir, 'openbangla_dictionary.json'))
         self.user_dictionary = UserDictionary()
+        self.context_engine = ContextEngine()
+        
+        # Connect context engine to suggester for context-aware ranking
+        self.suggester.set_context_engine(self.context_engine)
         
         # Load Patterns (Regex-based Fallback Heuristics)
         self.patterns = []

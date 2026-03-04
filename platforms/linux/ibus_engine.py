@@ -178,15 +178,23 @@ class AdorLipiEngine(IBus.Engine):
             self.hide_lookup_table()
 
     def _commit(self, text=None):
+        committed = None
         if text:
-            # Commit specific text (from selection or space)
             logging.info(f"Committing specific: {text}")
             self.commit_text(IBus.Text.new_from_string(text))
+            committed = text.strip()
         elif self.buffer:
-            # Default commit (Bangla)
             bangla = self.transliterator.transliterate(self.buffer)
             logging.info(f"Committing default: {bangla}")
             self.commit_text(IBus.Text.new_from_string(bangla))
+            committed = bangla.strip()
+        
+        # Feed the committed word into the N-gram context engine
+        if committed and hasattr(self.transliterator, 'context_engine'):
+            # Extract last word (strip trailing space/punctuation)
+            last_word = committed.rstrip(' ।,.!?').split()[-1] if committed.strip() else None
+            if last_word:
+                self.transliterator.context_engine.set_context(last_word)
             
         self.buffer = ""
         self.lookup_table.clear()

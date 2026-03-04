@@ -30,8 +30,7 @@ class Suggester:
         'ি': ['ী'],
         'ী': ['ি'],
         'ু': ['ূ'],
-        'ূ': ['u'],
-        'ো': ['ো'],
+        'ূ': ['ু'],
         'ে': ['ৈ'],
     }
 
@@ -41,10 +40,12 @@ class Suggester:
             data_path = os.path.join(base_dir, 'data', 'openbangla_dictionary.json')
 
         self.word_pool = []
+        self.word_freq = {}
+        self.context_engine = None
+
         try:
             with open(data_path, 'r', encoding='utf-8') as f:
                 data = json.load(f)
-                # Pre-flatten into a single sorted list for O(n) scanning
                 seen = set()
                 for arr in data.values():
                     for w in arr:
@@ -54,24 +55,38 @@ class Suggester:
         except Exception as e:
             print(f"Warning: Failed to load dictionary: {e}")
 
+        # Load frequency data
+        freq_path = os.path.join(os.path.dirname(data_path), 'word_frequency.json')
+        try:
+            with open(freq_path, 'r', encoding='utf-8') as f:
+                self.word_freq = json.load(f)
+        except Exception:
+            pass  # Frequency data is optional, falls back to length-based sorting
+
+    def set_context_engine(self, context_engine):
+        """Allows the transliterator to inject the shared context engine."""
+        self.context_engine = context_engine
+
     def _generate_variants(self, target):
         """
         Deep ambiguity: generate alternate Bangla strings by replacing
         EACH ambiguous character (not just the first one).
-        Returns a list of variant strings including the original.
+        Capped at 10 variants to prevent combinatorial explosion.
         """
         variants = [target]
 
-        # Scan every character position for ambiguity
         for i, ch in enumerate(target):
-            if ch in self.AMBIGUOUS:
+            if ch in self.AMBIGUOUS and len(variants) < 10:
                 new_variants = []
                 for v in variants:
                     for alt in self.AMBIGUOUS[ch]:
                         new_variants.append(v[:i] + alt + v[i+1:])
+                        if len(variants) + len(new_variants) >= 10:
+                            break
+                    if len(variants) + len(new_variants) >= 10:
+                        break
                 variants.extend(new_variants)
 
-        # Deduplicate while preserving order (original first)
         seen = set()
         unique = []
         for v in variants:
@@ -80,53 +95,77 @@ class Suggester:
                 unique.append(v)
         return unique
 
+    def _score_word(self, word, is_exact):
+        """
+        Composite scoring: frequency + context boost + exact-match bonus.
+        Higher score = more relevant suggestion.
+        """
+        score = 0
+
+        # 1. Frequency score (how common is this word in Bengali?)
+        score += self.word_freq.get(word, 10)
+
+        # 2. Exact-match bonus (word matched the primary transliteration prefix)
+        if is_exact:
+            score += 30
+
+        # 3. Context boost from N-gram engine (does it follow the previous word?)
+        if self.context_engine:
+            score += self.context_engine.score_boost(word)
+
+        # 4. Length penalty for very long words (>8 chars are rarely useful)
+        if len(word) > 8:
+            score -= (len(word) - 8) * 3
+
+        return score
+
     def get_suggestions(self, buffer, target_bangla):
         """
-        Production-grade suggestion engine.
+        Production-grade suggestion engine with frequency + context ranking.
         1. Generates deep phonetic variants of target_bangla.
         2. Scans the full 150k word pool.
-        3. Ranks: exact-prefix first, then ambiguous-prefix, shortest first.
+        3. Ranks by composite score: frequency + context + exact-match.
         """
         if not buffer or not target_bangla or not self.word_pool:
             return []
 
         search_targets = self._generate_variants(target_bangla)
-        primary = target_bangla  # The exact transliteration
+        primary = target_bangla
 
-        exact_matches = []    # Words starting with the exact transliteration
-        fuzzy_matches = []    # Words starting with an ambiguous variant
+        candidates = []  # List of (word, score) tuples
 
         for word in self.word_pool:
             if word == target_bangla:
-                continue  # Skip the exact same word
+                continue
 
-            # Check exact prefix first (highest priority)
+            # Check exact prefix
             if word.startswith(primary):
-                exact_matches.append(word)
-                if len(exact_matches) >= 15:
-                    continue
+                score = self._score_word(word, is_exact=True)
+                candidates.append((word, score))
+                continue
 
             # Check ambiguous variant prefixes
-            for alt in search_targets[1:]:  # Skip primary (already checked)
+            for alt in search_targets[1:]:
                 if word.startswith(alt) and word != alt:
-                    fuzzy_matches.append(word)
+                    score = self._score_word(word, is_exact=False)
+                    candidates.append((word, score))
                     break
 
-            if len(exact_matches) + len(fuzzy_matches) >= 40:
+            if len(candidates) >= 40:
                 break
 
-        # Sort each bucket by length (shorter = more common/useful)
-        exact_matches.sort(key=len)
-        fuzzy_matches.sort(key=len)
+        # Sort by score descending (highest = most relevant)
+        candidates.sort(key=lambda x: -x[1])
 
-        # Merge: exact matches first, then fuzzy
-        combined = []
+        # Deduplicate and return top 5
         seen = set()
-        for w in exact_matches + fuzzy_matches:
-            if w not in seen:
-                seen.add(w)
-                combined.append(w)
-            if len(combined) >= 5:
+        result = []
+        for word, score in candidates:
+            if word not in seen:
+                seen.add(word)
+                result.append(word)
+            if len(result) >= 5:
                 break
 
-        return combined
+        return result
+
