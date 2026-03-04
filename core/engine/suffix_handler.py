@@ -3,12 +3,14 @@ class SuffixHandler:
         # Suffixes sorted by length (longest first) to ensure greedy matching
         # e.g. check 'gulo' before 'o' (if we had 'o')
         self.suffixes = [
+            # Long verb tenses (longest first for greedy matching)
             ("techhilam", "তেছিলাম"),
             ("techhilen", "তেছিলেন"),
             ("techhish", "তেছিস"),
             ("techhen", "তেছেন"),
             ("chhilen", "ছিলেন"),
             ("chhilam", "ছিলাম"),
+            ("chhilo", "ছিলো"),
             ("techhe", "তেছে"),
             ("chhish", "ছিস"),
             ("chhen", "ছেন"),
@@ -16,19 +18,38 @@ class SuffixHandler:
             ("echho", "েছো"),
             ("echhe", "েছে"),
             ("echen", "েছেন"),
+            # Common noun/verb suffixes
+            ("gulor", "গুলোর"),
+            ("gulike", "গুলিকে"),
+            ("gulote", "গুলোতে"),
             ("gulo", "গুলো"),
+            ("guli", "গুলি"),
             ("gula", "গুলা"),
-            ("chhilo", "ছিলো"),
             ("tuku", "টুকু"),
-            ("der", "দের"),
-            ("dero", "দেরও"),
-            ("tai", "টাই"),
-            ("tei", "তেই"),
-            ("rao", "রাও"),
+            ("khana", "খানা"),
+            ("khani", "খানি"),
+            # Verb conjugations
+            ("chilam", "ছিলাম"),
+            ("chilen", "ছিলেন"),
+            ("chilo", "ছিলো"),
+            ("chili", "ছিলি"),
+            ("taam", "তাম"),
+            ("teen", "তেন"),
             ("lam", "লাম"),
             ("len", "লেন"),
             ("tem", "তেম"),
             ("ten", "তেন"),
+            ("ben", "বেন"),
+            ("bam", "বাম"),
+            # Possessive / Case markers
+            ("dero", "দেরও"),
+            ("deri", "দেরই"),
+            ("der", "দের"),
+            ("tai", "টাই"),
+            ("tei", "তেই"),
+            ("rao", "রাও"),
+            ("rai", "রাই"),
+            # Short suffixes (order matters)
             ("ra", "রা"),
             ("ta", "টা"),
             ("ti", "টি"),
@@ -36,6 +57,7 @@ class SuffixHandler:
             ("ke", "কে"),
             ("er", "ের"),
             ("e", "ে"),
+            ("i", "ই"),
             ("o", "ও")
         ]
 
