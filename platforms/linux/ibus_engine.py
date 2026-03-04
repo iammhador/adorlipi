@@ -61,7 +61,11 @@ class AdorLipiEngine(IBus.Engine):
             if IBus.KEY_1 <= keyval <= IBus.KEY_9:
                 index = keyval - IBus.KEY_1
                 if 0 <= index < len(self.current_candidates):
-                    self._commit(self.current_candidates[index])
+                    chosen = self.current_candidates[index]
+                    # Learn from non-default selections
+                    if index > 0 and self.buffer:
+                        self.transliterator.learn(self.buffer, chosen)
+                    self._commit(chosen)
                     return True
             elif keyval == IBus.Down:
                 self.lookup_table.cursor_down()
@@ -78,7 +82,11 @@ class AdorLipiEngine(IBus.Engine):
                 # If lookup table has cursor, commit selected candidate
                 cursor = self.lookup_table.get_cursor_pos()
                 if 0 <= cursor < len(self.current_candidates):
-                    self._commit(self.current_candidates[cursor])
+                    chosen = self.current_candidates[cursor]
+                    # Learn from non-default selections
+                    if cursor > 0 and self.buffer:
+                        self.transliterator.learn(self.buffer, chosen)
+                    self._commit(chosen)
                 else:
                     self._commit() # Default Bangla if lost track
                 return True
@@ -112,7 +120,11 @@ class AdorLipiEngine(IBus.Engine):
         # Only handle left clicks
         if button == 1:
             if 0 <= index < len(self.current_candidates):
-                self._commit(self.current_candidates[index])
+                chosen = self.current_candidates[index]
+                # Learn from non-default selections
+                if index > 0 and self.buffer:
+                    self.transliterator.learn(self.buffer, chosen)
+                self._commit(chosen)
                 return True
         return False
 

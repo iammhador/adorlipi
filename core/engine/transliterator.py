@@ -4,6 +4,7 @@ from .dictionary import Dictionary
 from .phonetic_parser import PhoneticParser
 from .suffix_handler import SuffixHandler
 from .suggester import Suggester
+from .user_dictionary import UserDictionary
 import os
 import json
 import re
@@ -21,6 +22,7 @@ class Transliterator:
         self.phonetic_parser = PhoneticParser(os.path.join(data_dir, 'mapping.json'))
         self.suffix_handler = SuffixHandler()
         self.suggester = Suggester(os.path.join(data_dir, 'openbangla_dictionary.json'))
+        self.user_dictionary = UserDictionary()
         
         # Load Patterns (Regex-based Fallback Heuristics)
         self.patterns = []
@@ -66,6 +68,13 @@ class Transliterator:
         target_bangla = self.transliterate(last_token)
         return self.suggester.get_suggestions(last_token, target_bangla)
 
+    def learn(self, english_word, bangla_word):
+        """
+        Teaches the engine a user's preferred transliteration.
+        Called when user manually selects a non-default candidate.
+        """
+        self.user_dictionary.learn(english_word, bangla_word)
+
     def transliterate(self, text):
         """
         Full pipeline: Pre-Process -> Tokenize -> Normalize -> Dict -> Suffix+Dict -> Patterns -> Phonetic -> Join
@@ -79,7 +88,13 @@ class Transliterator:
                 # 1. Normalize
                 norm_word = self.normalizer.normalize(token)
                 
-                # 2. Exact Dictionary Lookup (Full Word)
+                # 2. User Dictionary (Machine Learning Override)
+                user_match = self.user_dictionary.lookup(norm_word)
+                if user_match:
+                    result.append(user_match)
+                    continue
+                
+                # 3. Exact Dictionary Lookup (Full Word)
                 dict_match = self.dictionary.exact_lookup(norm_word)
                 if dict_match:
                     result.append(dict_match)
