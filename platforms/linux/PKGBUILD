@@ -1,6 +1,6 @@
 # Maintainer: Your Name <your.email@example.com>
 pkgname=adorlipi-git
-pkgver=1.0.0
+pkgver=1.0.1
 pkgrel=1
 pkgdesc="AdorLipi (আদরলিপি) - The first modern and easy-to-use Banglish keyboard for Linux"
 arch=('any')

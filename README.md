@@ -23,7 +23,7 @@ Currently available and highly optimized for Linux, with cross-platform support 
 
 <div align="center">
 
-[![Release](https://img.shields.io/badge/Release-v1.0.0-5E35B1?style=flat-square)](https://github.com/iammhador/adorlipi/releases)
+[![Release](https://img.shields.io/badge/Release-v1.0.1-5E35B1?style=flat-square)](https://github.com/iammhador/adorlipi/releases)
 ![Dictionary](https://img.shields.io/badge/Dictionary-10%2C000%2B%20words-00B4DB?style=flat-square)
 ![Platform](https://img.shields.io/badge/Platform-Linux-FF512F?style=flat-square)
 [![License](https://img.shields.io/badge/License-MIT-lightgrey?style=flat-square)](LICENSE)
@@ -117,10 +117,10 @@ We provide simple packages for an easy "double-click" App Store-like installatio
 3. Double click to install it via your Software Center, or open a terminal and run:
    ```bash
    # Ubuntu/Debian:
-   sudo apt install ./adorlipi_1.0.0_all.deb
+   sudo apt install ./adorlipi_1.0.1_all.deb
    
    # Fedora:
-   sudo dnf install ./adorlipi-1.0.0-1.noarch.rpm
+   sudo dnf install ./adorlipi-1.0.1-1.noarch.rpm
    ```
 
 ### 🏹 Method 2: Arch Linux & Manjaro (AUR)

@@ -1,7 +1,7 @@
 #!/bin/bash
 set -e
 
-VERSION="1.0.0"
+VERSION="1.0.1"
 PKG_NAME="adorlipi"
 BUILD_DIR="${PKG_NAME}-${VERSION}-rpm"
 
@@ -72,6 +72,8 @@ rm -rf \$RPM_BUILD_ROOT
 %attr(755, root, root) /usr/libexec/ibus-engine-adorlipi
 
 %changelog
+* Wed Mar 04 2026 AdorLipi Team <adorlipi@example.com> - 1.0.1-1
+- Massive Dictionary Expansion & Bug Fixes
 * Sat Feb 22 2026 AdorLipi Team <adorlipi@example.com> - 1.0.0-1
 - Initial release with 10,000+ word dictionary
 EOT
