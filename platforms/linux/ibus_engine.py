@@ -61,7 +61,11 @@ class AdorLipiEngine(IBus.Engine):
             if IBus.KEY_1 <= keyval <= IBus.KEY_9:
                 index = keyval - IBus.KEY_1
                 if 0 <= index < len(self.current_candidates):
-                    self._commit(self.current_candidates[index])
+                    chosen = self.current_candidates[index]
+                    # Learn from non-default selections
+                    if index > 0 and self.buffer:
+                        self.transliterator.learn(self.buffer, chosen)
+                    self._commit(chosen)
                     return True
             elif keyval == IBus.Down:
                 self.lookup_table.cursor_down()
@@ -78,7 +82,11 @@ class AdorLipiEngine(IBus.Engine):
                 # If lookup table has cursor, commit selected candidate
                 cursor = self.lookup_table.get_cursor_pos()
                 if 0 <= cursor < len(self.current_candidates):
-                    self._commit(self.current_candidates[cursor])
+                    chosen = self.current_candidates[cursor]
+                    # Learn from non-default selections
+                    if cursor > 0 and self.buffer:
+                        self.transliterator.learn(self.buffer, chosen)
+                    self._commit(chosen)
                 else:
                     self._commit() # Default Bangla if lost track
                 return True
@@ -112,7 +120,11 @@ class AdorLipiEngine(IBus.Engine):
         # Only handle left clicks
         if button == 1:
             if 0 <= index < len(self.current_candidates):
-                self._commit(self.current_candidates[index])
+                chosen = self.current_candidates[index]
+                # Learn from non-default selections
+                if index > 0 and self.buffer:
+                    self.transliterator.learn(self.buffer, chosen)
+                self._commit(chosen)
                 return True
         return False
 
@@ -166,15 +178,23 @@ class AdorLipiEngine(IBus.Engine):
             self.hide_lookup_table()
 
     def _commit(self, text=None):
+        committed = None
         if text:
-            # Commit specific text (from selection or space)
             logging.info(f"Committing specific: {text}")
             self.commit_text(IBus.Text.new_from_string(text))
+            committed = text.strip()
         elif self.buffer:
-            # Default commit (Bangla)
             bangla = self.transliterator.transliterate(self.buffer)
             logging.info(f"Committing default: {bangla}")
             self.commit_text(IBus.Text.new_from_string(bangla))
+            committed = bangla.strip()
+        
+        # Feed the committed word into the N-gram context engine
+        if committed and hasattr(self.transliterator, 'context_engine'):
+            # Extract last word (strip trailing space/punctuation)
+            last_word = committed.rstrip(' ।,.!?').split()[-1] if committed.strip() else None
+            if last_word:
+                self.transliterator.context_engine.set_context(last_word)
             
         self.buffer = ""
         self.lookup_table.clear()
