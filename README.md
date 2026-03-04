@@ -89,9 +89,10 @@ assignment → অ্যাসাইনমেন্ট    management → ম্�
 ```
 
 ### ⚡ Phonetic Intelligence V2
+- **15k+ Core Phonetic Dictionary** seamlessly augmented by a massive **150,000+ Word Dynamic Auto-Complete** Linux Suggestion Engine.
+- **Phonetic Ambiguity UI** visually predicts spelling alternatives for `d/dh`, `t/th`, and `s/sh` keystrokes without mandating uppercase capitalization.
 - **Smart Contextual 'O' Dropping** — Automatically detects word boundaries and multi-character clusters to keep or drop implicit vowels natively (`shanto` → শান্ত, `bhalo` → ভালো).
 - **Native Algorithmic Conjuncts** — Structurally builds 20+ generic conjuncts natively without dictionary reliance (`nt` → ন্ত, `kkh` → ক্ষ).
-- **Regex Patterns (`patterns.json`)** — A customizable mathematical fallback layer to resolve strict phonetic ambiguities (`torko` → তর্ক) before dictionary or base phonetic parsing.
 - **Smart Suffix Handling** — Strips grammatical verb/noun suffixes (`er/e/te/ke/r/der/nor/lor`), looks up the root independently, and perfectly reattaches the Bangla equivalent natively.
 
 ### 🚀 Extreme Scalability (1M Word Verified)
@@ -347,6 +348,8 @@ adorlipi/
 > The `core/` engine is **pure Python with zero dependencies** — making it trivially portable to Windows, macOS, Android, and iOS in future releases.
 
 ---
+## 🌟 Acknowledgments
+*   **OpenBangla Keyboard:** Massive respect to the [OpenBangla Keyboard](https://github.com/OpenBangla/OpenBangla-Keyboard) project. `v1.0.2` proudly relies on their massive 150,000+ word open-source Bengali JSON dictionary to power our secondary Auto-Complete UI.
 
 ## 🤝 Contributing
 

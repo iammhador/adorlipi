@@ -3,6 +3,7 @@ from .normalizer import Normalizer
 from .dictionary import Dictionary
 from .phonetic_parser import PhoneticParser
 from .suffix_handler import SuffixHandler
+from .suggester import Suggester
 import os
 import json
 import re
@@ -19,6 +20,7 @@ class Transliterator:
         self.dictionary = Dictionary(os.path.join(data_dir, 'dictionary.json'))
         self.phonetic_parser = PhoneticParser(os.path.join(data_dir, 'mapping.json'))
         self.suffix_handler = SuffixHandler()
+        self.suggester = Suggester(os.path.join(data_dir, 'openbangla_dictionary.json'))
         
         # Load Patterns (Regex-based Fallback Heuristics)
         self.patterns = []
@@ -42,6 +44,27 @@ class Transliterator:
             pattern = r'(?<=[a-zA-Z])\s+(' + re.escape(suf) + r')(?=[\s\.,!\?]|$)'
             text = re.sub(pattern, r'\1', text)
         return text
+
+    def get_suggestions(self, buffer):
+        """
+        Returns a list of auto-complete suggestions based on the user's current buffer.
+        """
+        if not buffer:
+            return []
+        
+        # Tokenize to isolate punctuation from the actual alphanumeric word
+        tokens = self.tokenizer.tokenize(buffer)
+        if not tokens:
+            return []
+            
+        last_token = tokens[-1]
+        
+        # Do not autocomplete naked punctuation marks (e.g. typing '"')
+        if not self.tokenizer.is_word(last_token):
+            return []
+            
+        target_bangla = self.transliterate(last_token)
+        return self.suggester.get_suggestions(last_token, target_bangla)
 
     def transliterate(self, text):
         """

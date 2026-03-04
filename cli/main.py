@@ -30,6 +30,10 @@ def main():
             output = engine.transliterate(user_input)
             print(f"\nOutput:\n{output}")
             
+            suggestions = engine.get_suggestions(user_input)
+            if suggestions:
+                print(f"Suggestions: {', '.join(suggestions)}")
+            
         except KeyboardInterrupt:
             print("\nExiting...")
             break

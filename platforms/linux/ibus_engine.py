@@ -37,6 +37,7 @@ class AdorLipiEngine(IBus.Engine):
         super().__init__()
         self.transliterator = Transliterator()
         self.buffer = ""
+        self.current_candidates = []
         self.lookup_table = IBus.LookupTable.new(10, 0, True, True)
         logging.info("AdorLipiEngine initialized")
 
@@ -55,18 +56,13 @@ class AdorLipiEngine(IBus.Engine):
                 return True
             return False
             
-        # Handle Candidate Selection (1, 2)
+        # Handle Candidate Selection (1-9)
         if self.buffer and self.lookup_table.get_number_of_candidates() > 0:
-            if keyval == IBus.KEY_1:
-                # Select Bangla (Candidate 0)
-                bangla = self.transliterator.transliterate(self.buffer)
-                self._commit(bangla)
-                return True
-            elif keyval == IBus.KEY_2:
-                # Select English (Candidate 1)
-                english = self.buffer
-                self._commit(english)
-                return True
+            if IBus.KEY_1 <= keyval <= IBus.KEY_9:
+                index = keyval - IBus.KEY_1
+                if 0 <= index < len(self.current_candidates):
+                    self._commit(self.current_candidates[index])
+                    return True
             elif keyval == IBus.Down:
                 self.lookup_table.cursor_down()
                 self.update_lookup_table(self.lookup_table, True)
@@ -76,15 +72,15 @@ class AdorLipiEngine(IBus.Engine):
                 self.update_lookup_table(self.lookup_table, True)
                 return True
         
-        # Handle Enter/Return -> Commit buffer (Default Bangla)
+        # Handle Enter/Return -> Commit buffer
         if keyval == IBus.Return or keyval == IBus.KP_Enter:
             if self.buffer:
-                # If lookup table has cursor, commit selected
+                # If lookup table has cursor, commit selected candidate
                 cursor = self.lookup_table.get_cursor_pos()
-                if cursor == 1:
-                    self._commit(self.buffer) # English
+                if 0 <= cursor < len(self.current_candidates):
+                    self._commit(self.current_candidates[cursor])
                 else:
-                    self._commit() # Default Bangla
+                    self._commit() # Default Bangla if lost track
                 return True
             return False
             
@@ -115,14 +111,8 @@ class AdorLipiEngine(IBus.Engine):
         logging.debug(f"Candidate Clicked: index={index}, button={button}, state={state}")
         # Only handle left clicks
         if button == 1:
-            if index == 0:
-                # Bangla selection
-                bangla = self.transliterator.transliterate(self.buffer)
-                self._commit(bangla)
-                return True
-            elif index == 1:
-                # English selection
-                self._commit(self.buffer)
+            if 0 <= index < len(self.current_candidates):
+                self._commit(self.current_candidates[index])
                 return True
         return False
 
@@ -156,9 +146,10 @@ class AdorLipiEngine(IBus.Engine):
         if self.buffer:
             bangla = self.transliterator.transliterate(self.buffer)
             english = self.buffer
+            suggestions = self.transliterator.get_suggestions(self.buffer)
             
-            # Dual Suggestion: 1. Bangla, 2. English
-            candidates = [bangla, english]
+            # Dynamic Suggestion Array: 1. Bangla -> [Suggestions...] -> English
+            self.current_candidates = [bangla] + suggestions + [english]
             
             # Update Preedit (Show Bangla as default inline)
             text = IBus.Text.new_from_string(bangla)
@@ -168,7 +159,7 @@ class AdorLipiEngine(IBus.Engine):
             self.update_preedit_text(text, len(bangla), True)
             
             # Update Lookup Table for selection
-            self._update_lookup_table(candidates)
+            self._update_lookup_table(self.current_candidates)
             
         else:
             self.hide_preedit_text()
