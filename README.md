@@ -223,6 +223,7 @@ Switch to AdorLipi (`Super + Space`) and start typing naturally. AdorLipi recogn
 
 AdorLipi processes each word through a **5-stage pipeline** designed specifically to handle ambiguous social-media spellings:
 
+```text
 Input → Tokenize → Normalize → Dictionary Lookup → Suffix Decomposition → Phonetic Parse → Output
           ↓           ↓              ↓                    ↓                      ↓
        Split by    Lowercase      Exact match?        Strip suffix,           Map each
@@ -327,8 +328,6 @@ adorlipi/
 │
 ├── cli/
 │   └── main.py                  # Interactive CLI for testing & debugging
-│
-
 │
 └── assets/                      # Logo, cover image, icons
 ```
