@@ -69,9 +69,9 @@ Then: **Settings** > **Keyboard** > **Add Input Source** > Search **AdorLipi** �
 ### 🧠 Context-Aware Dictionary (10,000+ words)
 Not a simple key mapper — AdorLipi uses a curated dictionary of **10,000+ words** to resolve ambiguous Banglish spellings that no phonetic rule can handle:
 
-| Problem | Without Dictionary | AdorLipi |
-|:--------|:------------------|:---------|
 | `dak` — দ vs ড ambiguity | দাক ❌ | ডাক ✅ |
+| `manual` — Phonetic ambiguity | মানুআল ❌ | ম্যানুয়াল ✅ |
+| `sohomot` — "o" sound context | সোহোমত ❌ | সহমত ✅ |
 | `porikkha` — conjunct ক্ষ | পোরিক্শা ❌ | পরীক্ষা ✅ |
 | `giyechi` — ছ vs চ context | গিয়েচি ❌ | গিয়েছি ✅ |
 
@@ -221,6 +221,8 @@ Switch to AdorLipi (`Super + Space`) and start typing naturally. AdorLipi recogn
 |:---------|:-------|:---------|
 | `ami apnake` | আমি আপনাকে | Pronoun / Respectful |
 | `kemon achen` | কেমন আছেন | Greeting |
+| `sohomot` | সহমত | Agreement |
+| `manual` | ম্যানুয়াল | English loan |
 | `osadharon` | অসাধারণ | Compliment |
 | `valobashi` | ভালোবাসি | Emotion |
 | `advance` | এডভান্স | English loan |
@@ -262,8 +264,6 @@ Input → Tokenize → Normalize → Dictionary Lookup → Suffix Decomposition 
 | Key | Bangla | Key | Bangla | Key | Bangla |
 |:----|:-------|:----|:-------|:----|:-------|
 | `k` | ক | `kh` | খ | `g` | গ |
-| `gh` | ঘ | `ng` | ং | `nng` / `NG` | ঙ |
-| `c` / `ch` | চ | `chh` | ছ | `j` | জ |
 | `jh` | ঝ | `t` | ত | `tt` | ট |
 | `th` | থ | `tth` | ঠ | `d` | দ |
 | `dd` | ড | `dh` | ধ | `ddh` | ঢ |
@@ -273,8 +273,8 @@ Input → Tokenize → Normalize → Dictionary Lookup → Suffix Decomposition 
 | `rr` | ড় | `rrh` | ঢ় | `l` | ল |
 | `sh` | শ | `ss` | ষ | `s` | স |
 | `h` | হ | `y` | য় | `w` | ব |
-| `q` | ৎ | `kkh` | ক্ষ | `NGV` | ঞ |
-| `:` | ঃ | `^` | ঁ | | |
+| `q` | ৎ | `x` | ক্স | `kkh` / `ksh` | ক্ষ |
+| `NGV` | ঞ | `:` | ঃ | `^` | ঁ |
 
 ### Vowel Signs (কার) — Applied automatically after consonants
 
