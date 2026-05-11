@@ -6,6 +6,7 @@ from .suffix_handler import SuffixHandler
 from .suggester import Suggester
 from .user_dictionary import UserDictionary
 from .context_engine import ContextEngine
+from .loanword_transliterator import EnglishLoanwordTransliterator
 import os
 import json
 import re
@@ -21,6 +22,10 @@ class Transliterator:
         self.normalizer = Normalizer()
         self.dictionary = Dictionary(os.path.join(data_dir, 'dictionary.json'))
         self.phonetic_parser = PhoneticParser(os.path.join(data_dir, 'mapping.json'))
+        self.loanword_transliterator = EnglishLoanwordTransliterator(
+            os.path.join(data_dir, 'loanwords.json'),
+            self.phonetic_parser
+        )
         self.suffix_handler = SuffixHandler()
         self.suggester = Suggester(os.path.join(data_dir, 'openbangla_dictionary.json'))
         self.user_dictionary = UserDictionary()
@@ -103,6 +108,135 @@ class Transliterator:
 
         return None
 
+    def _root_lookup(self, root):
+        match = self._exact_lookup(root)
+        if match:
+            return match, "dictionary_root"
+
+        norm_root = self.normalizer.normalize(root)
+        match = self.loanword_transliterator.transliterate(norm_root)
+        if match:
+            return match, "loanword_root"
+
+        return None, None
+
+    def _join_suffix(self, root_bn, suffix_en):
+        suffixes = {
+            "guloi": "গুলোই",
+            "gulo": "গুলো",
+            "gula": "গুলা",
+            "der": "দের",
+            "tao": "টাও",
+            "tai": "টাই",
+            "tei": "তেই",
+            "rao": "রাও",
+            "rai": "রাই",
+            "ra": "রা",
+            "ta": "টা",
+            "ti": "টি",
+            "te": "তে",
+            "ke": "কে",
+            "e": "ে",
+            "o": "ও",
+        }
+
+        if suffix_en in ("r", "er"):
+            if root_bn.endswith(("া", "আ")):
+                return root_bn + "য়ের"
+            return root_bn + "র" if suffix_en == "r" else root_bn + "ের"
+
+        if suffix_en == "e" and root_bn.endswith(("া", "আ", "ং")):
+            return root_bn + "য়ে"
+
+        suffix_bn = suffixes.get(suffix_en)
+        if suffix_bn:
+            return root_bn + suffix_bn
+
+        return None
+
+    def _compound_suffix_lookup(self, word):
+        if "-" not in word:
+            return None, None
+
+        root, suffix = word.rsplit("-", 1)
+        suffix = suffix.lower()
+        root_bn, source = self._root_lookup(root)
+        if not root_bn:
+            return None, None
+
+        joined = self._join_suffix(root_bn, suffix)
+        if not joined:
+            return None, None
+
+        return joined, "compound_suffix_" + source
+
+    def _plain_suffix_lookup(self, norm_word):
+        root, suffix_bn = self.suffix_handler.strip_suffix(norm_word)
+        if not suffix_bn:
+            return None, None
+
+        root_bn, source = self._root_lookup(root)
+        if not root_bn:
+            return None, None
+
+        return root_bn + suffix_bn, "suffix_" + source
+
+    def _pattern_lookup(self, norm_word):
+        for pat in self.patterns:
+            if re.search(pat['regex'], norm_word):
+                return re.sub(pat['regex'], pat['replace'], norm_word)
+        return None
+
+    def _transliterate_word(self, token):
+        norm_word = self.normalizer.normalize(token)
+
+        exact_match = self._exact_lookup(token)
+        if exact_match:
+            return exact_match, "dictionary"
+
+        compound_match, compound_source = self._compound_suffix_lookup(token)
+        if compound_match:
+            return compound_match, compound_source
+
+        dict_match = self.dictionary.skeleton_lookup(norm_word)
+        if dict_match:
+            return dict_match, "skeleton_dictionary"
+
+        loanword_match = self.loanword_transliterator.transliterate(norm_word)
+        if loanword_match:
+            return loanword_match, "loanword"
+
+        suffix_match, suffix_source = self._plain_suffix_lookup(norm_word)
+        if suffix_match:
+            return suffix_match, suffix_source
+
+        fuzzy_match = self.dictionary.fuzzy_lookup(norm_word)
+        if fuzzy_match:
+            return fuzzy_match, "fuzzy_dictionary"
+
+        pattern_match = self._pattern_lookup(norm_word)
+        if pattern_match:
+            return pattern_match, "pattern"
+
+        return self.phonetic_parser.parse(norm_word), "phonetic"
+
+    def explain_word(self, word):
+        output, source = self._transliterate_word(word)
+        return {
+            "input": word,
+            "current_output": output,
+            "source_layer": source,
+            "dictionary_hit": source in {
+                "dictionary",
+                "skeleton_dictionary",
+                "fuzzy_dictionary",
+                "dictionary_root",
+                "compound_suffix_dictionary_root",
+                "suffix_dictionary_root",
+            },
+            "suspected_bad": source in {"phonetic", "fuzzy_dictionary"} and len(word) >= 5,
+        }
+
     def _match_phrase(self, tokens, start):
         if self.dictionary.max_phrase_words <= 1:
             return None
@@ -140,7 +274,7 @@ class Transliterator:
 
     def transliterate(self, text):
         """
-        Full pipeline: Exact Dict -> Pre-Process -> Tokenize -> Phrase Dict -> Normalize -> Dict -> Suffix+Dict -> Patterns -> Phonetic -> Join
+        Full pipeline: Exact Dict -> Pre-Process -> Tokenize -> Phrase Dict -> Normalize -> Dict -> Compound Suffix -> Loanword -> Suffix -> Patterns -> Phonetic -> Join
         """
         exact_match = self._exact_lookup(text)
         if exact_match:
@@ -165,65 +299,7 @@ class Transliterator:
                     i = next_i
                     continue
 
-                # 1. Normalize
-                norm_word = self.normalizer.normalize(token)
-                
-                # 2. User/Core Dictionary (including raw entries like "phone" and "ami-i")
-                exact_match = self._exact_lookup(token)
-                if exact_match:
-                    result.append(exact_match)
-                    i += 1
-                    continue
-                
-                # 3. Exact Dictionary Lookup (Full Word)
-                dict_match = self.dictionary.exact_lookup(norm_word)
-                if dict_match:
-                    result.append(dict_match)
-                    i += 1
-                    continue
-
-                # 3. Skeleton Match (Full Word)
-                dict_match = self.dictionary.skeleton_lookup(norm_word)
-                if dict_match:
-                    result.append(dict_match)
-                    i += 1
-                    continue
-
-                # 4. Smart Suffix Handling
-                root, suffix_bn = self.suffix_handler.strip_suffix(norm_word)
-                if suffix_bn:
-                    root_match = self.dictionary.lookup(root)
-                    if root_match:
-                        result.append(root_match + suffix_bn)
-                        i += 1
-                        continue
-                        
-                # 5. Fuzzy Match (Typo tolerant full word Fallback)
-                fuzzy_match = self.dictionary.fuzzy_lookup(norm_word)
-                if fuzzy_match:
-                    result.append(fuzzy_match)
-                    i += 1
-                    continue
-                # 6. Pattern Matching (Regex Heuristics)
-                pattern_matched = False
-                for pat in self.patterns:
-                    if re.search(pat['regex'], norm_word):
-                        # Replace matching section
-                        parsed = re.sub(pat['regex'], pat['replace'], norm_word)
-                        # Transliterate the rest (if any) phonetically
-                        # This is simple for full word matches (^pattern$). 
-                        # If it's partial, we'd need more complex substitution. 
-                        # Given our patterns are strictly ^word$ based for now, direct substitution is fine.
-                        result.append(parsed)
-                        pattern_matched = True
-                        break
-                
-                if pattern_matched:
-                    i += 1
-                    continue
-                        
-                # 7. Phonetic Parsing (Fallback)
-                parsed = self.phonetic_parser.parse(norm_word)
+                parsed, _source = self._transliterate_word(token)
                 result.append(parsed)
             else:
                 result.append(self.phonetic_parser.parse(token))
