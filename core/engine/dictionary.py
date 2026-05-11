@@ -6,12 +6,14 @@ class Dictionary:
     def __init__(self, data_path):
         self.data_path = data_path
         self.skeleton_index = {}
+        self.max_phrase_words = 1
         self.dictionary = self._load_dictionary()
 
     def _load_dictionary(self):
         try:
             with open(self.data_path, 'r', encoding='utf-8') as f:
                 data = json.load(f)
+                self.max_phrase_words = max([len(key.split()) for key in data if " " in key] or [1])
                 self._build_skeletons(data)
                 return data
         except FileNotFoundError:
@@ -38,6 +40,8 @@ class Dictionary:
 
     def exact_lookup(self, word):
         """Strict dictionary lookup for rigid suffix/prefix processing."""
+        if word in self.dictionary:
+            return self.dictionary[word]
         return self.dictionary.get(word.lower())
 
     def skeleton_lookup(self, word):

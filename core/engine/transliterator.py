@@ -80,35 +80,113 @@ class Transliterator:
         """
         self.user_dictionary.learn(english_word, bangla_word)
 
+    def _exact_lookup(self, text):
+        norm_text = self.normalizer.normalize(text)
+
+        user_match = self.user_dictionary.lookup(text)
+        if user_match:
+            return user_match
+
+        if norm_text != text:
+            user_match = self.user_dictionary.lookup(norm_text)
+            if user_match:
+                return user_match
+
+        dict_match = self.dictionary.exact_lookup(text)
+        if dict_match:
+            return dict_match
+
+        if norm_text != text:
+            dict_match = self.dictionary.exact_lookup(norm_text)
+            if dict_match:
+                return dict_match
+
+        return None
+
+    def _match_phrase(self, tokens, start):
+        if self.dictionary.max_phrase_words <= 1:
+            return None
+
+        words = []
+        candidates = []
+        idx = start
+
+        while idx < len(tokens) and len(words) < self.dictionary.max_phrase_words:
+            token = tokens[idx]
+            if not self.tokenizer.is_word(token):
+                break
+
+            words.append(token)
+            if len(words) > 1:
+                phrase = " ".join(words)
+                match = self._exact_lookup(phrase)
+                if match:
+                    candidates.append((match, idx + 1))
+
+            next_idx = idx + 1
+            if next_idx >= len(tokens):
+                break
+
+            separator = tokens[next_idx]
+            if not separator.isspace() or "\n" in separator:
+                break
+
+            idx = next_idx + 1
+
+        if candidates:
+            return candidates[-1]
+
+        return None
+
     def transliterate(self, text):
         """
-        Full pipeline: Pre-Process -> Tokenize -> Normalize -> Dict -> Suffix+Dict -> Patterns -> Phonetic -> Join
+        Full pipeline: Exact Dict -> Pre-Process -> Tokenize -> Phrase Dict -> Normalize -> Dict -> Suffix+Dict -> Patterns -> Phonetic -> Join
         """
+        exact_match = self._exact_lookup(text)
+        if exact_match:
+            return exact_match
+
         text = self._pre_process(text)
+        exact_match = self._exact_lookup(text)
+        if exact_match:
+            return exact_match
+
         tokens = self.tokenizer.tokenize(text)
         result = []
-        
-        for token in tokens:
+
+        i = 0
+        while i < len(tokens):
+            token = tokens[i]
             if self.tokenizer.is_word(token):
+                phrase_match = self._match_phrase(tokens, i)
+                if phrase_match:
+                    phrase, next_i = phrase_match
+                    result.append(phrase)
+                    i = next_i
+                    continue
+
                 # 1. Normalize
                 norm_word = self.normalizer.normalize(token)
                 
-                # 2. User Dictionary (Machine Learning Override)
-                user_match = self.user_dictionary.lookup(norm_word)
-                if user_match:
-                    result.append(user_match)
+                # 2. User/Core Dictionary (including raw entries like "phone" and "ami-i")
+                exact_match = self._exact_lookup(token)
+                if exact_match:
+                    result.append(exact_match)
+                    i += 1
                     continue
                 
                 # 3. Exact Dictionary Lookup (Full Word)
                 dict_match = self.dictionary.exact_lookup(norm_word)
                 if dict_match:
                     result.append(dict_match)
+                    i += 1
                     continue
 
                 # 3. Skeleton Match (Full Word)
                 dict_match = self.dictionary.skeleton_lookup(norm_word)
                 if dict_match:
                     result.append(dict_match)
+                    i += 1
                     continue
 
                 # 4. Smart Suffix Handling
@@ -117,12 +195,14 @@ class Transliterator:
                     root_match = self.dictionary.lookup(root)
                     if root_match:
                         result.append(root_match + suffix_bn)
+                        i += 1
                         continue
                         
                 # 5. Fuzzy Match (Typo tolerant full word Fallback)
                 fuzzy_match = self.dictionary.fuzzy_lookup(norm_word)
                 if fuzzy_match:
                     result.append(fuzzy_match)
+                    i += 1
                     continue
                 # 6. Pattern Matching (Regex Heuristics)
                 pattern_matched = False
@@ -139,6 +219,7 @@ class Transliterator:
                         break
                 
                 if pattern_matched:
+                    i += 1
                     continue
                         
                 # 7. Phonetic Parsing (Fallback)
@@ -146,5 +227,7 @@ class Transliterator:
                 result.append(parsed)
             else:
                 result.append(self.phonetic_parser.parse(token))
+
+            i += 1
                 
         return "".join(result)
