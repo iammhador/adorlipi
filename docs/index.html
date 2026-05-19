@@ -1,0 +1,134 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>AdorLipi Complete Guide</title>
+  <meta name="description" content="Complete AdorLipi keyboard guide with full key mapping reference and live demo.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="./styles.css">
+  <script defer src="https://cdn.jsdelivr.net/pyodide/v0.27.2/full/pyodide.js"></script>
+  <script defer src="./app.js"></script>
+</head>
+<body>
+  <div class="bg-shape bg-a"></div>
+  <div class="bg-shape bg-b"></div>
+
+  <header class="hero">
+    <p class="tag">AdorLipi • আদরলিপি</p>
+    <h1>Complete Keyboard Guide <span>সম্পূর্ণ কিবোর্ড গাইড</span></h1>
+    <p class="lead">
+      Full usage documentation, detailed key mapping, conjunct reference, and live transliteration demo.<br>
+      বিস্তারিত কী-ম্যাপিং থেকে লাইভ ডেমো পর্যন্ত এক জায়গায়।
+    </p>
+    <div class="hero-actions">
+      <a class="cta" href="#demo">Live Demo</a>
+      <a class="ghost-btn" href="#mapping">Full Mapping</a>
+    </div>
+  </header>
+
+  <nav class="quick-nav">
+    <a href="#quickstart">Quick Start</a>
+    <a href="#demo">Live Demo</a>
+    <a href="#mapping">Mapping</a>
+    <a href="#keyboard">Keyboard</a>
+    <a href="#conjuncts">Conjuncts</a>
+    <a href="#rules">Rules</a>
+  </nav>
+
+  <main>
+    <section class="card" id="quickstart">
+      <h2>Quick Start <span>দ্রুত শুরু</span></h2>
+      <ol>
+        <li>Install AdorLipi from source or package.</li>
+        <li>Settings → Keyboard → Input Sources → Add Bangla → AdorLipi.</li>
+        <li>Switch input source with <code>Super + Space</code>.</li>
+      </ol>
+      <p class="muted">Tip: Use <code>python3 cli/main.py</code> for quick local engine testing.</p>
+    </section>
+
+    <section class="card" id="demo">
+      <h2>Live Demo <span>লাইভ ডেমো</span></h2>
+      <p class="muted">
+        Runs the same Python transliterator in-browser through Pyodide.
+      </p>
+      <div class="status" id="status">Loading runtime...</div>
+      <label for="inputText">Banglish Input</label>
+      <textarea id="inputText" placeholder="Type Banglish here... যেমন: ami tomay bhalobashi"></textarea>
+      <div class="row">
+        <button id="transliterateBtn" disabled>Transliterate</button>
+        <button id="clearBtn">Clear</button>
+      </div>
+      <div class="result-grid">
+        <article>
+          <h3>Bangla Output</h3>
+          <pre id="outputText">-</pre>
+        </article>
+        <article>
+          <h3>Resolver Info</h3>
+          <pre id="metaText">-</pre>
+        </article>
+        <article>
+          <h3>Suggestions</h3>
+          <pre id="suggestionsText">-</pre>
+        </article>
+      </div>
+    </section>
+
+    <section class="card" id="mapping">
+      <h2>Mapping Explorer <span>ম্যাপিং এক্সপ্লোরার</span></h2>
+      <p class="muted">Which key converts to which Bangla character - full reference.</p>
+      <div class="table-grid">
+        <article class="mini-table-card">
+          <h3>Vowels</h3>
+          <div id="vowelTable"></div>
+        </article>
+        <article class="mini-table-card">
+          <h3>Consonants</h3>
+          <div id="consonantTable"></div>
+        </article>
+        <article class="mini-table-card">
+          <h3>Kars (Vowel Signs)</h3>
+          <div id="karTable"></div>
+        </article>
+        <article class="mini-table-card">
+          <h3>Folas</h3>
+          <div id="folaTable"></div>
+        </article>
+      </div>
+      <div class="mapping-search-wrap">
+        <label for="mappingSearch">Search Key / Bangla</label>
+        <input id="mappingSearch" type="text" placeholder="e.g. kh / ক্ষ / rri / ৃ">
+      </div>
+      <div id="mappingSearchResults"></div>
+    </section>
+
+    <section class="card" id="keyboard">
+      <h2>Keyboard View <span>কিবোর্ড ভিউ</span></h2>
+      <p class="muted">Single-key reference from QWERTY layout. Multi-key combos are listed in tables above.</p>
+      <div id="keyboardGrid" class="keyboard-grid"></div>
+    </section>
+
+    <section class="card" id="conjuncts">
+      <h2>Conjunct Sequences <span>যুক্তবর্ণ সিকোয়েন্স</span></h2>
+      <p class="muted">
+        Inspired conjunct pair rules currently active in engine fallback.
+      </p>
+      <div id="conjunctStats" class="status status-inline">Loading conjunct stats...</div>
+      <div id="conjunctTable"></div>
+    </section>
+
+    <section class="card" id="rules">
+      <h2>Typing Rules <span>টাইপিং নিয়ম</span></h2>
+      <ul>
+        <li><code>exact/user</code> mapping gets highest priority.</li>
+        <li>Compound suffix handling supports forms like <code>phone-er</code> → <code>ফোনের</code>.</li>
+        <li>Loanword and fuzzy layers are confidence-gated.</li>
+        <li>Fallback phonetic parser composes conjunct-aware outputs with inspired rules.</li>
+      </ul>
+    </section>
+  </main>
+</body>
+</html>

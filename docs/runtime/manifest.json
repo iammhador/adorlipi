@@ -1,0 +1,51 @@
+{
+  "entry_module": "core.engine.transliterator",
+  "python_files": [
+    "core/__init__.py",
+    "core/engine/__init__.py",
+    "core/engine/tokenizer.py",
+    "core/engine/normalizer.py",
+    "core/engine/dictionary.py",
+    "core/engine/phonetic_parser.py",
+    "core/engine/suffix_handler.py",
+    "core/engine/suggester.py",
+    "core/engine/user_dictionary.py",
+    "core/engine/context_engine.py",
+    "core/engine/loanword_transliterator.py",
+    "core/engine/transliterator.py"
+  ],
+  "data_files": [
+    "data/dictionary.json",
+    "data/loanwords.json",
+    "data/mapping.json",
+    "data/patterns.json",
+    "data/openbangla_dictionary.json",
+    "data/word_frequency.json",
+    "data/inspired_conjuncts.json",
+    "data/phonetic_overrides.json",
+    "data/high_risk_ambiguity.json"
+  ],
+  "files": [
+    "core/__init__.py",
+    "core/engine/__init__.py",
+    "core/engine/tokenizer.py",
+    "core/engine/normalizer.py",
+    "core/engine/dictionary.py",
+    "core/engine/phonetic_parser.py",
+    "core/engine/suffix_handler.py",
+    "core/engine/suggester.py",
+    "core/engine/user_dictionary.py",
+    "core/engine/context_engine.py",
+    "core/engine/loanword_transliterator.py",
+    "core/engine/transliterator.py",
+    "data/dictionary.json",
+    "data/loanwords.json",
+    "data/mapping.json",
+    "data/patterns.json",
+    "data/openbangla_dictionary.json",
+    "data/word_frequency.json",
+    "data/inspired_conjuncts.json",
+    "data/phonetic_overrides.json",
+    "data/high_risk_ambiguity.json"
+  ]
+}

@@ -33,6 +33,7 @@ Currently available and highly optimized for Linux, with cross-platform support 
 
 <p align="center">
   <a href="#-quick-start">Quick Start</a> •
+  <a href="#-web-guide">Web Guide</a> •
   <a href="#-features">Features</a> •
   <a href="#-installation">Installation</a> •
   <a href="#-usage-guide">Usage</a> •
@@ -63,6 +64,16 @@ ibus restart
 ```
 
 Then: **Settings** > **Keyboard** > **Add Input Source** > Search **AdorLipi** → `Super + Space` to toggle.
+
+---
+
+## 🌐 Web Guide
+
+Use the interactive usage page (Bangla + English) with live transliteration demo:
+
+**https://iammhador.github.io/adorlipi/**
+
+> It runs the same core Python engine in-browser (Pyodide) for parity-focused testing.
 
 ---
 

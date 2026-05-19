@@ -1,0 +1,968 @@
+{
+  "source_type": "external_m17n_layout",
+  "source_ref": "local_mim_input",
+  "pair_count": 137,
+  "pairs": {
+    "bb": "ব্ব",
+    "bd": "ব্দ",
+    "bdh": "ব্ধ",
+    "bj": "ব্জ",
+    "bl": "ব্ল",
+    "cb": "চ্ব",
+    "cc": "চ্চ",
+    "cch": "চ্ছ",
+    "cnff": "চ্ঞ",
+    "db": "দ্ব",
+    "dd": "দ্দ",
+    "ddh": "দ্ধ",
+    "dfb": "ড্ব",
+    "dfdf": "ড্ড",
+    "dg": "দ্‌গ",
+    "dgh": "দ্‌ঘ",
+    "dhb": "ধ্ব",
+    "dhm": "ধ্ম",
+    "dhn": "ধ্ন",
+    "dm": "দ্ম",
+    "dv": "দ্ভ",
+    "gb": "গ্‌ব",
+    "gdh": "গ্ধ",
+    "ghn": "ঘ্ন",
+    "gl": "গ্ল",
+    "gm": "গ্ম",
+    "gn": "গ্ন",
+    "gnf": "গ্‌ণ",
+    "hb": "হ্ব",
+    "hl": "হ্ল",
+    "hm": "হ্ম",
+    "hn": "হ্ন",
+    "hnf": "হ্ণ",
+    "jb": "জ্ব",
+    "jj": "জ্জ",
+    "jjh": "জ্ঝ",
+    "jnff": "জ্ঞ",
+    "kb": "ক্ব",
+    "kfb": "ক্ষ্ব",
+    "kfm": "ক্ষ্ম",
+    "kfnf": "ক্ষ্ণ",
+    "kk": "ক্ক",
+    "kl": "ক্ল",
+    "km": "ক্ম",
+    "ks": "ক্স",
+    "ksf": "ক্ষ",
+    "kt": "ক্ত",
+    "ktf": "ক্ট",
+    "lb": "ল্ব",
+    "ldf": "ল্ড",
+    "lg": "ল্গ",
+    "lk": "ল্ক",
+    "ll": "ল্ল",
+    "lm": "ল্ম",
+    "lp": "ল্প",
+    "lph": "ল্ফ",
+    "ltf": "ল্ট",
+    "lv": "ল্‌ভ",
+    "mb": "ম্ব",
+    "ml": "ম্ল",
+    "mm": "ম্ম",
+    "mn": "ম্ন",
+    "mp": "ম্প",
+    "mph": "ম্ফ",
+    "mv": "ম্ভ",
+    "nb": "ন্ব",
+    "nd": "ন্দ",
+    "ndf": "ন্ড",
+    "ndh": "ন্ধ",
+    "nfb": "ণ্ব",
+    "nfdf": "ণ্ড",
+    "nfdff": "ণ্ঢ",
+    "nffc": "ঞ্চ",
+    "nffch": "ঞ্ছ",
+    "nffj": "ঞ্জ",
+    "nffjh": "ঞ্ঝ",
+    "nfm": "ণ্ম",
+    "nfnf": "ণ্ণ",
+    "nftf": "ণ্ট",
+    "nftff": "ণ্ঠ",
+    "ngg": "ঙ্গ",
+    "nggh": "ঙ্ঘ",
+    "ngk": "ঙ্ক",
+    "ngkf": "ঙ্ক্ষ",
+    "ngkh": "ঙ্খ",
+    "ngm": "ঙ্ম",
+    "nm": "ন্ম",
+    "nn": "ন্ন",
+    "ns": "ন্স",
+    "nt": "ন্ত",
+    "ntf": "ন্ট",
+    "ntff": "ন্ঠ",
+    "nth": "ন্থ",
+    "phl": "ফ্ল",
+    "pl": "প্ল",
+    "pn": "প্ন",
+    "pp": "প্প",
+    "ps": "প্স",
+    "pt": "প্ত",
+    "ptf": "প্ট",
+    "rfg": "ড়্‌গ",
+    "sb": "স্ব",
+    "sfb": "ষ্ব",
+    "sfk": "ষ্ক",
+    "sfm": "ষ্ম",
+    "sfnf": "ষ্ণ",
+    "sfp": "ষ্প",
+    "sfph": "ষ্ফ",
+    "sftf": "ষ্ট",
+    "sftff": "ষ্ঠ",
+    "shb": "শ্ব",
+    "shc": "শ্চ",
+    "shch": "শ্ছ",
+    "shl": "শ্ল",
+    "shm": "শ্ম",
+    "shn": "শ্ন",
+    "sk": "স্ক",
+    "skh": "স্খ",
+    "sl": "স্ল",
+    "sm": "স্ম",
+    "sn": "স্ন",
+    "sp": "স্প",
+    "sph": "স্ফ",
+    "st": "স্ত",
+    "stf": "স্ট",
+    "sth": "স্থ",
+    "tb": "ত্ব",
+    "tfb": "ট্ব",
+    "tfm": "ট্ম",
+    "tftf": "ট্ট",
+    "thb": "থ্ব",
+    "tm": "ত্ম",
+    "tn": "ত্ন",
+    "tt": "ত্ত",
+    "tth": "ত্থ",
+    "vb": "ভ্ব",
+    "vl": "ভ্ল"
+  },
+  "records": [
+    {
+      "pair": "kk",
+      "insert": "ক্ক",
+      "pcid": 1,
+      "cid": 1
+    },
+    {
+      "pair": "ktf",
+      "insert": "ক্ট",
+      "pcid": 1,
+      "cid": 11
+    },
+    {
+      "pair": "kt",
+      "insert": "ক্ত",
+      "pcid": 1,
+      "cid": 16
+    },
+    {
+      "pair": "kb",
+      "insert": "ক্ব",
+      "pcid": 1,
+      "cid": 23
+    },
+    {
+      "pair": "km",
+      "insert": "ক্ম",
+      "pcid": 1,
+      "cid": 25
+    },
+    {
+      "pair": "ksf",
+      "insert": "ক্ষ",
+      "pcid": 1,
+      "cid": 30
+    },
+    {
+      "pair": "kl",
+      "insert": "ক্ল",
+      "pcid": 1,
+      "cid": 28
+    },
+    {
+      "pair": "ks",
+      "insert": "ক্স",
+      "pcid": 1,
+      "cid": 31
+    },
+    {
+      "pair": "gnf",
+      "insert": "গ্‌ণ",
+      "pcid": 3,
+      "cid": 15
+    },
+    {
+      "pair": "gdh",
+      "insert": "গ্ধ",
+      "pcid": 3,
+      "cid": 19
+    },
+    {
+      "pair": "gn",
+      "insert": "গ্ন",
+      "pcid": 3,
+      "cid": 20
+    },
+    {
+      "pair": "gb",
+      "insert": "গ্‌ব",
+      "pcid": 3,
+      "cid": 23
+    },
+    {
+      "pair": "gm",
+      "insert": "গ্ম",
+      "pcid": 3,
+      "cid": 25
+    },
+    {
+      "pair": "gl",
+      "insert": "গ্ল",
+      "pcid": 3,
+      "cid": 28
+    },
+    {
+      "pair": "ghn",
+      "insert": "ঘ্ন",
+      "pcid": 4,
+      "cid": 20
+    },
+    {
+      "pair": "ngk",
+      "insert": "ঙ্ক",
+      "pcid": 5,
+      "cid": 1
+    },
+    {
+      "pair": "ngkh",
+      "insert": "ঙ্খ",
+      "pcid": 5,
+      "cid": 2
+    },
+    {
+      "pair": "ngg",
+      "insert": "ঙ্গ",
+      "pcid": 5,
+      "cid": 3
+    },
+    {
+      "pair": "nggh",
+      "insert": "ঙ্ঘ",
+      "pcid": 5,
+      "cid": 4
+    },
+    {
+      "pair": "ngm",
+      "insert": "ঙ্ম",
+      "pcid": 5,
+      "cid": 25
+    },
+    {
+      "pair": "ngkf",
+      "insert": "ঙ্ক্ষ",
+      "pcid": 5,
+      "cid": 39
+    },
+    {
+      "pair": "cc",
+      "insert": "চ্চ",
+      "pcid": 6,
+      "cid": 6
+    },
+    {
+      "pair": "cch",
+      "insert": "চ্ছ",
+      "pcid": 6,
+      "cid": 7
+    },
+    {
+      "pair": "cnff",
+      "insert": "চ্ঞ",
+      "pcid": 6,
+      "cid": 10
+    },
+    {
+      "pair": "cb",
+      "insert": "চ্ব",
+      "pcid": 6,
+      "cid": 23
+    },
+    {
+      "pair": "jj",
+      "insert": "জ্জ",
+      "pcid": 8,
+      "cid": 8
+    },
+    {
+      "pair": "jjh",
+      "insert": "জ্ঝ",
+      "pcid": 8,
+      "cid": 9
+    },
+    {
+      "pair": "jnff",
+      "insert": "জ্ঞ",
+      "pcid": 8,
+      "cid": 10
+    },
+    {
+      "pair": "jb",
+      "insert": "জ্ব",
+      "pcid": 8,
+      "cid": 23
+    },
+    {
+      "pair": "nffc",
+      "insert": "ঞ্চ",
+      "pcid": 10,
+      "cid": 6
+    },
+    {
+      "pair": "nffch",
+      "insert": "ঞ্ছ",
+      "pcid": 10,
+      "cid": 7
+    },
+    {
+      "pair": "nffj",
+      "insert": "ঞ্জ",
+      "pcid": 10,
+      "cid": 8
+    },
+    {
+      "pair": "nffjh",
+      "insert": "ঞ্ঝ",
+      "pcid": 10,
+      "cid": 9
+    },
+    {
+      "pair": "tftf",
+      "insert": "ট্ট",
+      "pcid": 11,
+      "cid": 11
+    },
+    {
+      "pair": "tfb",
+      "insert": "ট্ব",
+      "pcid": 11,
+      "cid": 23
+    },
+    {
+      "pair": "tfm",
+      "insert": "ট্ম",
+      "pcid": 11,
+      "cid": 25
+    },
+    {
+      "pair": "dfdf",
+      "insert": "ড্ড",
+      "pcid": 13,
+      "cid": 13
+    },
+    {
+      "pair": "dfb",
+      "insert": "ড্ব",
+      "pcid": 13,
+      "cid": 23
+    },
+    {
+      "pair": "nftf",
+      "insert": "ণ্ট",
+      "pcid": 15,
+      "cid": 11
+    },
+    {
+      "pair": "nftff",
+      "insert": "ণ্ঠ",
+      "pcid": 15,
+      "cid": 12
+    },
+    {
+      "pair": "nfdf",
+      "insert": "ণ্ড",
+      "pcid": 15,
+      "cid": 13
+    },
+    {
+      "pair": "nfdff",
+      "insert": "ণ্ঢ",
+      "pcid": 15,
+      "cid": 14
+    },
+    {
+      "pair": "nfnf",
+      "insert": "ণ্ণ",
+      "pcid": 15,
+      "cid": 15
+    },
+    {
+      "pair": "nfb",
+      "insert": "ণ্ব",
+      "pcid": 15,
+      "cid": 23
+    },
+    {
+      "pair": "nfm",
+      "insert": "ণ্ম",
+      "pcid": 15,
+      "cid": 25
+    },
+    {
+      "pair": "tt",
+      "insert": "ত্ত",
+      "pcid": 16,
+      "cid": 16
+    },
+    {
+      "pair": "tth",
+      "insert": "ত্থ",
+      "pcid": 16,
+      "cid": 17
+    },
+    {
+      "pair": "tn",
+      "insert": "ত্ন",
+      "pcid": 16,
+      "cid": 20
+    },
+    {
+      "pair": "tb",
+      "insert": "ত্ব",
+      "pcid": 16,
+      "cid": 23
+    },
+    {
+      "pair": "tm",
+      "insert": "ত্ম",
+      "pcid": 16,
+      "cid": 25
+    },
+    {
+      "pair": "thb",
+      "insert": "থ্ব",
+      "pcid": 17,
+      "cid": 23
+    },
+    {
+      "pair": "dg",
+      "insert": "দ্‌গ",
+      "pcid": 18,
+      "cid": 3
+    },
+    {
+      "pair": "dgh",
+      "insert": "দ্‌ঘ",
+      "pcid": 18,
+      "cid": 4
+    },
+    {
+      "pair": "dd",
+      "insert": "দ্দ",
+      "pcid": 18,
+      "cid": 18
+    },
+    {
+      "pair": "ddh",
+      "insert": "দ্ধ",
+      "pcid": 18,
+      "cid": 19
+    },
+    {
+      "pair": "db",
+      "insert": "দ্ব",
+      "pcid": 18,
+      "cid": 23
+    },
+    {
+      "pair": "dv",
+      "insert": "দ্ভ",
+      "pcid": 18,
+      "cid": 24
+    },
+    {
+      "pair": "dm",
+      "insert": "দ্ম",
+      "pcid": 18,
+      "cid": 25
+    },
+    {
+      "pair": "dhn",
+      "insert": "ধ্ন",
+      "pcid": 19,
+      "cid": 20
+    },
+    {
+      "pair": "dhb",
+      "insert": "ধ্ব",
+      "pcid": 19,
+      "cid": 23
+    },
+    {
+      "pair": "dhm",
+      "insert": "ধ্ম",
+      "pcid": 19,
+      "cid": 25
+    },
+    {
+      "pair": "ntf",
+      "insert": "ন্ট",
+      "pcid": 20,
+      "cid": 11
+    },
+    {
+      "pair": "ntff",
+      "insert": "ন্ঠ",
+      "pcid": 20,
+      "cid": 12
+    },
+    {
+      "pair": "ndf",
+      "insert": "ন্ড",
+      "pcid": 20,
+      "cid": 13
+    },
+    {
+      "pair": "nt",
+      "insert": "ন্ত",
+      "pcid": 20,
+      "cid": 16
+    },
+    {
+      "pair": "nth",
+      "insert": "ন্থ",
+      "pcid": 20,
+      "cid": 17
+    },
+    {
+      "pair": "nd",
+      "insert": "ন্দ",
+      "pcid": 20,
+      "cid": 18
+    },
+    {
+      "pair": "ndh",
+      "insert": "ন্ধ",
+      "pcid": 20,
+      "cid": 19
+    },
+    {
+      "pair": "nn",
+      "insert": "ন্ন",
+      "pcid": 20,
+      "cid": 20
+    },
+    {
+      "pair": "nb",
+      "insert": "ন্ব",
+      "pcid": 20,
+      "cid": 23
+    },
+    {
+      "pair": "nm",
+      "insert": "ন্ম",
+      "pcid": 20,
+      "cid": 25
+    },
+    {
+      "pair": "ns",
+      "insert": "ন্স",
+      "pcid": 20,
+      "cid": 31
+    },
+    {
+      "pair": "ptf",
+      "insert": "প্ট",
+      "pcid": 21,
+      "cid": 11
+    },
+    {
+      "pair": "pt",
+      "insert": "প্ত",
+      "pcid": 21,
+      "cid": 16
+    },
+    {
+      "pair": "pn",
+      "insert": "প্ন",
+      "pcid": 21,
+      "cid": 20
+    },
+    {
+      "pair": "pp",
+      "insert": "প্প",
+      "pcid": 21,
+      "cid": 21
+    },
+    {
+      "pair": "pl",
+      "insert": "প্ল",
+      "pcid": 21,
+      "cid": 28
+    },
+    {
+      "pair": "ps",
+      "insert": "প্স",
+      "pcid": 21,
+      "cid": 31
+    },
+    {
+      "pair": "phl",
+      "insert": "ফ্ল",
+      "pcid": 22,
+      "cid": 28
+    },
+    {
+      "pair": "bj",
+      "insert": "ব্জ",
+      "pcid": 23,
+      "cid": 8
+    },
+    {
+      "pair": "bd",
+      "insert": "ব্দ",
+      "pcid": 23,
+      "cid": 18
+    },
+    {
+      "pair": "bdh",
+      "insert": "ব্ধ",
+      "pcid": 23,
+      "cid": 19
+    },
+    {
+      "pair": "bb",
+      "insert": "ব্ব",
+      "pcid": 23,
+      "cid": 23
+    },
+    {
+      "pair": "bl",
+      "insert": "ব্ল",
+      "pcid": 23,
+      "cid": 28
+    },
+    {
+      "pair": "vb",
+      "insert": "ভ্ব",
+      "pcid": 24,
+      "cid": 23
+    },
+    {
+      "pair": "vl",
+      "insert": "ভ্ল",
+      "pcid": 24,
+      "cid": 28
+    },
+    {
+      "pair": "mn",
+      "insert": "ম্ন",
+      "pcid": 25,
+      "cid": 20
+    },
+    {
+      "pair": "mp",
+      "insert": "ম্প",
+      "pcid": 25,
+      "cid": 21
+    },
+    {
+      "pair": "mph",
+      "insert": "ম্ফ",
+      "pcid": 25,
+      "cid": 22
+    },
+    {
+      "pair": "mb",
+      "insert": "ম্ব",
+      "pcid": 25,
+      "cid": 23
+    },
+    {
+      "pair": "mv",
+      "insert": "ম্ভ",
+      "pcid": 25,
+      "cid": 24
+    },
+    {
+      "pair": "mm",
+      "insert": "ম্ম",
+      "pcid": 25,
+      "cid": 25
+    },
+    {
+      "pair": "ml",
+      "insert": "ম্ল",
+      "pcid": 25,
+      "cid": 28
+    },
+    {
+      "pair": "lk",
+      "insert": "ল্ক",
+      "pcid": 28,
+      "cid": 1
+    },
+    {
+      "pair": "lg",
+      "insert": "ল্গ",
+      "pcid": 28,
+      "cid": 3
+    },
+    {
+      "pair": "ltf",
+      "insert": "ল্ট",
+      "pcid": 28,
+      "cid": 11
+    },
+    {
+      "pair": "ldf",
+      "insert": "ল্ড",
+      "pcid": 28,
+      "cid": 13
+    },
+    {
+      "pair": "lp",
+      "insert": "ল্প",
+      "pcid": 28,
+      "cid": 21
+    },
+    {
+      "pair": "lph",
+      "insert": "ল্ফ",
+      "pcid": 28,
+      "cid": 22
+    },
+    {
+      "pair": "lb",
+      "insert": "ল্ব",
+      "pcid": 28,
+      "cid": 23
+    },
+    {
+      "pair": "lv",
+      "insert": "ল্‌ভ",
+      "pcid": 28,
+      "cid": 24
+    },
+    {
+      "pair": "lm",
+      "insert": "ল্ম",
+      "pcid": 28,
+      "cid": 25
+    },
+    {
+      "pair": "ll",
+      "insert": "ল্ল",
+      "pcid": 28,
+      "cid": 28
+    },
+    {
+      "pair": "shc",
+      "insert": "শ্চ",
+      "pcid": 29,
+      "cid": 6
+    },
+    {
+      "pair": "shch",
+      "insert": "শ্ছ",
+      "pcid": 29,
+      "cid": 7
+    },
+    {
+      "pair": "shn",
+      "insert": "শ্ন",
+      "pcid": 29,
+      "cid": 20
+    },
+    {
+      "pair": "shb",
+      "insert": "শ্ব",
+      "pcid": 29,
+      "cid": 23
+    },
+    {
+      "pair": "shm",
+      "insert": "শ্ম",
+      "pcid": 29,
+      "cid": 25
+    },
+    {
+      "pair": "shl",
+      "insert": "শ্ল",
+      "pcid": 29,
+      "cid": 28
+    },
+    {
+      "pair": "sfk",
+      "insert": "ষ্ক",
+      "pcid": 30,
+      "cid": 1
+    },
+    {
+      "pair": "sftf",
+      "insert": "ষ্ট",
+      "pcid": 30,
+      "cid": 11
+    },
+    {
+      "pair": "sftff",
+      "insert": "ষ্ঠ",
+      "pcid": 30,
+      "cid": 12
+    },
+    {
+      "pair": "sfnf",
+      "insert": "ষ্ণ",
+      "pcid": 30,
+      "cid": 15
+    },
+    {
+      "pair": "sfp",
+      "insert": "ষ্প",
+      "pcid": 30,
+      "cid": 21
+    },
+    {
+      "pair": "sfph",
+      "insert": "ষ্ফ",
+      "pcid": 30,
+      "cid": 22
+    },
+    {
+      "pair": "sfb",
+      "insert": "ষ্ব",
+      "pcid": 30,
+      "cid": 23
+    },
+    {
+      "pair": "sfm",
+      "insert": "ষ্ম",
+      "pcid": 30,
+      "cid": 25
+    },
+    {
+      "pair": "sk",
+      "insert": "স্ক",
+      "pcid": 31,
+      "cid": 1
+    },
+    {
+      "pair": "skh",
+      "insert": "স্খ",
+      "pcid": 31,
+      "cid": 2
+    },
+    {
+      "pair": "stf",
+      "insert": "স্ট",
+      "pcid": 31,
+      "cid": 11
+    },
+    {
+      "pair": "st",
+      "insert": "স্ত",
+      "pcid": 31,
+      "cid": 16
+    },
+    {
+      "pair": "sth",
+      "insert": "স্থ",
+      "pcid": 31,
+      "cid": 17
+    },
+    {
+      "pair": "sn",
+      "insert": "স্ন",
+      "pcid": 31,
+      "cid": 20
+    },
+    {
+      "pair": "sp",
+      "insert": "স্প",
+      "pcid": 31,
+      "cid": 21
+    },
+    {
+      "pair": "sph",
+      "insert": "স্ফ",
+      "pcid": 31,
+      "cid": 22
+    },
+    {
+      "pair": "sb",
+      "insert": "স্ব",
+      "pcid": 31,
+      "cid": 23
+    },
+    {
+      "pair": "sm",
+      "insert": "স্ম",
+      "pcid": 31,
+      "cid": 25
+    },
+    {
+      "pair": "sl",
+      "insert": "স্ল",
+      "pcid": 31,
+      "cid": 28
+    },
+    {
+      "pair": "hnf",
+      "insert": "হ্ণ",
+      "pcid": 32,
+      "cid": 15
+    },
+    {
+      "pair": "hn",
+      "insert": "হ্ন",
+      "pcid": 32,
+      "cid": 20
+    },
+    {
+      "pair": "hb",
+      "insert": "হ্ব",
+      "pcid": 32,
+      "cid": 23
+    },
+    {
+      "pair": "hm",
+      "insert": "হ্ম",
+      "pcid": 32,
+      "cid": 25
+    },
+    {
+      "pair": "hl",
+      "insert": "হ্ল",
+      "pcid": 32,
+      "cid": 28
+    },
+    {
+      "pair": "rfg",
+      "insert": "ড়্‌গ",
+      "pcid": 34,
+      "cid": 3
+    },
+    {
+      "pair": "kfnf",
+      "insert": "ক্ষ্ণ",
+      "pcid": 39,
+      "cid": 15
+    },
+    {
+      "pair": "kfb",
+      "insert": "ক্ষ্ব",
+      "pcid": 39,
+      "cid": 23
+    },
+    {
+      "pair": "kfm",
+      "insert": "ক্ষ্ম",
+      "pcid": 39,
+      "cid": 25
+    }
+  ]
+}

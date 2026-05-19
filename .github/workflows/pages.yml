@@ -1,0 +1,71 @@
+name: Deploy Usage Guide
+
+on:
+  push:
+    branches: ["main"]
+    paths:
+      - "docs/**"
+      - "core/**"
+      - "data/**"
+      - "tools/build_docs_runtime.py"
+      - "README.md"
+      - ".github/workflows/pages.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: "pages"
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Build docs runtime
+        run: |
+          python tools/build_docs_runtime.py
+
+      - name: Validate runtime manifest
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          p = Path("docs/runtime/manifest.json")
+          data = json.loads(p.read_text(encoding="utf-8"))
+          assert data.get("files"), "manifest files list is empty"
+          for rel in data["files"]:
+            target = Path("docs/runtime") / rel
+            assert target.exists(), f"missing runtime file: {rel}"
+          print("Runtime manifest validation OK")
+          PY
+
+      - name: Setup Pages
+        uses: actions/configure-pages@v5
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: "./docs"
+
+  deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4

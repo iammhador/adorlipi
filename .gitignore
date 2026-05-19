@@ -1,5 +1,3 @@
-docs/
-tools/
 data/missing_words.json
 data/test_dictionary.json
 *.egg-info/

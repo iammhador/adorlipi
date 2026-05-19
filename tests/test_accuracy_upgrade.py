@@ -177,9 +177,14 @@ class AccuracyUpgradeTests(unittest.TestCase):
             os.unlink(path)
 
         lines = result.stdout.strip().splitlines()
-        self.assertEqual("input\tcurrent_output\tsource_layer\tdictionary_hit\tsuspected_bad", lines[0])
-        self.assertIn("phone-er\tফোনের\tcompound_suffix_dictionary_root\ttrue\tfalse", lines)
-        self.assertIn("wallet\tওয়ালেট\tloanword\tfalse\tfalse", lines)
+        self.assertEqual(
+            "input\tcurrent_output\tsource_layer\tconfidence\tmatched_key\tdictionary_hit\tsuspected_bad",
+            lines[0],
+        )
+        self.assertTrue(
+            any(line.startswith("phone-er\tফোনের\tcompound_suffix_dictionary_root\t") for line in lines)
+        )
+        self.assertTrue(any(line.startswith("wallet\tওয়ালেট\tloanword\t") for line in lines))
         self.assertTrue(any(line.startswith("randomword\t") for line in lines))
 
     def test_library_paragraph_regression_samples(self):
@@ -196,6 +201,88 @@ class AccuracyUpgradeTests(unittest.TestCase):
         self.assertIn("লাইব্রেরিয়ান আপু কোয়াইট কর্নারে বসার পারমিশন দিলেন", output)
         self.assertIn("উইন্ডোর গ্লাসে সাউন্ড পিসফুল লাগছিলো", output)
         self.assertIn("স্টাডি শেষ করে ওনারের ক্যাফেতে ডিনার নিউজ দেখলাম", output)
+
+    def test_conversational_patch_entries_and_source_layers(self):
+        cases = {
+            "bhasha": "ভাষা",
+            "bhashar": "ভাষার",
+            "bhashay": "ভাষায়",
+            "khaisi": "খাইসি",
+            "gesi": "গেছি",
+            "gesilo": "গেছিলো",
+            "youtubee": "ইউটিউবে",
+            "internete": "ইন্টারনেটে",
+        }
+
+        for banglish, bangla in cases.items():
+            with self.subTest(banglish=banglish):
+                info = self.transliterator.explain_word(banglish)
+                self.assertEqual(bangla, info["current_output"])
+                self.assertEqual("dictionary", info["source_layer"])
+                self.assertGreaterEqual(info["confidence"], 0.99)
+                self.assertTrue(info["matched_key"])
+
+    def test_dictionary_whitespace_cleanup_regressions(self):
+        cases = {
+            "dekhchi": "দেখছি",
+            "recently": "রিসেন্টলি",
+            "obhinoy": "অভিনয়",
+            "shunchi": "শুনছি",
+            "bf": "বয়ফ্রেন্ড",
+        }
+
+        for banglish, bangla in cases.items():
+            with self.subTest(banglish=banglish):
+                info = self.transliterator.explain_word(banglish)
+                self.assertEqual(bangla, info["current_output"])
+                self.assertEqual("dictionary", info["source_layer"])
+
+    def test_gated_fallbacks_block_bad_substitutions(self):
+        forbidden = {
+            "trishna": "বিতৃষ্ণা",
+            "khomota": "অক্ষমতা",
+            "mantri": "মানতি",
+        }
+
+        for banglish, wrong in forbidden.items():
+            with self.subTest(banglish=banglish):
+                info = self.transliterator.explain_word(banglish)
+                self.assertNotEqual(wrong, info["current_output"])
+                self.assertNotEqual("fuzzy_dictionary", info["source_layer"])
+
+    def test_phonetic_fallback_conjunct_word_normalization(self):
+        cases = {
+            "mrityu": "মৃত্যু",
+            "prarthona": "প্রার্থনা",
+            "sanskriti": "সংস্কৃতি",
+        }
+
+        for banglish, bangla in cases.items():
+            with self.subTest(banglish=banglish):
+                info = self.transliterator.explain_word(banglish)
+                self.assertEqual(bangla, info["current_output"])
+                self.assertEqual("phonetic", info["source_layer"])
+                self.assertLess(info["confidence"], 0.9)
+                self.assertEqual(banglish, info["matched_key"])
+
+    def test_explain_word_includes_confidence_and_match_metadata(self):
+        dictionary_info = self.transliterator.explain_word("bhasha")
+        self.assertIn("confidence", dictionary_info)
+        self.assertIn("matched_key", dictionary_info)
+        self.assertIsInstance(dictionary_info["confidence"], float)
+        self.assertEqual("bhasha", dictionary_info["matched_key"])
+
+        fuzzy_or_phonetic = self.transliterator.explain_word("randomword")
+        self.assertIn("confidence", fuzzy_or_phonetic)
+        self.assertIn("matched_key", fuzzy_or_phonetic)
+
+    def test_suggestion_smoke_is_stable_and_bangla_only(self):
+        suggestions = self.transliterator.get_suggestions("bhasha")
+        self.assertLessEqual(len(suggestions), 5)
+        self.assertEqual(len(suggestions), len(set(suggestions)))
+        for item in suggestions:
+            with self.subTest(item=item):
+                self.assertIsNone(re.search(r"[A-Za-z]", item))
 
 
 if __name__ == "__main__":
